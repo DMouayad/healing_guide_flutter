@@ -17,3 +17,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: almarai
+      fonts:
+        - asset: fonts/Almarai-Regular.tff
+        - asset: fonts/Almarai-Bold.tff
+          weight: 700
