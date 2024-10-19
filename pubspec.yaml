@@ -21,6 +21,6 @@ flutter:
   fonts:
     - family: almarai
       fonts:
-        - asset: fonts/Almarai-Regular.tff
-        - asset: fonts/Almarai-Bold.tff
+        - asset: assets/fonts/Almarai-Regular.ttf
+        - asset: assets/fonts/Almarai-Bold.ttf
           weight: 700
