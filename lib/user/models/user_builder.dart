@@ -10,6 +10,7 @@ class UserBuilder {
   User build({
     int? id,
     Role role = Role.guest,
+    bool activated = true,
     String? email,
     String? phoneNumber,
     String? fullName,
@@ -23,6 +24,7 @@ class UserBuilder {
       id: id ??
           faker.randomGenerator.integer(999) + faker.randomGenerator.integer(5),
       role: role,
+      activated: activated,
       email: email ?? faker.internet.email(),
       phoneNumber: phoneNumber ?? faker.phoneNumber.us(),
       fullName: fullName ?? faker.person.name(),
