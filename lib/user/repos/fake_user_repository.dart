@@ -18,7 +18,7 @@ class FakeUserRepository implements UserRepository {
   }
 
   @override
-  Future<bool> deleteUser(User user) async {
+  Future<bool> deleteUser() async {
     _user = null;
     return true;
   }

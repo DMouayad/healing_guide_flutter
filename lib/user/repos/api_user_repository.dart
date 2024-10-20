@@ -10,7 +10,7 @@ class ApiUserRepository implements UserRepository {
   }
 
   @override
-  Future<bool> deleteUser(User user) {
+  Future<bool> deleteUser() {
     // TODO: implement deleteUser
     throw UnimplementedError();
   }
