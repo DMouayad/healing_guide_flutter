@@ -15,3 +15,19 @@ class UserRegistrationDTO {
     required this.password,
   });
 }
+
+class UpdateUserDTO {
+  final String? email;
+  final String? phoneNumber;
+  final String? fullName;
+  final DateTime? emailVerifiedAt;
+  final DateTime? phoneNumberVerifiedAt;
+
+  UpdateUserDTO({
+    this.email,
+    this.phoneNumber,
+    this.fullName,
+    this.emailVerifiedAt,
+    this.phoneNumberVerifiedAt,
+  });
+}
