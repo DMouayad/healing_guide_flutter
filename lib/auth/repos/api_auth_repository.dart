@@ -4,10 +4,7 @@ final class ApiAuthRepository extends AuthRepository {
   ApiAuthRepository(super.userRepository);
 
   @override
-  Future<void> logIn({
-    required String phoneNumber,
-    required String password,
-  }) {
+  Future<void> logIn(UserLoginDTO dto) {
     // TODO: implement logIn
     throw UnimplementedError();
   }

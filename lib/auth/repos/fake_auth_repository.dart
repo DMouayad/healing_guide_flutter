@@ -4,10 +4,7 @@ final class FakeAuthRepository extends AuthRepository {
   FakeAuthRepository(super.userRepository);
 
   @override
-  Future<void> logIn({
-    required String phoneNumber,
-    required String password,
-  }) async {
+  Future<void> logIn(UserLoginDTO dto) async {
     await Future.delayed(
       const Duration(milliseconds: 500),
       () async {
@@ -22,6 +19,7 @@ final class FakeAuthRepository extends AuthRepository {
 
   @override
   void logOut() {
+    _userRepository.deleteUser();
     _controller.add(AuthState.unauthenticated());
   }
 

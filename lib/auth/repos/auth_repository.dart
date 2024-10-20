@@ -16,10 +16,7 @@ abstract base class AuthRepository {
         });
   }
 
-  Future<void> logIn({
-    required String phoneNumber,
-    required String password,
-  });
+  Future<void> logIn(UserLoginDTO dto);
 
   Future<void> register(UserRegistrationDTO dto);
 
