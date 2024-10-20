@@ -1,16 +1,26 @@
 part of '../repositories.dart';
 
-enum AuthStatus { unknown, authenticated, unauthenticated }
-
 abstract base class AuthRepository {
-  final _controller = StreamController<AuthStatus>();
+  late final UserRepository _userRepository;
+  AuthRepository(UserRepository userRepository) {
+    _userRepository = userRepository;
+  }
 
-  Stream<AuthStatus> get status;
+  final _controller = StreamController<AuthState>();
+  Stream<AuthState> get status => _controller.stream;
+
+  Future<void> loadPrevUser() async {
+    return _userRepository.getUser().then((user) => switch (user) {
+          User() => _controller.add(AuthState.authenticated(user)),
+          null => _controller.add(AuthState.unauthenticated()),
+        });
+  }
 
   Future<void> logIn({
-    required String emailOrPhoneNo,
+    required String phoneNumber,
     required String password,
   });
+
   Future<void> register(UserRegistrationDTO dto);
 
   void logOut();

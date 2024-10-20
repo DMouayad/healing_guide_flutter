@@ -1,9 +1,11 @@
 part of '../repositories.dart';
 
 final class ApiAuthRepository extends AuthRepository {
+  ApiAuthRepository(super.userRepository);
+
   @override
   Future<void> logIn({
-    required String emailOrPhoneNo,
+    required String phoneNumber,
     required String password,
   }) {
     // TODO: implement logIn
@@ -14,10 +16,6 @@ final class ApiAuthRepository extends AuthRepository {
   void logOut() {
     // TODO: implement logOut
   }
-
-  @override
-  // TODO: implement status
-  Stream<AuthStatus> get status => throw UnimplementedError();
 
   @override
   Future<void> register(UserRegistrationDTO dto) {
