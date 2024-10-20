@@ -1,4 +1,4 @@
-part of '../auth.dart';
+part of '../repositories.dart';
 
 final class ApiAuthRepository extends AuthRepository {
   @override

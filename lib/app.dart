@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:healing_guide_flutter/repositories/auth/auth.dart';
+import 'package:healing_guide_flutter/auth/repositories.dart';
 import 'package:healing_guide_flutter/theme/app_theme.dart';
 
 import 'theme/theme_cubit.dart';

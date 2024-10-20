@@ -1,4 +1,4 @@
-part of '../auth.dart';
+part of '../repositories.dart';
 
 enum AuthStatus { unknown, authenticated, unauthenticated }
 
