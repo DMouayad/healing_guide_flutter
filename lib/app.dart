@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healing_guide_flutter/auth/repositories.dart';
 import 'package:healing_guide_flutter/theme/app_theme.dart';
 
+import 'auth/cubit/auth_state_cubit.dart';
 import 'theme/theme_cubit.dart';
 
 class MainApp extends StatelessWidget {
@@ -19,6 +20,10 @@ class MainApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(lazy: false, create: (_) => ThemeCubit()),
+          BlocProvider(
+            lazy: false,
+            create: (_) => AuthStateCubit(authRepository)..init(),
+          ),
         ],
         child: const MainAppView(),
       ),
