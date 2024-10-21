@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:healing_guide_flutter/auth/repositories.dart';
+import 'package:healing_guide_flutter/routes/router.dart';
 import 'package:healing_guide_flutter/theme/app_theme.dart';
 
 import 'auth/cubit/auth_state_cubit.dart';
@@ -31,24 +32,19 @@ class MainApp extends StatelessWidget {
   }
 }
 
-class MainAppView extends StatefulWidget {
+class MainAppView extends StatelessWidget {
   const MainAppView({super.key});
 
-  @override
-  State<MainAppView> createState() => _MainAppViewState();
-}
-
-class _MainAppViewState extends State<MainAppView> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeMode>(
       builder: (context, themeMode) {
-        return MaterialApp(
+        return MaterialApp.router(
+          routerConfig: router,
           themeMode: themeMode,
           theme: AppTheme.lightThemeData,
           darkTheme: AppTheme.darkThemeData,
           debugShowCheckedModeBanner: false,
-          home: const Scaffold(body: Center()),
         );
       },
     );
