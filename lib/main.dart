@@ -9,8 +9,18 @@ import 'package:path_provider/path_provider.dart';
 import 'utils/utils.dart';
 import 'app.dart';
 
+/// Bootstrap our app with required dependencies
+Future<MainApp> _bootstrap() async {
+  final userRepository = FakeUserRepository();
+
+  return MainApp(
+    authRepository: FakeAuthRepository(userRepository),
+  );
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // setup `HydratedBloc` storage
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
@@ -21,11 +31,5 @@ Future<void> main() async {
   Bloc.observer = AppBlocObserver();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  final userRepository = FakeUserRepository();
-
-  runApp(
-    MainApp(
-      authRepository: FakeAuthRepository(userRepository),
-    ),
-  );
+  runApp(await _bootstrap());
 }
