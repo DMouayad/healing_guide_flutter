@@ -6,6 +6,7 @@ import 'package:healing_guide_flutter/user/repos/fake_user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'utils/utils.dart';
 import 'app.dart';
 
 Future<void> main() async {
@@ -17,6 +18,7 @@ Future<void> main() async {
         : await getApplicationDocumentsDirectory(),
   );
 
+  Bloc.observer = AppBlocObserver();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   final userRepository = FakeUserRepository();
