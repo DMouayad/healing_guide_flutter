@@ -6,13 +6,13 @@ import '../models/auth_state.dart';
 class AuthStateCubit extends Cubit<AuthState> {
   final AuthRepository _authRepository;
 
-  AuthStateCubit(this._authRepository) : super(AuthState.unknown()) {
-    _authRepository.status.listen(onAuthRepoStateChange);
+  AuthStateCubit(this._authRepository) : super(AuthState.unauthenticated()) {
+    _authRepository.status.listen(_onAuthRepoStateChange);
   }
 
   void init() {
     _authRepository.loadPrevUser();
   }
 
-  void onAuthRepoStateChange(AuthState state) => emit(state);
+  void _onAuthRepoStateChange(AuthState state) => emit(state);
 }
