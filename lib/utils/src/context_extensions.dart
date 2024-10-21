@@ -102,18 +102,7 @@ extension ContextLocaleExtension on BuildContext {
 
   Locale get locale => Localizations.localeOf(this);
 
-  // AppLocalizations get localizations => AppLocalizations.of(this)!;
-
-  // String getLocaleFullName(Locale locale) {
-  //   switch (locale.languageCode) {
-  //     case 'ar':
-  //       return localizations.arabic;
-  //     case 'en':
-  //       return localizations.english;
-  //     default:
-  //       throw UnimplementedError();
-  //   }
-  // }
+  AppLocalizations get l10n => AppLocalizations.of(this);
 }
 
 enum DeviceType { mobile, tablet, desktop }

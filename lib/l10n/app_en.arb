@@ -1,0 +1,7 @@
+{
+    "@@locale": "en",
+    "appName": "Healing Guide",
+    "@appName": {
+        "description": "The name of our app"
+    }
+}

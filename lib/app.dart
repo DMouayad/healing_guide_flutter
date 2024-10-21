@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:healing_guide_flutter/auth/repositories.dart';
 import 'package:healing_guide_flutter/routes/router.dart';
@@ -45,6 +46,8 @@ class MainAppView extends StatelessWidget {
           theme: AppTheme.lightThemeData,
           darkTheme: AppTheme.darkThemeData,
           debugShowCheckedModeBanner: false,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
         );
       },
     );
