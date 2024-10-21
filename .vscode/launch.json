@@ -5,21 +5,31 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "healing_guide_flutter",
+            "name": "healing_guide_flutter (debug mode)",
             "request": "launch",
-            "type": "dart"
+            "flutterMode": "debug",
+            "type": "dart",
+            "toolArgs": [
+                "--enable-experiment=macros"
+            ],
         },
         {
             "name": "healing_guide_flutter (profile mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "toolArgs": [
+                "--enable-experiment=macros"
+            ],
         },
         {
             "name": "healing_guide_flutter (release mode)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "toolArgs": [
+                "--enable-experiment=macros"
+            ],
         }
     ]
 }
