@@ -6,6 +6,7 @@ import 'role.dart';
 class User {
   final int id;
   final Role role;
+  final bool activated;
   final String email;
   final String phoneNumber;
   final String fullName;
@@ -16,6 +17,7 @@ class User {
   User({
     required this.id,
     required this.role,
+    required this.activated,
     required this.email,
     required this.phoneNumber,
     required this.fullName,
