@@ -1,4 +1,4 @@
-import 'package:healing_guide_flutter/user/models/role.dart';
+import 'package:healing_guide_flutter/features/user/models/role.dart';
 
 class UserRegistrationDTO {
   final Role role;

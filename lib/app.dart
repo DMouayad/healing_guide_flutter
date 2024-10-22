@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:healing_guide_flutter/auth/repositories.dart';
+import 'package:healing_guide_flutter/features/auth/repositories.dart';
 import 'package:healing_guide_flutter/routes/router.dart';
-import 'package:healing_guide_flutter/theme/app_theme.dart';
+import 'package:healing_guide_flutter/features/theme/app_theme.dart';
 
-import 'auth/cubit/auth_state_cubit.dart';
-import 'theme/theme_cubit.dart';
+import 'features/auth/cubit/auth_state_cubit.dart';
+import 'features/theme/theme_cubit.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key, required this.authRepository});

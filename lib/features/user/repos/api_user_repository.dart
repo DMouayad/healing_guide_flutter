@@ -1,4 +1,4 @@
-import 'package:healing_guide_flutter/user/models/user.dart';
+import 'package:healing_guide_flutter/features/user/models/user.dart';
 
 import 'user_repository.dart';
 

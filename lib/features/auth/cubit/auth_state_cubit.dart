@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:healing_guide_flutter/auth/repositories.dart';
+import 'package:healing_guide_flutter/features/auth/repositories.dart';
 
 import '../models/auth_state.dart';
 

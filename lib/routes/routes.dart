@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:healing_guide_flutter/home/home_screen.dart';
+import 'package:healing_guide_flutter/features/home/home_screen.dart';
 
 part 'routes.g.dart';
 

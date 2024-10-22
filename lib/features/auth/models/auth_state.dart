@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:healing_guide_flutter/user/models.dart';
+import 'package:healing_guide_flutter/features/user/models.dart';
 
 @Equatable()
 final class AuthState {
