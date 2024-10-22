@@ -3,5 +3,13 @@
     "appName": "Healing Guide",
     "@appName": {
         "description": "The name of our app"
+    },
+    "cancel": "Cancel",
+    "@cancel": {
+        "description": "`cancel` English word"
+    },
+    "ok": "Ok",
+    "@ok": {
+        "description": "`ok` English word"
     }
 }
