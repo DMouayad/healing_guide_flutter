@@ -28,8 +28,8 @@ class ErrorDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title),
-          Icon(Icons.error, size: 30, color: context.colorScheme.error),
+          Expanded(child: Text(title)),
+          Icon(Icons.error, size: 40, color: context.colorScheme.error),
         ],
       ),
       content: content != null ? Text(content!) : null,
