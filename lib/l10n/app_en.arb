@@ -11,5 +11,105 @@
     "ok": "Ok",
     "@ok": {
         "description": "`ok` English word"
+    },
+    "loginFailureDialogTitle": "Login Failed!",
+    "@loginFailureDialogTitle": {
+        "description": "The title of the `ErrorDialog` shown after a failed login attempt"
+    },
+    "loginBtnLabel": "Login",
+    "@loginBtnLabel": {
+        "description": "The label of a login button"
+    },
+    "registerBtnLabel": "Register",
+    "@registerBtnLabel": {
+        "description": "The label of a registration button"
+    },
+    "passwordIsRequired": "Please enter your password",
+    "@passwordIsRequired": {
+        "description": "An error message displayed if a password field was left empty"
+    },
+    "passwordIsShort": "Password must contain 8 characters at least!",
+    "@passwordIsShort": {
+        "description": "An error message displayed if the entered password doesn't meet the required length-requirement"
+    },
+    "passwordConfirmationIsRequired": "Please confirm your password",
+    "@passwordConfirmationIsRequired": {
+        "description": "An error message displayed if a password field was left empty"
+    },
+    "passwordConfirmationMismatch": "The two passwords don't match!",
+    "@passwordConfirmationMismatch": {
+        "description": "An error message displayed if the password confirmation doesn't match the original one."
+    },
+    "phoneNumberIsRequired": "Please enter your phone number",
+    "@phoneNumberIsRequired": {
+        "description": "An error message displayed if a phoneNumber field was left empty"
+    },
+    "phoneNumberIsInvalid": "Please enter a valid phone number",
+    "@phoneNumberIsInvalid": {
+        "description": "An error message displayed if the value of a phoneNumber field is not valid"
+    },
+    "emailIsRequired": "Please enter your email address",
+    "@emailIsRequired": {
+        "description": "An error message displayed if an email field was left empty"
+    },
+    "emailIsInvalid": "Please enter a valid email address",
+    "@emailIsInvalid": {
+        "description": "An error message displayed if the value of an email field is not a valid email address"
+    },
+    "emailFieldLabel": "Email",
+    "@emailFieldLabel": {
+        "description": "The label of the email form field"
+    },
+    "passwordFieldLabel": "Password",
+    "@passwordFieldLabel": {
+        "description": "The label of the password form field"
+    },
+    "passwordConfirmationFieldLabel": "Password confirmation",
+    "@passwordConfirmationFieldLabel": {
+        "description": "The label of the password form field"
+    },
+    "phoneNumberFieldLabel": "Phone number",
+    "@phoneNumberFieldLabel": {
+        "description": "The label of the phone number form field"
+    },
+    "loginInProgress": "Login in progress...",
+    "@loginInProgress": {
+        "description": "The text to be displayed when a login attempt is in progress"
+    },
+    "appGreeting": "Welcome to Healing Guide",
+    "@appGreeting": {
+        "description": "A message to display as a greeting to the user"
+    },
+    "loginScreenSubtitle": "Login to your account",
+    "@loginScreenSubtitle": {
+        "description": "The text to be displayed under the title"
+    },
+    "noAccountQuestion": "Don't have an account?",
+    "@noAccountQuestion": {
+        "description": "The text to ask the user if he want to create an account",
+        "context": "LoginScreen"
+    },
+    "alreadyHaveAnAccountQuestion": "Already have an account?",
+    "@alreadyHaveAnAccountQuestion": {
+        "description": "The question if the user have already created an account",
+        "context": "RegisterScreen"
+    },
+    "createDoctorAccountBtnLabel": "Create a doctor account",
+    "@createDoctorAccountBtnLabel": {
+        "description": "The text of registering as a doctor",
+        "context": "LoginScreen"
+    },
+    "createPatientAccountBtnLabel": "Create a Patient account",
+    "@createPatientAccountBtnLabel": {
+        "description": "The text of registering as a Patient",
+        "context": "LoginScreen"
+    },
+    "maleGender": "male",
+    "@maleGender": {
+        "description": ""
+    },
+    "femaleGender": "female",
+    "@femaleGender": {
+        "description": ""
     }
 }
