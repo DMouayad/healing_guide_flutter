@@ -1,6 +1,7 @@
 {
     "@@locale": "ar",
     "appName": "الدليل الشافي",
+    "loadingBarrierDefaultText": "الرجاء الانتظار...",
     "cancel": "إلغاء",
     "ok": "حسناً",
     "loginFailureDialogTitle": "فشل تسجيل الدخول",

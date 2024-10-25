@@ -4,6 +4,10 @@
     "@appName": {
         "description": "The name of our app"
     },
+    "loadingBarrierDefaultText": "Please wait...",
+    "@loadingBarrierDefaultText": {
+        "description": "A default message displayed over the loading barrier"
+    },
     "cancel": "Cancel",
     "@cancel": {
         "description": "`cancel` English word"
