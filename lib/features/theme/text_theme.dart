@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
 
+import 'app_theme.dart';
+
 class MyTextTheme {
   final BuildContext context;
 
@@ -27,4 +29,21 @@ class MyTextTheme {
 
   TextStyle get titleSmall =>
       TextStyle(fontSize: context.textTheme.titleSmall?.fontSize);
+
+  TextStyle get bodyLarge => TextStyle(
+        fontSize: context.textTheme.bodyLarge?.fontSize,
+        color: AppTheme.secondaryTextColor,
+      );
+
+  TextStyle get bodyMedium => TextStyle(
+        fontSize: context.textTheme.bodyMedium?.fontSize,
+        color: AppTheme.secondaryTextColor,
+        fontFamily: AppTheme.kFontFamily,
+      );
+
+  TextStyle get bodySmall => TextStyle(
+        fontSize: context.textTheme.bodySmall?.fontSize,
+        color: AppTheme.secondaryTextColor,
+        fontFamily: AppTheme.kFontFamily,
+      );
 }

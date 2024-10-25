@@ -3,18 +3,24 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static const kFontFamily = 'almarai';
 
-  static final _darkColorScheme = ColorScheme.fromSeed(
-    seedColor: const Color(0xFF2B75CA),
-    secondary: const Color(0xFF9CD161),
-    brightness: Brightness.dark,
+  static const _darkColorScheme = ColorScheme.dark(
+    primary: Color(0xFF2B75CA),
+    secondary: Color(0xFF9CD161),
   );
 
-  static final _lightColorScheme = ColorScheme.fromSeed(
-    brightness: Brightness.light,
-    seedColor: const Color(0xFF2B75CA),
-    secondary: const Color(0xFF9CD161),
-    surface: const Color(0xFFFAFBFD),
-    onSurface: const Color(0xFF444444),
+  static const _lightColorScheme = ColorScheme.light(
+    primary: Color(0xFF2B75CA),
+    secondary: Color(0xFF9CD161),
+    surface: Color(0xFFFAFBFD),
+    onSurface: Color(0xFF444444),
+  );
+
+  static final _filledButtonThemeData = FilledButtonThemeData(
+    style: ButtonStyle(
+      shape: WidgetStatePropertyAll(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+    ),
   );
 
   static final lightThemeData = ThemeData(
@@ -22,10 +28,16 @@ class AppTheme {
     colorScheme: _lightColorScheme,
     scaffoldBackgroundColor: _lightColorScheme.surface,
     fontFamily: kFontFamily,
+    filledButtonTheme: _filledButtonThemeData,
   );
   static final darkThemeData = ThemeData(
     brightness: Brightness.dark,
     colorScheme: _darkColorScheme,
     fontFamily: kFontFamily,
+    filledButtonTheme: _filledButtonThemeData,
   );
+
+  static const secondaryTextColor = Color(0xFF8C8C8C);
+
+  static const textFieldBorderColor = Color(0xFFD0D0D0);
 }
