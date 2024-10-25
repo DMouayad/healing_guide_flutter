@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  cupertino_icons: ^1.0.8
   flutter_bloc: ^8.1.6
   hydrated_bloc: ^9.1.5
   path_provider: ^2.1.4
@@ -20,6 +21,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  extended_masked_text: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -34,6 +36,7 @@ flutter:
   generate: true
   assets:
     - assets/
+    - assets/images/
   fonts:
     - family: almarai
       fonts:
