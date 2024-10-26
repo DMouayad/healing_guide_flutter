@@ -115,5 +115,37 @@
     "femaleGender": "female",
     "@femaleGender": {
         "description": ""
+    },
+    "noInternetConnection": "You are not connected! Please check your internet connection and try again.",
+    "@noInternetConnection": {
+        "description": "The message of `AppException.noInternetConnection`"
+    },
+    "cannotConnectToServer": "Cannot connect to server, please try again later.",
+    "@cannotConnectToServer": {
+        "description": "The message of `AppException.cannotConnectToServer`"
+    },
+    "unauthorized": "You are unauthorized to proceed.",
+    "@unauthorized": {
+        "description": "The message of `AppException.unauthorized`"
+    },
+    "unauthenticated": "Please login before to preform this action.",
+    "@unauthenticated": {
+        "description": "The message of `AppException.unauthenticated`"
+    },
+    "accountAlreadyExist": "An account with your credentials already exists",
+    "@accountAlreadyExist": {
+        "description": "The message of `AppException.accountAlreadyExist`"
+    },
+    "invalidLoginCredential": "The email\\phoneNo and password doesn't match.",
+    "@invalidLoginCredential": {
+        "description": "The message of `AppException.invalidLoginCredential`"
+    },
+    "undefinedException": "An error occurred, please try again.",
+    "@undefinedException": {
+        "description": "The message of `AppException.undefined`"
+    },
+    "serverError": "Unexpected error!\nIn case of receiving this error repeatedly, please wait some time until we fix the issue.",
+    "@serverError": {
+        "description": "The message of `AppException.serverError`"
     }
 }
