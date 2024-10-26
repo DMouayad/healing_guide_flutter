@@ -134,7 +134,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         fillColor: widget.fillColor ??
             (context.isDarkMode ? Colors.black26 : Colors.white60),
         suffixIcon: getSuffixIcon(),
-        contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
         suffixIconColor: widget.suffixIconColor,
         prefixIcon: Icon(
           widget.prefixIcon,

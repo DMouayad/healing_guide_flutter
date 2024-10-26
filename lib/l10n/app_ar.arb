@@ -28,7 +28,7 @@
     "createDoctorAccountBtnLabel": "إنشاء حساب كطبيب",
     "maleGender": "ذكر",
     "femaleGender": "أنثى",
-    "cannotConnectToServer": "ا يمكن الاتصال بالخادم، الرجاء المحاولة مجدداً",
+    "cannotConnectToServer": "لا يمكن الاتصال بالخادم، الرجاء المحاولة مجدداً",
     "noInternetConnection": "أنت غير متصل بالانترنت!\nيرجى التحقق من اتصالك بالانترنت والمحاولة مجدداً",
     "unauthorized": "صلاحيات الوصول غير كافية",
     "unauthenticated": "عذراً لم نتمكن من التحقق من هويتك، من فضلك قم بتسجيل الدخول مرة أخرى",
