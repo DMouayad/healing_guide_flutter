@@ -7,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:healing_guide_flutter/features/auth/repositories.dart';
+import 'package:healing_guide_flutter/features/user/models/role.dart';
+import 'package:healing_guide_flutter/routes/routes.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
 import 'package:healing_guide_flutter/widgets/dialogs/error_dialog.dart';
 import 'package:healing_guide_flutter/widgets/form/password_text_field.dart';
@@ -21,7 +23,10 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(context.read<AuthRepository>()),
+      create: (context) => LoginCubit(
+        context.read<AuthRepository>(),
+        redirectToOnSuccess: redirectTo,
+      ),
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           switch (state) {
@@ -116,6 +121,7 @@ class _CreateNewAccountSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final redirectToOnSuccess = context.read<LoginCubit>().redirectToOnSuccess;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -135,12 +141,21 @@ class _CreateNewAccountSection extends StatelessWidget {
           child: OverflowBar(
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  SignupScreenRoute(
+                          redirectTo: redirectToOnSuccess, role: Role.physician)
+                      .pushReplacement(context);
+                },
                 child: Text(context.l10n.createDoctorAccountBtnLabel),
               ),
               const Text('|'),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  SignupScreenRoute(
+                    redirectTo: redirectToOnSuccess,
+                    role: Role.patient,
+                  ).pushReplacement(context);
+                },
                 child: Text(context.l10n.createPatientAccountBtnLabel),
               ),
             ],

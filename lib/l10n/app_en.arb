@@ -28,6 +28,10 @@
     "@registerBtnLabel": {
         "description": "The label of a registration button"
     },
+    "usernameIsRequired": "Please enter your full name",
+    "@usernameIsRequired": {
+        "description": "An error message displayed if a username field was left empty"
+    },
     "passwordIsRequired": "Please enter your password",
     "@passwordIsRequired": {
         "description": "An error message displayed if a password field was left empty"
@@ -64,13 +68,21 @@
     "@emailFieldLabel": {
         "description": "The label of the email form field"
     },
+    "emailFieldHint": "johnDoe@example.com",
+    "@emailFieldHint": {
+        "description": "The hint of the email form field"
+    },
     "passwordFieldLabel": "Password",
     "@passwordFieldLabel": {
         "description": "The label of the password form field"
     },
     "passwordConfirmationFieldLabel": "Password confirmation",
     "@passwordConfirmationFieldLabel": {
-        "description": "The label of the password form field"
+        "description": "The label of the password-confirmation form field"
+    },
+    "passwordConfirmationFieldHint": "Enter the same password as in the previous field",
+    "@passwordConfirmationFieldHint": {
+        "description": "The hint of the password-confirmation form field"
     },
     "phoneNumberFieldLabel": "Phone number",
     "@phoneNumberFieldLabel": {
@@ -79,6 +91,14 @@
     "phoneNumberFieldHint": "start with 09",
     "@phoneNumberFieldHint": {
         "description": "A message shown inside the phone number text field when it's empty"
+    },
+    "usernameFieldLabel": "Full name",
+    "@usernameFieldLabel": {
+        "description": "The label of the username text field"
+    },
+    "usernameFieldHint": "First and last name",
+    "@usernameFieldHint": {
+        "description": "A message shown inside the username text field when it's empty"
     },
     "loginInProgress": "Login in progress...",
     "@loginInProgress": {
@@ -120,6 +140,10 @@
     "@femaleGender": {
         "description": ""
     },
+    "genderInputTitle": "Your gender",
+    "@genderInputTitle": {
+        "description": ""
+    },
     "noInternetConnection": "You are not connected! Please check your internet connection and try again.",
     "@noInternetConnection": {
         "description": "The message of `AppException.noInternetConnection`"
@@ -151,5 +175,21 @@
     "serverError": "Unexpected error!\nIn case of receiving this error repeatedly, please wait some time until we fix the issue.",
     "@serverError": {
         "description": "The message of `AppException.serverError`"
+    },
+    "signupBtnLabel": "Create my account",
+    "@signupBtnLabel": {
+        "description": "The label of the signup action button in a form"
+    },
+    "signupAsDoctorScreenTitle": "Registering as a doctor",
+    "@signupAsDoctorScreenTitle": {},
+    "signupAsPatientScreenTitle": "Registering as a doctor",
+    "@signupAsPatientScreenTitle": {},
+    "signupInProgress": "Creating your account, please wait...",
+    "@signupInProgress": {
+        "description": "The text to be displayed when a signup attempt is in progress"
+    },
+    "signupFailureDialogTitle": "Signup failure",
+    "@signupFailureDialogTitle": {
+        "description": "The title of an `ErrorDialog` displayed after a failed signup attempt"
     }
 }
