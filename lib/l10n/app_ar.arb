@@ -14,6 +14,7 @@
     "passwordFieldLabel": "كلمة المرور",
     "passwordConfirmationFieldLabel": "تأكيد كلمة المرور",
     "phoneNumberFieldLabel": "رقم الموبايل",
+    "phoneNumberFieldHint": "ابدأ بـ09",
     "loginBtnLabel": "تسجيل الدخول",
     "registerBtnLabel": "إنشاء حساب",
     "passwordIsShort": "كلمة المرور قصيرة! أدخل كلمة مرور من 8 أحرف على الأقل",

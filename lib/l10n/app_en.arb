@@ -74,7 +74,11 @@
     },
     "phoneNumberFieldLabel": "Phone number",
     "@phoneNumberFieldLabel": {
-        "description": "The label of the phone number form field"
+        "description": "The label of the phone number text field"
+    },
+    "phoneNumberFieldHint": "start with 09",
+    "@phoneNumberFieldHint": {
+        "description": "A message shown inside the phone number text field when it's empty"
     },
     "loginInProgress": "Login in progress...",
     "@loginInProgress": {

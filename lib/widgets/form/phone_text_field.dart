@@ -19,7 +19,7 @@ class PhoneTextField extends StatelessWidget {
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       validator: (value) => validator(value, context),
       autovalidateMode: AutovalidateMode.onUnfocus,
-      hintText: context.l10n.phoneNumberFieldLabel,
+      hintText: context.l10n.phoneNumberFieldHint,
       labelText: context.l10n.phoneNumberFieldLabel,
       textInputAction: TextInputAction.next,
     );
