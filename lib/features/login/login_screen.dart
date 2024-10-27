@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:healing_guide_flutter/features/auth/repositories.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
@@ -14,8 +15,8 @@ import 'package:healing_guide_flutter/widgets/loading_barrier.dart';
 import 'cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({required this.onSuccess, super.key});
-  final void Function() onSuccess;
+  const LoginScreen({required this.redirectTo, super.key});
+  final String redirectTo;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class LoginScreen extends StatelessWidget {
         listener: (context, state) {
           switch (state) {
             case LoginSuccessState():
-              onSuccess();
+              context.pushReplacement(redirectTo);
               break;
             case LoginFailureState state:
               showErrorDialog(

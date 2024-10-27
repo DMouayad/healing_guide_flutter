@@ -22,6 +22,6 @@ class LoginScreenRoute extends GoRouteData {
   const LoginScreenRoute({required this.redirectTo});
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return LoginScreen(onSuccess: () => context.pushReplacement(redirectTo));
+    return LoginScreen(redirectTo: redirectTo);
   }
 }
