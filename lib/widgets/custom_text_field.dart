@@ -37,7 +37,7 @@ class CustomTextField extends StatefulWidget {
     super.key,
     this.hintText,
     this.validator,
-    this.autovalidateMode,
+    this.autovalidateMode = AutovalidateMode.disabled,
     this.controller,
     this.onSaved,
     this.prefixIcon,
@@ -69,13 +69,7 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  bool? inputIsValid;
-  final _errorSuffixIcon = const Icon(Icons.error_outline, color: Colors.red);
   bool obscuredTextIsShown = false;
-  @override
-  void initState() {
-    super.initState();
-  }
 
   Widget? getSuffixIcon() {
     if (widget.obscure) {
@@ -92,8 +86,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
       );
     }
-    return widget.suffixIcon ??
-        ((inputIsValid ?? true) ? null : _errorSuffixIcon);
+    return widget.suffixIcon;
   }
 
   @override
@@ -111,14 +104,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
       key: widget.formKey,
       initialValue: widget.initialValue,
       validator: widget.validator,
-      onChanged: (value) {
-        if (widget.validator != null) {
-          final newValidValue = widget.validator!(value) == null;
-          if (inputIsValid != newValidValue) {
-            setState(() => inputIsValid = newValidValue);
-          }
-        }
-      },
       onSaved: widget.onSaved,
       obscureText: widget.obscure && !obscuredTextIsShown,
       keyboardType: widget.keyboardType,
@@ -131,6 +116,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         isDense: widget.isDense,
         filled: widget.filled,
         labelText: widget.labelText,
+        hintStyle: TextStyle(
+            color: context.isDarkMode ? Colors.white54 : Colors.black38),
         fillColor: widget.fillColor ??
             (context.isDarkMode ? Colors.black26 : Colors.white60),
         suffixIcon: getSuffixIcon(),

@@ -93,7 +93,10 @@ class LoginForm extends StatelessWidget {
                     validator: formHelper.phoneNoValidator,
                   ),
                   const Padding(padding: EdgeInsets.all(12)),
-                  PasswordTextField(formHelper: formHelper),
+                  PasswordTextField(
+                    formHelper: formHelper,
+                    textInputAction: TextInputAction.done,
+                  ),
                   const Padding(padding: EdgeInsets.all(12)),
                   const _LoginButton(),
                   const SizedBox(height: 48),
