@@ -1,15 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:healing_guide_flutter/features/auth/repositories.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
-import 'package:healing_guide_flutter/widgets/custom_text_field.dart';
 import 'package:healing_guide_flutter/widgets/dialogs/error_dialog.dart';
+import 'package:healing_guide_flutter/widgets/form/password_text_field.dart';
+import 'package:healing_guide_flutter/widgets/form/phone_text_field.dart';
 import 'package:healing_guide_flutter/widgets/loading_barrier.dart';
 import 'cubit/login_cubit.dart';
 
@@ -61,8 +61,9 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formHelper = context.read<LoginCubit>().formHelper;
     return Form(
-      key: context.read<LoginCubit>().formHelper.formKey,
+      key: formHelper.formKey,
       child: Center(
         child: Container(
           constraints: BoxConstraints.tight(
@@ -84,15 +85,18 @@ class LoginForm extends StatelessWidget {
                   context.l10n.loginScreenSubtitle,
                   style: context.myTxtTheme.bodyMedium,
                 ),
-                ...const [
-                  SizedBox(height: 48),
-                  _PhoneNumberInput(),
-                  Padding(padding: EdgeInsets.all(12)),
-                  _PasswordInput(),
-                  Padding(padding: EdgeInsets.all(12)),
-                  _LoginButton(),
-                  SizedBox(height: 48),
-                  _CreateNewAccountSection(),
+                ...[
+                  const SizedBox(height: 48),
+                  PhoneTextField(
+                    controller: formHelper.phoneNoController,
+                    validator: formHelper.phoneNoValidator,
+                  ),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  PasswordTextField(formHelper: formHelper),
+                  const Padding(padding: EdgeInsets.all(12)),
+                  const _LoginButton(),
+                  const SizedBox(height: 48),
+                  const _CreateNewAccountSection(),
                 ],
               ],
             ),
@@ -139,43 +143,6 @@ class _CreateNewAccountSection extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-}
-
-class _PhoneNumberInput extends StatelessWidget {
-  const _PhoneNumberInput();
-  @override
-  Widget build(BuildContext context) {
-    final formHelper = context.read<LoginCubit>().formHelper;
-    return CustomTextField(
-      key: const Key('loginForm_PhoneNumberInput_textField'),
-      controller: formHelper.phoneNoController,
-      textDirection: TextDirection.ltr,
-      keyboardType: TextInputType.number,
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      validator: (value) => formHelper.phoneNoValidator(value, context),
-      autovalidateMode: AutovalidateMode.onUnfocus,
-      hintText: context.l10n.phoneNumberFieldLabel,
-      labelText: context.l10n.phoneNumberFieldLabel,
-      textInputAction: TextInputAction.next,
-    );
-  }
-}
-
-class _PasswordInput extends StatelessWidget {
-  const _PasswordInput();
-  @override
-  Widget build(BuildContext context) {
-    final formHelper = context.read<LoginCubit>().formHelper;
-    return CustomTextField(
-      key: const Key('loginForm_passwordInput_textField'),
-      obscure: true,
-      controller: formHelper.passwordController,
-      validator: (value) => formHelper.passwordValidator(value, context),
-      labelText: context.l10n.passwordFieldLabel,
-      autovalidateMode: AutovalidateMode.onUnfocus,
-      textInputAction: TextInputAction.done,
     );
   }
 }
