@@ -12,22 +12,26 @@ class LoadingBarrier extends StatelessWidget {
         : context.colorScheme.onInverseSurface;
     return Container(
       color: context.isDarkMode
-          ? context.colorScheme.surface.withOpacity(.81)
-          : context.colorScheme.inverseSurface.withOpacity(.81),
+          ? context.colorScheme.surface.withOpacity(.9)
+          : context.colorScheme.inverseSurface.withOpacity(.9),
       child: GestureDetector(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                text ?? context.l10n.loadingBarrierDefaultText,
-                style: context.myTxtTheme.titleLarge.copyWith(
-                  color: textColor,
+          child: SizedBox(
+            width: 250,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  text ?? context.l10n.loadingBarrierDefaultText,
+                  textAlign: TextAlign.center,
+                  style: context.myTxtTheme.titleLarge.copyWith(
+                    color: textColor,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              CircularProgressIndicator(color: textColor),
-            ],
+                const SizedBox(height: 24),
+                CircularProgressIndicator(color: textColor),
+              ],
+            ),
           ),
         ),
       ),
