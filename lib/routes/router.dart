@@ -5,4 +5,5 @@ import 'routes.dart';
 
 final router = GoRouter(
   routes: $appRoutes,
+  debugLogDiagnostics: true,
 );

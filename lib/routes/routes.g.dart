@@ -10,6 +10,7 @@ List<RouteBase> get $appRoutes => [
       $homeScreenRoute,
       $loginScreenRoute,
       $signupScreenRoute,
+      $phoneVerificationScreenRoute,
     ];
 
 RouteBase get $homeScreenRoute => GoRouteData.$route(
@@ -69,14 +70,10 @@ RouteBase get $signupScreenRoute => GoRouteData.$route(
 extension $SignupScreenRouteExtension on SignupScreenRoute {
   static SignupScreenRoute _fromState(GoRouterState state) => SignupScreenRoute(
         role: _$RoleEnumMap._$fromName(state.pathParameters['role']!),
-        redirectTo: state.uri.queryParameters['redirect-to']!,
       );
 
   String get location => GoRouteData.$location(
         '/signup/${Uri.encodeComponent(_$RoleEnumMap[role]!)}',
-        queryParams: {
-          'redirect-to': redirectTo,
-        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -98,4 +95,32 @@ const _$RoleEnumMap = {
 extension<T extends Enum> on Map<T, String> {
   T _$fromName(String value) =>
       entries.singleWhere((element) => element.value == value).key;
+}
+
+RouteBase get $phoneVerificationScreenRoute => GoRouteData.$route(
+      path: '/phone-verification',
+      factory: $PhoneVerificationScreenRouteExtension._fromState,
+    );
+
+extension $PhoneVerificationScreenRouteExtension
+    on PhoneVerificationScreenRoute {
+  static PhoneVerificationScreenRoute _fromState(GoRouterState state) =>
+      PhoneVerificationScreenRoute(
+        state.extra as SignupCubit,
+      );
+
+  String get location => GoRouteData.$location(
+        '/phone-verification',
+      );
+
+  void go(BuildContext context) => context.go(location, extra: $extra);
+
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: $extra);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: $extra);
+
+  void replace(BuildContext context) =>
+      context.replace(location, extra: $extra);
 }

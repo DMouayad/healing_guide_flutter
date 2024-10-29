@@ -14,6 +14,35 @@ class UserRegistrationDTO {
     required this.fullName,
     required this.password,
   });
+  Map<String, String> toJson() {
+    return {
+      "role": role.name,
+      "fullName": fullName,
+      "phoneNumber": phoneNumber,
+      "email": email,
+      "password": "",
+    };
+  }
+
+  static UserRegistrationDTO? fromJson(Map<String, dynamic>? json) {
+    if (json
+        case ({
+          "role": String role,
+          "email": String email,
+          "phoneNumber": String phoneNumber,
+          "fullName": String fullName,
+          "password": String password,
+        })) {
+      return UserRegistrationDTO(
+        role: Role.values.byName(role),
+        email: email,
+        phoneNumber: phoneNumber,
+        fullName: fullName,
+        password: password,
+      );
+    }
+    return null;
+  }
 }
 
 class UserLoginDTO {

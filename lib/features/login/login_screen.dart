@@ -13,7 +13,7 @@ import 'package:healing_guide_flutter/utils/utils.dart';
 import 'package:healing_guide_flutter/widgets/dialogs/error_dialog.dart';
 import 'package:healing_guide_flutter/widgets/form/password_text_field.dart';
 import 'package:healing_guide_flutter/widgets/form/phone_text_field.dart';
-import 'package:healing_guide_flutter/widgets/loading_barrier.dart';
+import 'package:healing_guide_flutter/widgets/custom_scaffold.dart';
 import 'cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -23,10 +23,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(
-        context.read<AuthRepository>(),
-        redirectToOnSuccess: redirectTo,
-      ),
+      create: (context) => LoginCubit(context.read<AuthRepository>()),
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           switch (state) {
@@ -46,15 +43,9 @@ class LoginScreen extends StatelessWidget {
         },
         buildWhen: (previous, current) => previous.isBusy != current.isBusy,
         builder: (context, state) {
-          final isBusyOrSuccess = state.isBusy || state is LoginSuccessState;
-          return Scaffold(
-            body: Stack(
-              children: [
-                const Padding(padding: EdgeInsets.all(12), child: LoginForm()),
-                if (isBusyOrSuccess)
-                  LoadingBarrier(text: context.l10n.loginInProgress),
-              ],
-            ),
+          return CustomScaffold(
+            body: const LoginForm(),
+            showLoadingBarrier: state.isBusy || state is LoginSuccessState,
           );
         },
       ),
@@ -121,7 +112,6 @@ class _CreateNewAccountSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final redirectToOnSuccess = context.read<LoginCubit>().redirectToOnSuccess;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -141,26 +131,19 @@ class _CreateNewAccountSection extends StatelessWidget {
           child: OverflowBar(
             children: [
               TextButton(
-                onPressed: () {
-                  SignupScreenRoute(
-                          redirectTo: redirectToOnSuccess, role: Role.physician)
-                      .pushReplacement(context);
-                },
+                onPressed: () =>
+                    const SignupScreenRoute(role: Role.physician).push(context),
                 child: Text(context.l10n.createDoctorAccountBtnLabel),
               ),
               const Text('|'),
               TextButton(
-                onPressed: () {
-                  SignupScreenRoute(
-                    redirectTo: redirectToOnSuccess,
-                    role: Role.patient,
-                  ).pushReplacement(context);
-                },
+                onPressed: () =>
+                    const SignupScreenRoute(role: Role.patient).push(context),
                 child: Text(context.l10n.createPatientAccountBtnLabel),
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

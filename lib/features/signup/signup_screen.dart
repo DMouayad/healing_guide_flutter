@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:healing_guide_flutter/features/auth/repositories.dart';
-import 'package:healing_guide_flutter/features/signup/signup_request.dart';
 import 'package:healing_guide_flutter/features/user/models/role.dart';
 import 'package:healing_guide_flutter/routes/routes.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
@@ -15,27 +13,31 @@ import 'package:healing_guide_flutter/widgets/custom_text_field.dart';
 import 'package:healing_guide_flutter/widgets/dialogs/error_dialog.dart';
 import 'package:healing_guide_flutter/widgets/form/password_text_field.dart';
 import 'package:healing_guide_flutter/widgets/form/phone_text_field.dart';
-import 'package:healing_guide_flutter/widgets/loading_barrier.dart';
+import 'package:healing_guide_flutter/widgets/custom_scaffold.dart';
 
 import 'cubit/signup_cubit.dart';
 part 'signup_form_fields.dart';
 
 class SignupScreen extends StatelessWidget {
-  const SignupScreen({required this.request, super.key});
-  final SignupRequest request;
+  const SignupScreen({required this.signupAs, super.key});
+  final Role signupAs;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignupCubit(
         authRepository: context.read<AuthRepository>(),
-        request: request,
+        signupAs: signupAs,
       ),
       child: BlocConsumer<SignupCubit, SignupState>(
         listener: (context, state) {
           switch (state) {
+            case SignupPendingPhoneVerificationState():
+              PhoneVerificationScreenRoute(context.read()).push(context);
+              break;
             case SignupSuccessState():
-              context.pushReplacement(request.redirectTo);
+              //TODO: replace `HomeScreenRoute` with profile screen route when it's created
+              HomeScreenRoute().pushReplacement(context);
               break;
             case SignupFailureState state:
               showErrorDialog(
@@ -50,18 +52,10 @@ class SignupScreen extends StatelessWidget {
         },
         buildWhen: (previous, current) => previous.isBusy != current.isBusy,
         builder: (context, state) {
-          final isBusyOrSuccess = state.isBusy || state is SignupSuccessState;
-          return Scaffold(
-            body: SafeArea(
-              child: Stack(
-                children: [
-                  const Padding(
-                      padding: EdgeInsets.all(12), child: SignupForm()),
-                  if (isBusyOrSuccess)
-                    LoadingBarrier(text: context.l10n.signupInProgress),
-                ],
-              ),
-            ),
+          return CustomScaffold(
+            body: const SignupForm(),
+            showLoadingBarrier: state.isBusy || state is SignupSuccessState,
+            loadingBarrierText: context.l10n.signupInProgress,
           );
         },
       ),
@@ -131,7 +125,7 @@ class SignupForm extends StatelessWidget {
   }
 
   String _getSubtitle(BuildContext context) {
-    final role = context.read<SignupCubit>().request.signupAs;
+    final role = context.read<SignupCubit>().signupAs;
     return switch (role) {
       Role.patient => context.l10n.signupAsPatientScreenTitle,
       Role.physician => context.l10n.signupAsDoctorScreenTitle,
@@ -148,7 +142,7 @@ class _SignupButton extends StatelessWidget {
       key: const Key('signup_raisedButton'),
       onPressed: () {
         FocusScope.of(context).unfocus();
-        context.read<SignupCubit>().onSignupRequested();
+        context.read<SignupCubit>().onSignupFormSubmit();
       },
       style: const ButtonStyle(
         minimumSize: WidgetStatePropertyAll(Size.fromHeight(48)),
@@ -163,14 +157,15 @@ class _HaveAnExistingAccountSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final redirectTo = context.read<SignupCubit>().request.redirectTo;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(context.l10n.alreadyHaveAnAccountQuestion),
         TextButton(
           onPressed: () =>
-              LoginScreenRoute(redirectTo: redirectTo).pushReplacement(context),
+              //TODO: replace `HomeScreenRoute` with profile screen route when it's created
+              LoginScreenRoute(redirectTo: HomeScreenRoute().location)
+                  .pushReplacement(context),
           child: Text(context.l10n.loginBtnLabel),
         ),
       ],
