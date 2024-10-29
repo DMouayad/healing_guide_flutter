@@ -1,8 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
 
-class LoadingBarrier extends StatelessWidget {
-  const LoadingBarrier({super.key, this.text});
+class CustomScaffold extends StatelessWidget {
+  const CustomScaffold({
+    super.key,
+    this.loadingBarrierText,
+    required this.showLoadingBarrier,
+    required this.body,
+    this.bodyPadding,
+  });
+  final String? loadingBarrierText;
+  final bool showLoadingBarrier;
+  final Widget body;
+  final EdgeInsets? bodyPadding;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Padding(
+              padding: bodyPadding ?? const EdgeInsets.all(12),
+              child: body,
+            ),
+            Visibility(
+              visible: showLoadingBarrier,
+              child: _LoadingBarrier(text: loadingBarrierText),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LoadingBarrier extends StatelessWidget {
+  const _LoadingBarrier({this.text});
   final String? text;
 
   @override

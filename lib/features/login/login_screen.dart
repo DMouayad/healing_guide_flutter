@@ -13,7 +13,7 @@ import 'package:healing_guide_flutter/utils/utils.dart';
 import 'package:healing_guide_flutter/widgets/dialogs/error_dialog.dart';
 import 'package:healing_guide_flutter/widgets/form/password_text_field.dart';
 import 'package:healing_guide_flutter/widgets/form/phone_text_field.dart';
-import 'package:healing_guide_flutter/widgets/loading_barrier.dart';
+import 'package:healing_guide_flutter/widgets/custom_scaffold.dart';
 import 'cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -46,15 +46,9 @@ class LoginScreen extends StatelessWidget {
         },
         buildWhen: (previous, current) => previous.isBusy != current.isBusy,
         builder: (context, state) {
-          final isBusyOrSuccess = state.isBusy || state is LoginSuccessState;
-          return Scaffold(
-            body: Stack(
-              children: [
-                const Padding(padding: EdgeInsets.all(12), child: LoginForm()),
-                if (isBusyOrSuccess)
-                  LoadingBarrier(text: context.l10n.loginInProgress),
-              ],
-            ),
+          return CustomScaffold(
+            body: const LoginForm(),
+            showLoadingBarrier: state.isBusy || state is LoginSuccessState,
           );
         },
       ),

@@ -15,7 +15,7 @@ import 'package:healing_guide_flutter/widgets/custom_text_field.dart';
 import 'package:healing_guide_flutter/widgets/dialogs/error_dialog.dart';
 import 'package:healing_guide_flutter/widgets/form/password_text_field.dart';
 import 'package:healing_guide_flutter/widgets/form/phone_text_field.dart';
-import 'package:healing_guide_flutter/widgets/loading_barrier.dart';
+import 'package:healing_guide_flutter/widgets/custom_scaffold.dart';
 
 import 'cubit/signup_cubit.dart';
 part 'signup_form_fields.dart';
@@ -50,18 +50,10 @@ class SignupScreen extends StatelessWidget {
         },
         buildWhen: (previous, current) => previous.isBusy != current.isBusy,
         builder: (context, state) {
-          final isBusyOrSuccess = state.isBusy || state is SignupSuccessState;
-          return Scaffold(
-            body: SafeArea(
-              child: Stack(
-                children: [
-                  const Padding(
-                      padding: EdgeInsets.all(12), child: SignupForm()),
-                  if (isBusyOrSuccess)
-                    LoadingBarrier(text: context.l10n.signupInProgress),
-                ],
-              ),
-            ),
+          return CustomScaffold(
+            body: const SignupForm(),
+            showLoadingBarrier: state.isBusy || state is SignupSuccessState,
+            loadingBarrierText: context.l10n.signupInProgress,
           );
         },
       ),
