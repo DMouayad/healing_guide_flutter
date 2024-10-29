@@ -73,15 +73,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   Widget? getSuffixIcon() {
     if (widget.obscure) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: IconButton(
-          onPressed: () =>
-              setState(() => obscuredTextIsShown = !obscuredTextIsShown),
-          icon: Icon(
-            obscuredTextIsShown ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
-            color: context.colorScheme.onSurface,
-            size: 20,
+      return ExcludeFocus(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: IconButton(
+            onPressed: () =>
+                setState(() => obscuredTextIsShown = !obscuredTextIsShown),
+            icon: Icon(
+              obscuredTextIsShown
+                  ? CupertinoIcons.eye_slash
+                  : CupertinoIcons.eye,
+              color: context.colorScheme.onSurface,
+              size: 20,
+            ),
           ),
         ),
       );
