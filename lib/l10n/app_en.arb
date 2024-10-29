@@ -144,6 +144,36 @@
     "@genderInputTitle": {
         "description": ""
     },
+    "phoneVerificationScreenTitle": "Please verify your phone number",
+    "@phoneVerificationScreenTitle": {
+        "description": "The main title in the screen"
+    },
+    "phoneVerificationErrorDialogTitle": "Failed to verify your phone",
+    "@phoneVerificationErrorDialogTitle": {},
+    "phoneVerificationScreenSubtitle": "This help us confirm your identity & protect your account",
+    "@phoneVerificationScreenSubtitle": {
+        "description": "The main title in the screen"
+    },
+    "phoneVerificationCodeWasSent": "Please enter the verification code sent to ",
+    "@phoneVerificationCodeWasSent": {},
+    "didNotReceiveCode": "Did not receive a code?",
+    "@didNotReceiveCode": {},
+    "resendVerificationCodeIn": "You can request a new code in",
+    "@resendVerificationCodeIn": {},
+    "resendVerificationCodeBtnLabel": "send me a new code",
+    "@resendVerificationCodeBtnLabel": {},
+    "verifyBtnLabel": "Verify",
+    "@verifyBtnLabel": {},
+    "wrongNumberToVerify": "Wrong number?",
+    "@wrongNumberToVerify": {
+        "description": "",
+        "context": "PhoneVerificationScreen"
+    },
+    "changeNumberToVerify": "go back to change it",
+    "@changeNumberToVerify": {
+        "description": "The label of a text button for changing the phone number in verification screen",
+        "context": "PhoneVerificationScreen"
+    },
     "noInternetConnection": "You are not connected! Please check your internet connection and try again.",
     "@noInternetConnection": {
         "description": "The message of `AppException.noInternetConnection`"

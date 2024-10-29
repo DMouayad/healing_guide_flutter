@@ -32,6 +32,9 @@ class SignupScreen extends StatelessWidget {
       child: BlocConsumer<SignupCubit, SignupState>(
         listener: (context, state) {
           switch (state) {
+            case SignupPendingPhoneVerificationState():
+              PhoneVerificationScreenRoute(context.read()).push(context);
+              break;
             case SignupSuccessState():
               //TODO: replace `HomeScreenRoute` with profile screen route when it's created
               HomeScreenRoute().pushReplacement(context);
