@@ -46,9 +46,9 @@ class UserRegistrationDTO {
 }
 
 class UserLoginDTO {
-  final String phoneNumber;
+  final String email;
   final String password;
-  const UserLoginDTO({required this.phoneNumber, required this.password});
+  const UserLoginDTO({required this.email, required this.password});
 }
 
 class UpdateUserDTO {

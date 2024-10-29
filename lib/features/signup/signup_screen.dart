@@ -11,6 +11,7 @@ import 'package:healing_guide_flutter/routes/routes.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
 import 'package:healing_guide_flutter/widgets/custom_text_field.dart';
 import 'package:healing_guide_flutter/widgets/dialogs/error_dialog.dart';
+import 'package:healing_guide_flutter/widgets/form/email_text_field.dart';
 import 'package:healing_guide_flutter/widgets/form/password_text_field.dart';
 import 'package:healing_guide_flutter/widgets/form/phone_text_field.dart';
 import 'package:healing_guide_flutter/widgets/custom_scaffold.dart';
@@ -104,7 +105,7 @@ class SignupForm extends StatelessWidget {
                     validator: formHelper.phoneNoValidator,
                   ),
                   formGap,
-                  const _EmailTextField(),
+                  EmailTextField(formHelper: formHelper),
                   formGap,
                   PasswordTextField(formHelper: formHelper),
                   formGap,

@@ -18,20 +18,17 @@ class SignupFormHelper extends BaseFormHelper {
           translator: _translator,
           text: phoneInitialValue,
         ),
-        emailController = TextEditingController(text: emailInitialValue),
         fullNameController = TextEditingController(text: fullNameInitialValue),
         passwordConfirmationController = TextEditingController(),
         super();
 
   final TextEditingController phoneNoController;
   final TextEditingController fullNameController;
-  final TextEditingController emailController;
   final TextEditingController passwordConfirmationController;
   bool isMale = true;
 
   String get phoneNoValue => phoneNoController.text;
   String get fullNameValue => fullNameController.text;
-  String get emailValue => emailController.text;
 
   String? phoneNoValidator(String? value, BuildContext context) {
     if (value?.isEmpty ?? true) {
@@ -39,17 +36,6 @@ class SignupFormHelper extends BaseFormHelper {
     } else {
       if (!isValidPhoneNo(value)) {
         return context.l10n.phoneNumberIsInvalid;
-      }
-    }
-    return null;
-  }
-
-  String? emailValidator(String? value, BuildContext context) {
-    if (value?.isEmpty ?? true) {
-      return context.l10n.emailIsRequired;
-    } else {
-      if (!isValidEmail(value)) {
-        return context.l10n.emailIsInvalid;
       }
     }
     return null;
@@ -77,6 +63,5 @@ class SignupFormHelper extends BaseFormHelper {
     phoneNoController.dispose();
     fullNameController.dispose();
     passwordConfirmationController.dispose();
-    emailController.dispose();
   }
 }

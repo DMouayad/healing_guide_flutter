@@ -17,25 +17,6 @@ class _FullNameTextField extends StatelessWidget {
   }
 }
 
-class _EmailTextField extends StatelessWidget {
-  const _EmailTextField();
-
-  @override
-  Widget build(BuildContext context) {
-    final formHelper = context.read<SignupCubit>().formHelper;
-    return CustomTextField(
-      key: const Key('signupForm_Email_textField'),
-      controller: formHelper.emailController,
-      validator: (value) => formHelper.emailValidator(value, context),
-      hintText: context.l10n.emailFieldHint,
-      labelText: context.l10n.emailFieldLabel,
-      textDirection: TextDirection.ltr,
-      keyboardType: TextInputType.emailAddress,
-      textInputAction: TextInputAction.next,
-    );
-  }
-}
-
 class _PasswordConfirmationTextField extends StatelessWidget {
   const _PasswordConfirmationTextField();
 

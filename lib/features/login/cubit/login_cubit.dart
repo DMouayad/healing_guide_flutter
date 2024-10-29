@@ -24,7 +24,7 @@ class LoginCubit extends Cubit<LoginState> {
     try {
       await _authRepository.logIn(UserLoginDTO(
         password: formHelper.passwordValue,
-        phoneNumber: formHelper.phoneNoValue,
+        email: formHelper.emailValue,
       ));
       emit(LoginSuccessState());
     } catch (e) {

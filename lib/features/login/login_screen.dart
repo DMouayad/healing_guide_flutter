@@ -11,8 +11,8 @@ import 'package:healing_guide_flutter/features/user/models/role.dart';
 import 'package:healing_guide_flutter/routes/routes.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
 import 'package:healing_guide_flutter/widgets/dialogs/error_dialog.dart';
+import 'package:healing_guide_flutter/widgets/form/email_text_field.dart';
 import 'package:healing_guide_flutter/widgets/form/password_text_field.dart';
-import 'package:healing_guide_flutter/widgets/form/phone_text_field.dart';
 import 'package:healing_guide_flutter/widgets/custom_scaffold.dart';
 import 'cubit/login_cubit.dart';
 
@@ -84,10 +84,7 @@ class LoginForm extends StatelessWidget {
                 ),
                 ...[
                   const SizedBox(height: 48),
-                  PhoneTextField(
-                    controller: formHelper.phoneNoController,
-                    validator: formHelper.phoneNoValidator,
-                  ),
+                  EmailTextField(formHelper: formHelper),
                   const Padding(padding: EdgeInsets.all(12)),
                   PasswordTextField(
                     formHelper: formHelper,

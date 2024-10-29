@@ -4,9 +4,23 @@ abstract class BaseFormHelper {
   BaseFormHelper() {
     formKey = GlobalKey();
     passwordController = TextEditingController();
+    emailController = TextEditingController();
   }
 
   late final GlobalKey<FormState> formKey;
+
+  late final TextEditingController emailController;
+  String get emailValue => emailController.text;
+  String? emailValidator(String? value, BuildContext context) {
+    if (value?.isEmpty ?? true) {
+      return context.l10n.emailIsRequired;
+    } else {
+      if (!isValidEmail(value)) {
+        return context.l10n.emailIsInvalid;
+      }
+    }
+    return null;
+  }
 
   late final TextEditingController passwordController;
   String get passwordValue => passwordController.value.text.trim();
@@ -29,5 +43,6 @@ abstract class BaseFormHelper {
   @mustCallSuper
   void dispose() {
     passwordController.dispose();
+    emailController.dispose();
   }
 }

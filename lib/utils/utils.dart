@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healing_guide_flutter/features/theme/text_theme.dart';
 import 'package:logger/logger.dart';
 
+import 'src/validators.dart';
+
 part 'src/context_extensions.dart';
 part 'src/bloc_observer.dart';
 part 'src/base_form_helper.dart';
