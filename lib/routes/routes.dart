@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:healing_guide_flutter/features/home/home_screen.dart';
 import 'package:healing_guide_flutter/features/login/login_screen.dart';
-import 'package:healing_guide_flutter/features/signup/signup_request.dart';
+import 'package:healing_guide_flutter/features/signup/cubit/signup_cubit.dart';
 import 'package:healing_guide_flutter/features/signup/signup_screen.dart';
 import 'package:healing_guide_flutter/features/user/models.dart';
 
@@ -32,14 +32,11 @@ class LoginScreenRoute extends GoRouteData {
 @TypedGoRoute<SignupScreenRoute>(path: '/signup/:role')
 @immutable
 class SignupScreenRoute extends GoRouteData {
-  final String redirectTo;
   final Role role;
-  const SignupScreenRoute({required this.redirectTo, required this.role});
+  const SignupScreenRoute({required this.role});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SignupScreen(
-      request: SignupRequest(redirectTo: redirectTo, signupAs: Role.patient),
-    );
+    return SignupScreen(signupAs: role);
   }
 }

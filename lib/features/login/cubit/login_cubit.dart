@@ -9,13 +9,12 @@ import 'package:healing_guide_flutter/features/user/models.dart';
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this._authRepository, {required this.redirectToOnSuccess})
-      : super(LoginIdleState()) {
-    formHelper = LoginFormHelper();
-  }
+  LoginCubit(this._authRepository)
+      : formHelper = LoginFormHelper(),
+        super(LoginIdleState());
+
   final AuthRepository _authRepository;
-  late final LoginFormHelper formHelper;
-  final String redirectToOnSuccess;
+  final LoginFormHelper formHelper;
 
   Future<void> onLoginRequested() async {
     if (!formHelper.validateInput()) {

@@ -69,14 +69,10 @@ RouteBase get $signupScreenRoute => GoRouteData.$route(
 extension $SignupScreenRouteExtension on SignupScreenRoute {
   static SignupScreenRoute _fromState(GoRouterState state) => SignupScreenRoute(
         role: _$RoleEnumMap._$fromName(state.pathParameters['role']!),
-        redirectTo: state.uri.queryParameters['redirect-to']!,
       );
 
   String get location => GoRouteData.$location(
         '/signup/${Uri.encodeComponent(_$RoleEnumMap[role]!)}',
-        queryParams: {
-          'redirect-to': redirectTo,
-        },
       );
 
   void go(BuildContext context) => context.go(location);

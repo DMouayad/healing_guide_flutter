@@ -1,37 +1,57 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
+
 import 'package:healing_guide_flutter/exceptions/app_exception.dart';
 import 'package:healing_guide_flutter/features/auth/repositories.dart';
 import 'package:healing_guide_flutter/features/signup/signup_form_helper.dart';
 import 'package:healing_guide_flutter/features/user/models.dart';
-
-import '../signup_request.dart';
+import 'package:healing_guide_flutter/utils/utils.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'signup_state.dart';
 
-class SignupCubit extends Cubit<SignupState> {
+class SignupCubit extends HydratedCubit<SignupState> {
   late final AuthRepository _authRepository;
   late final SignupFormHelper formHelper;
-  final SignupRequest request;
+  final Role signupAs;
 
-  SignupCubit({required this.request, required AuthRepository authRepository})
+  SignupCubit({required this.signupAs, required AuthRepository authRepository})
       : super(SignupIdleState()) {
-    formHelper = SignupFormHelper();
+    formHelper = SignupFormHelper(
+      emailInitialValue: state.dto?.email,
+      fullNameInitialValue: state.dto?.fullName,
+      phoneInitialValue: state.dto?.phoneNumber,
+    );
     _authRepository = authRepository;
   }
-
-  Future<void> onSignupRequested() async {
+  void onSignupFormSubmit() {
     if (!formHelper.validateInput()) {
+      return;
+    }
+    final dto = UserRegistrationDTO(
+      role: signupAs,
+      password: formHelper.passwordValue,
+      phoneNumber: formHelper.phoneNoValue,
+      email: formHelper.emailValue,
+      fullName: formHelper.fullNameValue,
+    );
+    emit(SignupBusyState());
+    //
+    // await userRepository.sendEmailVerificationCode(dto.phoneNumber);
+    Timer(const Duration(seconds: 2),
+        () => emit(SignupPendingPhoneVerificationState(dto: dto)));
+  }
+
+  Future<void> onSignupRequestedAfterVerification() async {
+    final currentState = state;
+    if (currentState is! SignupPendingPhoneVerificationState) {
+      pLogger.w(
+        '($runtimeType) Error: signup requested but current state type is not correct',
+      );
       return;
     }
     emit(SignupBusyState());
     try {
-      await _authRepository.register(UserRegistrationDTO(
-        password: formHelper.passwordValue,
-        phoneNumber: formHelper.phoneNoValue,
-        role: request.signupAs,
-        email: formHelper.emailValue,
-        fullName: formHelper.fullNameValue,
-      ));
+      await _authRepository.register(currentState.dto);
       emit(SignupSuccessState());
     } catch (e) {
       AppException appException =
@@ -42,5 +62,22 @@ class SignupCubit extends Cubit<SignupState> {
         emit(SignupIdleState());
       }
     }
+  }
+
+  @override
+  SignupState? fromJson(Map<String, dynamic> json) {
+    final dto = UserRegistrationDTO.fromJson(json["dto"]);
+    if (dto != null) {
+      return SignupPendingPhoneVerificationState(dto: dto);
+    }
+    return null;
+  }
+
+  @override
+  Map<String, dynamic>? toJson(SignupState state) {
+    if (state is SignupPendingPhoneVerificationState) {
+      return {"dto": state.dto.toJson()};
+    }
+    return null;
   }
 }

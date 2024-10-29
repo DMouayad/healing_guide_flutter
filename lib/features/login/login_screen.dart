@@ -23,10 +23,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(
-        context.read<AuthRepository>(),
-        redirectToOnSuccess: redirectTo,
-      ),
+      create: (context) => LoginCubit(context.read<AuthRepository>()),
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           switch (state) {
@@ -115,7 +112,6 @@ class _CreateNewAccountSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final redirectToOnSuccess = context.read<LoginCubit>().redirectToOnSuccess;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -135,26 +131,19 @@ class _CreateNewAccountSection extends StatelessWidget {
           child: OverflowBar(
             children: [
               TextButton(
-                onPressed: () {
-                  SignupScreenRoute(
-                          redirectTo: redirectToOnSuccess, role: Role.physician)
-                      .pushReplacement(context);
-                },
+                onPressed: () =>
+                    const SignupScreenRoute(role: Role.physician).push(context),
                 child: Text(context.l10n.createDoctorAccountBtnLabel),
               ),
               const Text('|'),
               TextButton(
-                onPressed: () {
-                  SignupScreenRoute(
-                    redirectTo: redirectToOnSuccess,
-                    role: Role.patient,
-                  ).pushReplacement(context);
-                },
+                onPressed: () =>
+                    const SignupScreenRoute(role: Role.patient).push(context),
                 child: Text(context.l10n.createPatientAccountBtnLabel),
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

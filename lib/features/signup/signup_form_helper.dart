@@ -9,11 +9,17 @@ class SignupFormHelper extends BaseFormHelper {
   };
   static const kPhoneNumberMask = '0 9## ### ###';
 
-  SignupFormHelper()
+  SignupFormHelper(
+      {String? phoneInitialValue,
+      String? emailInitialValue,
+      String? fullNameInitialValue})
       : phoneNoController = MaskedTextController(
-            mask: kPhoneNumberMask, translator: _translator),
-        emailController = TextEditingController(),
-        fullNameController = TextEditingController(),
+          mask: kPhoneNumberMask,
+          translator: _translator,
+          text: phoneInitialValue,
+        ),
+        emailController = TextEditingController(text: emailInitialValue),
+        fullNameController = TextEditingController(text: fullNameInitialValue),
         passwordConfirmationController = TextEditingController(),
         super();
 
