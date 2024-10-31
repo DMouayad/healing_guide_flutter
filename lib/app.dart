@@ -7,6 +7,7 @@ import 'package:healing_guide_flutter/routes/router.dart';
 import 'package:healing_guide_flutter/features/theme/app_theme.dart';
 
 import 'features/auth/cubit/auth_state_cubit.dart';
+import 'features/localization/cubit/localization_cubit.dart';
 import 'features/theme/theme_cubit.dart';
 
 class MainApp extends StatelessWidget {
@@ -22,8 +23,8 @@ class MainApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(lazy: false, create: (_) => ThemeCubit()),
+          BlocProvider(lazy: false, create: (_) => LocalizationCubit()),
           BlocProvider(
-            lazy: false,
             create: (_) => AuthStateCubit(authRepository)..init(),
           ),
         ],
@@ -40,14 +41,20 @@ class MainAppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeCubit, ThemeMode>(
       builder: (context, themeMode) {
-        return MaterialApp.router(
-          routerConfig: router,
-          themeMode: themeMode,
-          theme: AppTheme.lightThemeData,
-          darkTheme: AppTheme.darkThemeData,
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
+        return BlocBuilder<LocalizationCubit, LocalizationState>(
+          builder: (context, localeState) {
+            return MaterialApp.router(
+              title: 'Healing Guide',
+              routerConfig: router,
+              themeMode: themeMode,
+              locale: localeState.locale,
+              theme: AppTheme.lightThemeData,
+              darkTheme: AppTheme.darkThemeData,
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+            );
+          },
         );
       },
     );
