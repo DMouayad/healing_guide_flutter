@@ -16,6 +16,23 @@
     "@ok": {
         "description": "`ok` English word"
     },
+    "viewAllBtnLabel": "view all",
+    "@viewAllBtnLabel": {},
+    "homeGreeting": "Welcome back! we hope you are well",
+    "@homeGreeting": {},
+    "homeSearchBarHint": "search for a doctor, hospital or any medical care facility",
+    "@homeSearchBarHint": {},
+    "homeSpecialtiesSectionTitle": "Medical specialties",
+    "@homeSpecialtiesSectionTitle": {},
+    "homeFacilitiesSectionTitle": "Facilities near you",
+    "@homeFacilitiesSectionTitle": {},
+    "drawerProfileIBtnLabel": "My profile",
+    "@drawerProfileIBtnLabel": {},
+    "drawerLogoutBtnLabel": "Logout",
+    "@drawerLogoutBtnLabel": {},
+    "drawerDarkModeSwitchTitle": "Dark mode",
+    "drawerLanguageBtnLabel": "Language",
+    "drawerSettingsTileLabel": "Preferences",
     "loginFailureDialogTitle": "Login Failed!",
     "@loginFailureDialogTitle": {
         "description": "The title of the `ErrorDialog` shown after a failed login attempt"
