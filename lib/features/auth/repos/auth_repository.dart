@@ -6,7 +6,7 @@ abstract base class AuthRepository {
     _userRepository = userRepository;
   }
 
-  final _controller = StreamController<AuthState>();
+  final _controller = StreamController<AuthState>.broadcast();
   Stream<AuthState> get status => _controller.stream;
 
   Future<void> loadPrevUser() async {
