@@ -6,6 +6,8 @@ class AppTheme {
   static const _darkColorScheme = ColorScheme.dark(
     primary: Color(0xFF2B75CA),
     secondary: Color(0xFF9CD161),
+    surface: Color(0xFF181818),
+    onSurface: Color(0xFFD9D9D9),
   );
 
   static const _lightColorScheme = ColorScheme.light(
@@ -37,7 +39,8 @@ class AppTheme {
     filledButtonTheme: _filledButtonThemeData,
   );
 
+  static const redColor = Color(0xFFC92A22);
+  static const lightGreyColor = Color(0xFFD9D9D9);
   static const secondaryTextColor = Color(0xFF8C8C8C);
-
   static const textFieldBorderColor = Color(0xFFD0D0D0);
 }
