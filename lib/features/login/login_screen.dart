@@ -68,6 +68,7 @@ class LoginForm extends StatelessWidget {
           ),
           alignment: Alignment.center,
           child: SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 25),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -126,6 +127,7 @@ class _CreateNewAccountSection extends StatelessWidget {
             ),
           ),
           child: OverflowBar(
+            overflowAlignment: OverflowBarAlignment.center,
             children: [
               TextButton(
                 onPressed: () =>
