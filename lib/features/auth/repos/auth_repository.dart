@@ -20,7 +20,7 @@ abstract base class AuthRepository {
 
   Future<void> register(UserRegistrationDTO dto);
 
-  void logOut();
+  Future<void> logOut();
 
   void dispose() => _controller.close();
 }
