@@ -22,21 +22,25 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(25, 45, 25, 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: SvgPicture.asset('assets/images/logo.svg', height: 65),
-                ),
-                Text(
-                  context.l10n.appName,
-                  textAlign: TextAlign.center,
-                  style: context.myTxtTheme.titleLarge,
-                ),
-              ],
+          Expanded(
+            flex: 0,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(25, 45, 25, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child:
+                        SvgPicture.asset('assets/images/logo.svg', height: 55),
+                  ),
+                  Text(
+                    context.l10n.appName,
+                    textAlign: TextAlign.center,
+                    style: context.myTxtTheme.titleLarge,
+                  ),
+                ],
+              ),
             ),
           ),
           divider,
@@ -45,7 +49,9 @@ class CustomDrawer extends StatelessWidget {
               return state.user != null
                   ? ListTile(
                       minTileHeight: 65,
-                      leading: const Icon(Icons.person_outline_rounded),
+                      iconColor: context.colorScheme.primary,
+                      textColor: context.colorScheme.primary,
+                      leading: const Icon(Icons.person),
                       style: ListTileStyle.drawer,
                       title: Text(context.l10n.drawerProfileIBtnLabel),
                       onTap: () {
@@ -53,6 +59,9 @@ class CustomDrawer extends StatelessWidget {
                       },
                     )
                   : ListTile(
+                      iconColor: context.colorScheme.primary,
+                      textColor: context.colorScheme.primary,
+                      style: ListTileStyle.drawer,
                       title: Text(context.l10n.loginBtnLabel),
                       leading: const Icon(Icons.login_rounded),
                       onTap: () => LoginScreenRoute(
@@ -62,12 +71,34 @@ class CustomDrawer extends StatelessWidget {
                     );
             },
           ),
-          const Spacer(),
           ListTile(
-            leading: const Icon(Icons.settings_applications),
-            title: Text(context.l10n.drawerSettingsTileLabel),
+            dense: true,
+            leading: const Icon(Icons.question_mark_outlined),
+            style: ListTileStyle.drawer,
+            title: Text(context.l10n.drawerFAQTileLabel),
+            onTap: () {},
           ),
+          ListTile(
+            dense: true,
+            leading: const Icon(Icons.support_agent_outlined),
+            style: ListTileStyle.drawer,
+            title: Text(context.l10n.drawerContactUsTileLabel),
+            onTap: () {},
+          ),
+          ListTile(
+            dense: true,
+            leading: const Icon(Icons.policy_outlined),
+            style: ListTileStyle.drawer,
+            title: Text(context.l10n.drawerTermsTileLabel),
+            onTap: () {},
+          ),
+          const SizedBox(height: 10),
           divider,
+          ListTile(
+            style: ListTileStyle.drawer,
+            leading: const Icon(Icons.settings_applications),
+            title: Text(context.l10n.drawerPreferencesTileLabel),
+          ),
           SwitchListTile.adaptive(
             dense: true,
             value: context.isDarkMode,
@@ -91,7 +122,7 @@ class CustomDrawer extends StatelessWidget {
             title: Text(context.l10n.drawerLanguageBtnLabel),
           ),
           const _LanguageTile(),
-          const SizedBox(height: 50),
+          const SizedBox(height: 10),
         ],
       ),
     );

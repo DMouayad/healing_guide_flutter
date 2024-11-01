@@ -32,7 +32,10 @@
     "@drawerLogoutBtnLabel": {},
     "drawerDarkModeSwitchTitle": "Dark mode",
     "drawerLanguageBtnLabel": "Language",
-    "drawerSettingsTileLabel": "Preferences",
+    "drawerPreferencesTileLabel": "Preferences",
+    "drawerFAQTileLabel": "FAQ",
+    "drawerContactUsTileLabel": "Contact Us",
+    "drawerTermsTileLabel": "Terms and Conditions",
     "loginFailureDialogTitle": "Login Failed!",
     "@loginFailureDialogTitle": {
         "description": "The title of the `ErrorDialog` shown after a failed login attempt"
