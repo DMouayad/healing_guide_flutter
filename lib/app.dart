@@ -5,8 +5,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:healing_guide_flutter/features/auth/repositories.dart';
 import 'package:healing_guide_flutter/routes/router.dart';
 import 'package:healing_guide_flutter/features/theme/app_theme.dart';
+import 'package:healing_guide_flutter/routes/routes.dart';
 
 import 'features/auth/cubit/auth_state_cubit.dart';
+import 'features/auth/models/auth_state.dart';
 import 'features/localization/cubit/localization_cubit.dart';
 import 'features/theme/theme_cubit.dart';
 
@@ -28,7 +30,14 @@ class MainApp extends StatelessWidget {
             create: (_) => AuthStateCubit(authRepository)..init(),
           ),
         ],
-        child: const MainAppView(),
+        child: BlocListener<AuthStateCubit, AuthState>(
+          // This listener is added to redirect user to home screen when
+          // `AuthState` is at an unventilated state
+          listener: (context, state) =>
+              router.pushReplacement(const HomeScreenRoute().location),
+          listenWhen: (prev, current) => current.isUnauthenticated(),
+          child: const MainAppView(),
+        ),
       ),
     );
   }
