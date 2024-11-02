@@ -1,21 +1,24 @@
 part of 'signup_cubit.dart';
 
-sealed class SignupState {
+sealed class SignupState extends Equatable {
   const SignupState({required this.isBusy, this.dto});
   final bool isBusy;
   final UserRegistrationDTO? dto;
+
+  @override
+  List<Object?> get props => [isBusy, dto];
 }
 
 final class SignupIdleState extends SignupState {
-  SignupIdleState() : super(isBusy: false);
+  const SignupIdleState() : super(isBusy: false);
 }
 
 final class SignupBusyState extends SignupState {
-  SignupBusyState() : super(isBusy: true);
+  const SignupBusyState() : super(isBusy: true);
 }
 
 final class SignupPendingPhoneVerificationState extends SignupState {
-  SignupPendingPhoneVerificationState({required UserRegistrationDTO dto})
+  const SignupPendingPhoneVerificationState({required UserRegistrationDTO dto})
       : super(isBusy: false, dto: dto);
 
   @override
@@ -23,10 +26,12 @@ final class SignupPendingPhoneVerificationState extends SignupState {
 }
 
 final class SignupSuccessState extends SignupState {
-  SignupSuccessState() : super(isBusy: false);
+  const SignupSuccessState() : super(isBusy: false);
 }
 
 final class SignupFailureState extends SignupState {
   final AppException appException;
   const SignupFailureState(this.appException) : super(isBusy: false);
+  @override
+  List<Object?> get props => [appException, ...super.props];
 }

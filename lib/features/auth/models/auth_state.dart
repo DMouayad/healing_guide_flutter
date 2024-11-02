@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:healing_guide_flutter/features/user/models.dart';
 
-@Equatable()
-final class AuthState {
+final class AuthState extends Equatable {
   const AuthState._({this.user});
   final User? user;
 
@@ -21,4 +20,7 @@ final class AuthState {
         ? 'AuthState.authenticated'
         : 'AuthState.unauthenticated';
   }
+
+  @override
+  List<Object?> get props => [user];
 }

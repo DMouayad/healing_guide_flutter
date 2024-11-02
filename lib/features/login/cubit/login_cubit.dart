@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healing_guide_flutter/exceptions/app_exception.dart';
 import 'package:healing_guide_flutter/features/auth/repositories.dart';
@@ -11,7 +12,7 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit(this._authRepository)
       : formHelper = LoginFormHelper(),
-        super(LoginIdleState());
+        super(const LoginIdleState());
 
   final AuthRepository _authRepository;
   final LoginFormHelper formHelper;
@@ -20,20 +21,20 @@ class LoginCubit extends Cubit<LoginState> {
     if (!formHelper.validateInput()) {
       return;
     }
-    emit(LoginBusyState());
+    emit(const LoginBusyState());
     try {
       await _authRepository.logIn(UserLoginDTO(
         password: formHelper.passwordValue,
         email: formHelper.emailValue,
       ));
-      emit(LoginSuccessState());
+      emit(const LoginSuccessState());
     } catch (e) {
       AppException appException =
           e is AppException ? e : AppException.undefined;
       emit(LoginFailureState(appException));
     } finally {
       if (state.isBusy) {
-        emit(LoginIdleState());
+        emit(const LoginIdleState());
       }
     }
   }

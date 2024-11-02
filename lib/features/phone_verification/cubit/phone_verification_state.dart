@@ -1,6 +1,6 @@
 part of 'phone_verification_cubit.dart';
 
-sealed class PhoneVerificationState {
+sealed class PhoneVerificationState extends Equatable {
   const PhoneVerificationState({
     required this.digits,
     required this.isBusy,
@@ -26,6 +26,9 @@ sealed class PhoneVerificationState {
   String toString() {
     return '$runtimeType(isBusy:$isBusy, lastRequestCodeAt:$lastRequestedCodeAt, digits:${digits.values.join("-")})';
   }
+
+  @override
+  List<Object?> get props => [isBusy, digits, lastRequestedCodeAt];
 }
 
 final class PhoneVerificationUserInputState extends PhoneVerificationState {
@@ -51,5 +54,9 @@ final class PhoneVerificationFailureState extends PhoneVerificationState {
     required super.digits,
     required super.lastRequestedCodeAt,
   }) : super(isBusy: true);
+
   final AppException appException;
+
+  @override
+  List<Object?> get props => [appException, ...super.props];
 }

@@ -1,9 +1,11 @@
 part of 'user_profile_cubit.dart';
 
-@Equatable()
-class UserProfileState {
+class UserProfileState extends Equatable {
   final bool isBusy;
   const UserProfileState({required this.isBusy});
+
+  @override
+  List<Object?> get props => [isBusy];
 }
 
 final class UserProfileInitial extends UserProfileState {
@@ -21,8 +23,10 @@ class LogoutInProgressState extends UserProfileInProgressState {
 class UserProfileFailureState extends UserProfileState {
   final AppException appException;
   const UserProfileFailureState(this.appException) : super(isBusy: false);
+  @override
+  List<Object?> get props => [appException, ...super.props];
 }
 
 class LogoutFailureState extends UserProfileFailureState {
-  LogoutFailureState(super.appException);
+  const LogoutFailureState(super.appException);
 }

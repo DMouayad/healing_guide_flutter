@@ -2,8 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'role.dart';
 
-@Equatable()
-class User {
+class User extends Equatable {
   final int id;
   final Role role;
   final bool activated;
@@ -14,7 +13,7 @@ class User {
   final DateTime? phoneNumberVerifiedAt;
   final DateTime createdAt;
 
-  User({
+  const User({
     required this.id,
     required this.role,
     required this.activated,
@@ -25,4 +24,17 @@ class User {
     required this.phoneNumberVerifiedAt,
     required this.createdAt,
   });
+
+  @override
+  List<Object?> get props => [
+        id,
+        role,
+        activated,
+        email,
+        phoneNumber,
+        fullName,
+        emailVerifiedAt,
+        phoneNumberVerifiedAt,
+        createdAt
+      ];
 }

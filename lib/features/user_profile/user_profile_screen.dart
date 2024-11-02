@@ -13,7 +13,6 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const gap = SizedBox(height: 10);
-    const divider = Divider(color: AppTheme.dividerColor);
     return BlocProvider(
       create: (context) => UserProfileCubit(context.read()),
       child: BlocConsumer<UserProfileCubit, UserProfileState>(
