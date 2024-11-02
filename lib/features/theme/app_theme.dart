@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppTheme {
   static const kFontFamily = 'almarai';
@@ -33,6 +34,8 @@ class AppTheme {
     filledButtonTheme: _filledButtonThemeData,
   );
   static final darkThemeData = ThemeData(
+    appBarTheme:
+        const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
     brightness: Brightness.dark,
     colorScheme: _darkColorScheme,
     fontFamily: kFontFamily,

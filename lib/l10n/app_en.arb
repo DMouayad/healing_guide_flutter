@@ -35,11 +35,12 @@
     "fAQTileLabel": "FAQ",
     "contactUsTileLabel": "Contact Us",
     "termsTileLabel": "Terms and Conditions",
-    "userProfileScreenTitle": "Personal Profile",
+    "userProfileScreenTitle": "Profile",
     "accountSettingsTileLabel": "Account Settings",
     "deleteAccountBtnLabel": "Delete my account",
     "changePasswordBtnLabel": "Change password",
     "logoutFailureDialogTitle": "Logout Failed!",
+    "publicProfileSettingsTileLabel": "Personal Info",
     "drawerAboutTheAppTile": "About the app",
     "loginFailureDialogTitle": "Login Failed!",
     "@loginFailureDialogTitle": {

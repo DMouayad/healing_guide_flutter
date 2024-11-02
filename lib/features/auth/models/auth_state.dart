@@ -12,6 +12,9 @@ final class AuthState {
   factory AuthState.unauthenticated() {
     return const AuthState._();
   }
+
+  bool isUnauthenticated() => user == null;
+
   @override
   String toString() {
     return user != null

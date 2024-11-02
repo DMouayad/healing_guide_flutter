@@ -21,21 +21,19 @@ class CustomDrawer extends StatelessWidget {
     const divider = Divider(color: AppTheme.dividerColor);
     return Drawer(
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
           children: [
             Expanded(
               flex: 0,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(25, 45, 25, 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                child: OverflowBar(
+                  alignment: MainAxisAlignment.start,
+                  spacing: 8,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: SvgPicture.asset('assets/images/logo.svg',
-                          height: 55),
-                    ),
+                    SvgPicture.asset('assets/images/logo.svg', height: 40),
                     Text(
                       context.l10n.appName,
                       textAlign: TextAlign.center,
@@ -50,15 +48,11 @@ class CustomDrawer extends StatelessWidget {
               builder: (context, state) {
                 return state.user != null
                     ? ListTile(
-                        minTileHeight: 65,
-                        iconColor: context.colorScheme.primary,
-                        textColor: context.colorScheme.primary,
-                        leading: const Icon(Icons.person),
+                        leading: const Icon(Icons.person_outline),
                         style: ListTileStyle.drawer,
                         title: Text(context.l10n.drawerProfileIBtnLabel),
-                        onTap: () {
-                          //TODO: UserProfileScreenRoute().push(context);
-                        },
+                        onTap: () =>
+                            const UserProfileScreenRoute().push(context),
                       )
                     : ListTile(
                         iconColor: context.colorScheme.primary,
@@ -66,10 +60,11 @@ class CustomDrawer extends StatelessWidget {
                         style: ListTileStyle.drawer,
                         title: Text(context.l10n.loginBtnLabel),
                         leading: const Icon(Icons.login_rounded),
-                        onTap: () => LoginScreenRoute(
-                          //TODO: redirect to UserProfileScreenRoute
-                          redirectTo: HomeScreenRoute().location,
-                        ).push(context),
+                        onTap: () {
+                          LoginScreenRoute(
+                            redirectTo: const UserProfileScreenRoute().location,
+                          ).push(context);
+                        },
                       );
               },
             ),
@@ -81,7 +76,6 @@ class CustomDrawer extends StatelessWidget {
             ),
             const Spacer(),
             divider,
-
             SwitchListTile.adaptive(
               dense: true,
               value: context.isDarkMode,
