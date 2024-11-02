@@ -10,7 +10,7 @@ final class ApiAuthRepository extends AuthRepository {
   }
 
   @override
-  void logOut() {
+  Future<void> logOut() async {
     // TODO: implement logOut
   }
 

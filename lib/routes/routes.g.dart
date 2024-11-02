@@ -11,6 +11,7 @@ List<RouteBase> get $appRoutes => [
       $loginScreenRoute,
       $signupScreenRoute,
       $phoneVerificationScreenRoute,
+      $userProfileScreenRoute,
     ];
 
 RouteBase get $homeScreenRoute => GoRouteData.$route(
@@ -19,7 +20,8 @@ RouteBase get $homeScreenRoute => GoRouteData.$route(
     );
 
 extension $HomeScreenRouteExtension on HomeScreenRoute {
-  static HomeScreenRoute _fromState(GoRouterState state) => HomeScreenRoute();
+  static HomeScreenRoute _fromState(GoRouterState state) =>
+      const HomeScreenRoute();
 
   String get location => GoRouteData.$location(
         '/',
@@ -123,4 +125,27 @@ extension $PhoneVerificationScreenRouteExtension
 
   void replace(BuildContext context) =>
       context.replace(location, extra: $extra);
+}
+
+RouteBase get $userProfileScreenRoute => GoRouteData.$route(
+      path: '/user-profile',
+      factory: $UserProfileScreenRouteExtension._fromState,
+    );
+
+extension $UserProfileScreenRouteExtension on UserProfileScreenRoute {
+  static UserProfileScreenRoute _fromState(GoRouterState state) =>
+      const UserProfileScreenRoute();
+
+  String get location => GoRouteData.$location(
+        '/user-profile',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
 }

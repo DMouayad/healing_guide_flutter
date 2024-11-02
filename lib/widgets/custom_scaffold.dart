@@ -7,6 +7,8 @@ class CustomScaffold extends StatelessWidget {
     super.key,
     this.loadingBarrierText,
     this.bodyPadding,
+    this.appBarActions,
+    this.title,
     required this.showLoadingBarrier,
     required this.body,
   });
@@ -14,16 +16,22 @@ class CustomScaffold extends StatelessWidget {
   final bool showLoadingBarrier;
   final Widget body;
   final EdgeInsets? bodyPadding;
+  final List<Widget>? appBarActions;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Scaffold(
+          backgroundColor: context.colorScheme.surface,
           appBar: context.canPop()
               ? AppBar(
                   backgroundColor: context.colorScheme.surface,
                   surfaceTintColor: context.colorScheme.surface,
+                  actions: appBarActions,
+                  title: title != null ? Text(title!) : null,
+                  centerTitle: true,
                 )
               : null,
           body: SafeArea(
@@ -34,7 +42,7 @@ class CustomScaffold extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: false,
+          visible: showLoadingBarrier,
           child: _LoadingBarrier(text: loadingBarrierText),
         ),
       ],

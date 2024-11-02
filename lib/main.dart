@@ -29,7 +29,9 @@ Future<void> main() async {
   );
 
   Bloc.observer = AppBlocObserver();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  if (!kIsWeb) {
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
 
   runApp(await _bootstrap());
 }

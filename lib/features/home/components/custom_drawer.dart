@@ -18,81 +18,90 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const divider = Divider(color: AppTheme.lightGreyColor);
+    const divider = Divider(color: AppTheme.dividerColor);
     return Drawer(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(25, 45, 25, 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: SvgPicture.asset('assets/images/logo.svg', height: 65),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 0,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(25, 45, 25, 30),
+                child: OverflowBar(
+                  alignment: MainAxisAlignment.start,
+                  spacing: 8,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SvgPicture.asset('assets/images/logo.svg', height: 40),
+                    Text(
+                      context.l10n.appName,
+                      textAlign: TextAlign.center,
+                      style: context.myTxtTheme.titleMedium,
+                    ),
+                  ],
                 ),
-                Text(
-                  context.l10n.appName,
-                  textAlign: TextAlign.center,
-                  style: context.myTxtTheme.titleLarge,
-                ),
-              ],
+              ),
             ),
-          ),
-          divider,
-          BlocBuilder<AuthStateCubit, AuthState>(
-            builder: (context, state) {
-              return state.user != null
-                  ? ListTile(
-                      minTileHeight: 65,
-                      leading: const Icon(Icons.person_outline_rounded),
-                      style: ListTileStyle.drawer,
-                      title: Text(context.l10n.drawerProfileIBtnLabel),
-                      onTap: () {
-                        //TODO: UserProfileScreenRoute().push(context);
-                      },
-                    )
-                  : ListTile(
-                      title: Text(context.l10n.loginBtnLabel),
-                      leading: const Icon(Icons.login_rounded),
-                      onTap: () => LoginScreenRoute(
-                        //TODO: redirect to UserProfileScreenRoute
-                        redirectTo: HomeScreenRoute().location,
-                      ).push(context),
-                    );
-            },
-          ),
-          const Spacer(),
-          ListTile(
-            leading: const Icon(Icons.settings_applications),
-            title: Text(context.l10n.drawerSettingsTileLabel),
-          ),
-          divider,
-          SwitchListTile.adaptive(
-            dense: true,
-            value: context.isDarkMode,
-            title: Row(
-              children: [
-                const Icon(Icons.dark_mode_outlined),
-                const SizedBox(width: 12),
-                Text(context.l10n.drawerDarkModeSwitchTitle),
-              ],
+            // divider,
+            BlocBuilder<AuthStateCubit, AuthState>(
+              builder: (context, state) {
+                return state.user != null
+                    ? ListTile(
+                        leading: const Icon(Icons.person_outline),
+                        style: ListTileStyle.drawer,
+                        title: Text(context.l10n.drawerProfileIBtnLabel),
+                        onTap: () =>
+                            const UserProfileScreenRoute().push(context),
+                      )
+                    : ListTile(
+                        iconColor: context.colorScheme.primary,
+                        textColor: context.colorScheme.primary,
+                        style: ListTileStyle.drawer,
+                        title: Text(context.l10n.loginBtnLabel),
+                        leading: const Icon(Icons.login_rounded),
+                        onTap: () {
+                          LoginScreenRoute(
+                            redirectTo: const UserProfileScreenRoute().location,
+                          ).push(context);
+                        },
+                      );
+              },
             ),
-            onChanged: (darkModeEnabled) {
-              darkModeEnabled
-                  ? context.read<ThemeCubit>().toggleDarkMode()
-                  : context.read<ThemeCubit>().toggleLightMode();
-            },
-          ),
-          const SizedBox(height: 5),
-          ListTile(
-            dense: true,
-            leading: const Icon(Icons.language_outlined),
-            title: Text(context.l10n.drawerLanguageBtnLabel),
-          ),
-          const _LanguageTile(),
-          const SizedBox(height: 50),
-        ],
+            ListTile(
+              leading: const Icon(Icons.info_outline),
+              style: ListTileStyle.drawer,
+              title: Text(context.l10n.drawerAboutTheAppTile),
+              onTap: () {},
+            ),
+            const Spacer(),
+            divider,
+            SwitchListTile.adaptive(
+              dense: true,
+              value: context.isDarkMode,
+              title: Row(
+                children: [
+                  const Icon(Icons.dark_mode_outlined),
+                  const SizedBox(width: 12),
+                  Text(context.l10n.drawerDarkModeSwitchTitle),
+                ],
+              ),
+              onChanged: (darkModeEnabled) {
+                darkModeEnabled
+                    ? context.read<ThemeCubit>().toggleDarkMode()
+                    : context.read<ThemeCubit>().toggleLightMode();
+              },
+            ),
+            const SizedBox(height: 5),
+            ListTile(
+              dense: true,
+              leading: const Icon(Icons.language_outlined),
+              title: Text(context.l10n.drawerLanguageBtnLabel),
+            ),
+            const _LanguageTile(),
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }

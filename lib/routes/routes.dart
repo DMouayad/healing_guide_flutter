@@ -6,12 +6,14 @@ import 'package:healing_guide_flutter/features/phone_verification/phone_verifica
 import 'package:healing_guide_flutter/features/signup/cubit/signup_cubit.dart';
 import 'package:healing_guide_flutter/features/signup/signup_screen.dart';
 import 'package:healing_guide_flutter/features/user/models.dart';
+import 'package:healing_guide_flutter/features/user_profile/user_profile_screen.dart';
 
 part 'routes.g.dart';
 
 @TypedGoRoute<HomeScreenRoute>(path: '/')
 @immutable
 class HomeScreenRoute extends GoRouteData {
+  const HomeScreenRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const HomeScreen();
@@ -50,5 +52,16 @@ class PhoneVerificationScreenRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return PhoneVerificationScreen(signupCubit: $extra);
+  }
+}
+
+@TypedGoRoute<UserProfileScreenRoute>(path: '/user-profile')
+@immutable
+class UserProfileScreenRoute extends GoRouteData {
+  const UserProfileScreenRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const UserProfileScreen();
   }
 }
