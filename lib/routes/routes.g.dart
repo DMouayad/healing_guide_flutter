@@ -12,6 +12,7 @@ List<RouteBase> get $appRoutes => [
       $signupScreenRoute,
       $phoneVerificationScreenRoute,
       $userProfileScreenRoute,
+      $searchScreenRoute,
     ];
 
 RouteBase get $homeScreenRoute => GoRouteData.$route(
@@ -148,4 +149,30 @@ extension $UserProfileScreenRouteExtension on UserProfileScreenRoute {
       context.pushReplacement(location);
 
   void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $searchScreenRoute => GoRouteData.$route(
+      path: '/search',
+      factory: $SearchScreenRouteExtension._fromState,
+    );
+
+extension $SearchScreenRouteExtension on SearchScreenRoute {
+  static SearchScreenRoute _fromState(GoRouterState state) => SearchScreenRoute(
+        state.extra as SearchCubit,
+      );
+
+  String get location => GoRouteData.$location(
+        '/search',
+      );
+
+  void go(BuildContext context) => context.go(location, extra: $extra);
+
+  Future<T?> push<T>(BuildContext context) =>
+      context.push<T>(location, extra: $extra);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location, extra: $extra);
+
+  void replace(BuildContext context) =>
+      context.replace(location, extra: $extra);
 }

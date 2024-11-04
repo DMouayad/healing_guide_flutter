@@ -32,12 +32,10 @@ class MyTextTheme {
 
   TextStyle get bodyLarge => TextStyle(
         fontSize: context.textTheme.bodyLarge?.fontSize,
-        color: AppTheme.secondaryTextColor,
       );
 
   TextStyle get bodyMedium => TextStyle(
         fontSize: context.textTheme.bodyMedium?.fontSize,
-        color: AppTheme.secondaryTextColor,
         fontFamily: AppTheme.kFontFamily,
       );
 

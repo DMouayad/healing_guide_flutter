@@ -42,6 +42,18 @@
     "logoutFailureDialogTitle": "Logout Failed!",
     "publicProfileSettingsTileLabel": "Personal Info",
     "drawerAboutTheAppTile": "About the app",
+    "searchScreenTitle": "Search in Healing Guide",
+    "doctorSearchFilter": "Doctors",
+    "facilitySearchFilter": "Medical Facilities",
+    "allSearchFilter": "All",
+    "searchSheetTitle": "Filter search results",
+    "citySearchFilterPopupLabel": "City",
+    "specialtySearchFilterPopupLabel": "Medical specialty",
+    "categorySearchFilterPopupLabel": "Category",
+    "editFiltersBtnLabel": "Edit",
+    "applyFiltersBtnLabel": "Apply",
+    "applyFilters": "Apply",
+    "removeFilters": "Remove all",
     "loginFailureDialogTitle": "Login Failed!",
     "@loginFailureDialogTitle": {
         "description": "The title of the `ErrorDialog` shown after a failed login attempt"

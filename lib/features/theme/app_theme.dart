@@ -25,6 +25,17 @@ class AppTheme {
       ),
     ),
   );
+  static _outlinedButtonThemeData(Color primary) => OutlinedButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: WidgetStatePropertyAll(primary),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              side: BorderSide(color: primary),
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
+      );
 
   static final lightThemeData = ThemeData(
     brightness: Brightness.light,
@@ -32,6 +43,8 @@ class AppTheme {
     scaffoldBackgroundColor: _lightColorScheme.surface,
     fontFamily: kFontFamily,
     filledButtonTheme: _filledButtonThemeData,
+    outlinedButtonTheme: _outlinedButtonThemeData(_lightColorScheme.primary),
+    dividerColor: dividerColor,
   );
   static final darkThemeData = ThemeData(
     appBarTheme:
@@ -40,6 +53,8 @@ class AppTheme {
     colorScheme: _darkColorScheme,
     fontFamily: kFontFamily,
     filledButtonTheme: _filledButtonThemeData,
+    outlinedButtonTheme: _outlinedButtonThemeData(_darkColorScheme.primary),
+    dividerColor: dividerColor,
   );
 
   static const redColor = Color(0xFFC92A22);
@@ -47,4 +62,5 @@ class AppTheme {
   static const dividerColor = Color(0xFF969696);
   static const secondaryTextColor = Color(0xFF8C8C8C);
   static const textFieldBorderColor = Color(0xFFD0D0D0);
+  static const subTextColor = Color(0xFF9AA0BD);
 }

@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:healing_guide_flutter/features/home/home_screen.dart';
 import 'package:healing_guide_flutter/features/login/login_screen.dart';
 import 'package:healing_guide_flutter/features/phone_verification/phone_verification_screen.dart';
+import 'package:healing_guide_flutter/features/search/cubit/search_cubit.dart';
+import 'package:healing_guide_flutter/features/search/search_screen.dart';
 import 'package:healing_guide_flutter/features/signup/cubit/signup_cubit.dart';
 import 'package:healing_guide_flutter/features/signup/signup_screen.dart';
 import 'package:healing_guide_flutter/features/user/models.dart';
@@ -63,5 +65,17 @@ class UserProfileScreenRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const UserProfileScreen();
+  }
+}
+
+@TypedGoRoute<SearchScreenRoute>(path: '/search')
+@immutable
+class SearchScreenRoute extends GoRouteData {
+  const SearchScreenRoute(this.$extra);
+  final SearchCubit $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SearchScreen(searchCubit: $extra);
   }
 }
