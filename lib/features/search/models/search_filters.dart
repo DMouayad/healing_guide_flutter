@@ -80,33 +80,29 @@ final class SearchFilters extends Equatable {
 final class SearchFilter extends Equatable {
   final String filterValue;
   final String filterName;
-  final bool asc;
 
   const SearchFilter._({
     required this.filterValue,
     required this.filterName,
-    required this.asc,
   });
-  static const cityFilterValue = 'city';
-  static const specialtyFilterValue = 'specialty';
+  static const cityFilterName = 'city';
+  static const specialtyFilterName = 'specialty';
 
   factory SearchFilter.specialtyFilter(
       {required String filterValue, bool asc = true}) {
     return SearchFilter._(
-        filterValue: filterValue, filterName: specialtyFilterValue, asc: asc);
+        filterValue: filterValue, filterName: specialtyFilterName);
   }
 
   factory SearchFilter.cityFilter(
       {required String filterValue, bool asc = true}) {
-    return SearchFilter._(
-        filterValue: filterValue, filterName: cityFilterValue, asc: asc);
+    return SearchFilter._(filterValue: filterValue, filterName: cityFilterName);
   }
 
   Map<String, dynamic> toJson() {
     return {
       "filterValue": filterValue,
       "filterName": filterName,
-      "asc": asc,
     };
   }
 
@@ -115,14 +111,16 @@ final class SearchFilter extends Equatable {
         case ({
           "filterName": String filterName,
           "filterValue": String filterValue,
-          "asc": bool asc,
         })) {
-      return SearchFilter._(
-          filterValue: filterValue, filterName: filterName, asc: asc);
+      return SearchFilter._(filterValue: filterValue, filterName: filterName);
     }
     return null;
   }
 
+  String asUrlParam() {
+    return '$filterName=$filterValue';
+  }
+
   @override
-  List<Object?> get props => [filterName, filterValue, asc];
+  List<Object?> get props => [filterName, filterValue];
 }
