@@ -36,7 +36,7 @@ class CustomSearchBar extends StatelessWidget {
             bloc: cubit,
             buildWhen: (prev, current) =>
                 (prev.isBusy != current.isBusy) ||
-                prev.isEditingFilters != current.isEditingFilters,
+                (prev.isEditingFilters != current.isEditingFilters),
             builder: (context, state) {
               return ExcludeFocus(
                 excluding: !inSearchScreen || state.isEditingFilters,
@@ -61,6 +61,20 @@ class CustomSearchBar extends StatelessWidget {
                     hintStyle: context.myTxtTheme.bodySmall,
                     prefixIcon: const Icon(Icons.search_outlined),
                     contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                    suffixIcon: !inSearchScreen
+                        ? null
+                        : IconButton(
+                            onPressed: state.isEditingFilters
+                                ? cubit.onExitEditingFilters
+                                : cubit.onEnterEditingFilters,
+                            iconSize: 26,
+                            icon: Icon(
+                              state.isEditingFilters
+                                  ? Icons.filter_alt_off_outlined
+                                  : Icons.filter_alt_outlined,
+                              color: context.colorScheme.primary,
+                            ),
+                          ),
                   ),
                 ),
               );

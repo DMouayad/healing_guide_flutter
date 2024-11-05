@@ -56,7 +56,11 @@ class SearchCubit extends Cubit<SearchState> {
     };
   }
 
-  void onEditingFilters(bool isEditingMode) {
-    emit(state.copyWith(isEditingFilters: isEditingMode));
+  void onEnterEditingFilters() {
+    emit(state.copyWith(isEditingFilters: true));
+  }
+
+  void onExitEditingFilters() {
+    emit(state.copyWith(isEditingFilters: false));
   }
 }

@@ -46,7 +46,7 @@
     "doctorSearchFilter": "Doctors",
     "facilitySearchFilter": "Medical Facilities",
     "allSearchFilter": "All",
-    "searchSheetTitle": "Filter search results",
+    "searchFiltersSectionTitle": "Filters",
     "citySearchFilterPopupLabel": "City",
     "specialtySearchFilterPopupLabel": "Medical specialty",
     "categorySearchFilterPopupLabel": "Category",

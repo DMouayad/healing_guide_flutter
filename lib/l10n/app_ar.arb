@@ -27,7 +27,7 @@
     "doctorSearchFilter": "الأطباء",
     "facilitySearchFilter": "المنشآت الطبية",
     "allSearchFilter": "الكل",
-    "searchSheetTitle": "فلترة نتائج البحث",
+    "searchFiltersSectionTitle": "يتم تصفية النتائج حسب:",
     "removeFilters": "مسح الكل",
     "applyFilters": "تطبيق",
     "citySearchFilterPopupLabel": "المدينة",
