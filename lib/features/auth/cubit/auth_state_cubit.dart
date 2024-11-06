@@ -1,12 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:healing_guide_flutter/features/auth/repositories.dart';
 
 import '../models/auth_state.dart';
 
 class AuthStateCubit extends Cubit<AuthState> {
-  final AuthRepository _authRepository;
+  AuthRepository get _authRepository => GetIt.I.get();
 
-  AuthStateCubit(this._authRepository) : super(AuthState.unauthenticated()) {
+  AuthStateCubit() : super(AuthState.unauthenticated()) {
     _authRepository.status.listen(_onAuthRepoStateChange);
   }
 

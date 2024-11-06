@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:get_it/get_it.dart';
 import 'package:healing_guide_flutter/exceptions/app_exception.dart';
 import 'package:healing_guide_flutter/features/auth/repositories.dart';
 import 'package:healing_guide_flutter/features/signup/signup_form_helper.dart';
@@ -11,18 +12,15 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 part 'signup_state.dart';
 
 class SignupCubit extends HydratedCubit<SignupState> {
-  late final AuthRepository _authRepository;
   late final SignupFormHelper formHelper;
   final Role signupAs;
 
-  SignupCubit({required this.signupAs, required AuthRepository authRepository})
-      : super(const SignupIdleState()) {
+  SignupCubit({required this.signupAs}) : super(const SignupIdleState()) {
     formHelper = SignupFormHelper(
       emailInitialValue: state.dto?.email,
       fullNameInitialValue: state.dto?.fullName,
       phoneInitialValue: state.dto?.phoneNumber,
     );
-    _authRepository = authRepository;
   }
   void onSignupFormSubmit() {
     if (!formHelper.validateInput()) {
@@ -52,7 +50,7 @@ class SignupCubit extends HydratedCubit<SignupState> {
     }
     emit(const SignupBusyState());
     try {
-      await _authRepository.register(currentState.dto);
+      await GetIt.I.get<AuthRepository>().register(currentState.dto);
       emit(const SignupSuccessState());
     } catch (e) {
       AppException appException =

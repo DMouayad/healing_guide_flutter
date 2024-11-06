@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:healing_guide_flutter/features/auth/repositories.dart';
 import 'package:healing_guide_flutter/features/user/models/role.dart';
 import 'package:healing_guide_flutter/routes/routes.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
@@ -23,7 +22,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(context.read<AuthRepository>()),
+      create: (context) => LoginCubit(),
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           switch (state) {

@@ -14,7 +14,7 @@ class UserProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     const gap = SizedBox(height: 10);
     return BlocProvider(
-      create: (context) => UserProfileCubit(context.read()),
+      create: (context) => UserProfileCubit(),
       child: BlocConsumer<UserProfileCubit, UserProfileState>(
         listener: (context, state) {
           if (state is LogoutFailureState) {
