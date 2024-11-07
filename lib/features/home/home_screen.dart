@@ -45,12 +45,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Builder(builder: (context) {
-                      return CustomSearchBar(
-                        inSearchScreen: false,
-                        cubit: context.read(),
-                      );
-                    }),
+                    const FakeSearchBar(),
                   ],
                 ),
               ),

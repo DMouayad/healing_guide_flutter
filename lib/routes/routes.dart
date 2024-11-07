@@ -71,11 +71,10 @@ class UserProfileScreenRoute extends GoRouteData {
 @TypedGoRoute<SearchScreenRoute>(path: '/search')
 @immutable
 class SearchScreenRoute extends GoRouteData {
-  const SearchScreenRoute(this.$extra);
-  final SearchCubit $extra;
+  const SearchScreenRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SearchScreen(searchCubit: $extra);
+    return SearchScreen();
   }
 }

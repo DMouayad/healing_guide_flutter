@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -48,20 +46,6 @@ class SearchCubit extends Cubit<SearchState> {
   void applyFilters(SearchFilters filters) {
     emit(state.copyWith(filters: filters, isEditingFilters: false));
     _fetchResults();
-  }
-
-  SearchCubit fromJson(Map<String, dynamic> json) {
-    SearchState? initialState;
-    if (json case ({"state": Map<String, dynamic> stateJson})) {
-      initialState = SearchState.fromJson(stateJson);
-    }
-    return SearchCubit(initialState: initialState ?? _initialState);
-  }
-
-  Map<String, dynamic>? toJson() {
-    return {
-      "state": state.toJson(),
-    };
   }
 
   void onEnterEditingFilters() {

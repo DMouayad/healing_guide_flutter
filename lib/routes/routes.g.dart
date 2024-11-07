@@ -157,22 +157,19 @@ RouteBase get $searchScreenRoute => GoRouteData.$route(
     );
 
 extension $SearchScreenRouteExtension on SearchScreenRoute {
-  static SearchScreenRoute _fromState(GoRouterState state) => SearchScreenRoute(
-        state.extra as SearchCubit,
-      );
+  static SearchScreenRoute _fromState(GoRouterState state) =>
+      const SearchScreenRoute();
 
   String get location => GoRouteData.$location(
         '/search',
       );
 
-  void go(BuildContext context) => context.go(location, extra: $extra);
+  void go(BuildContext context) => context.go(location);
 
-  Future<T?> push<T>(BuildContext context) =>
-      context.push<T>(location, extra: $extra);
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
   void pushReplacement(BuildContext context) =>
-      context.pushReplacement(location, extra: $extra);
+      context.pushReplacement(location);
 
-  void replace(BuildContext context) =>
-      context.replace(location, extra: $extra);
+  void replace(BuildContext context) => context.replace(location);
 }

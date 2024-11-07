@@ -33,46 +33,6 @@ class SearchState extends Equatable {
       filters: filters ?? this.filters,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "isBusy": isBusy,
-      "isEditingFilters": isEditingFilters,
-      "searchTerm": searchTerm,
-      "results": jsonEncode(results.map((el) => el.toJson()).toList()),
-      "filters": filters.toJson(),
-    };
-  }
-
-  static SearchState? fromJson(Map<String, dynamic>? json) {
-    if (json
-        case ({
-          "searchTerm": String searchTerm,
-          "isBusy": bool isBusy,
-          "isEditingFilters": bool isEditingFilters,
-          "results": String resultsJson,
-          "filters": dynamic filtersJson,
-        })) {
-      var decodedResultsJson = jsonDecode(resultsJson);
-      final List<SearchResult> results =
-          decodedResultsJson is Iterable<Map<String, dynamic>>
-              ? decodedResultsJson
-                  .map(SearchResult.fromJson)
-                  .where((element) => element != null)
-                  .toList()
-                  .cast()
-              : [];
-
-      return SearchState(
-        searchTerm: searchTerm,
-        isBusy: isBusy,
-        isEditingFilters: isEditingFilters,
-        results: results,
-        filters: SearchFilters.fromJson(filtersJson) ?? const SearchFilters(),
-      );
-    }
-    return null;
-  }
 }
 
 class SearchErrorState extends SearchState {

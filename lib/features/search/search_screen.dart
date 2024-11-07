@@ -15,8 +15,7 @@ import 'widgets/search_result_sheet.dart';
 const _fetchFullInfoMinSheetHeightExtent = 0.9;
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key, required this.searchCubit});
-  final SearchCubit searchCubit;
+  const SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -72,8 +71,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: widget.searchCubit,
+    return BlocProvider(
+      create: (_) => SearchCubit(),
       child: Builder(
         builder: (context) {
           return Stack(
@@ -93,10 +92,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         child: Column(
                           children: [
-                            CustomSearchBar(
-                                inSearchScreen: true,
-                                cubit: widget.searchCubit),
-                            SearchFiltersSection(widget.searchCubit),
+                            const CustomSearchBar(),
+                            SearchFiltersSection(context.read()),
                             const SizedBox(height: 10),
                           ],
                         ),

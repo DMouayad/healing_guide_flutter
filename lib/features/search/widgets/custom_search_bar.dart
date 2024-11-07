@@ -7,79 +7,95 @@ import 'package:healing_guide_flutter/features/theme/app_theme.dart';
 import 'package:healing_guide_flutter/routes/routes.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
 
+class FakeSearchBar extends StatelessWidget {
+  const FakeSearchBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Hero(
+      tag: const Key('CustomSearchBar_Hero_Tag'),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 21.0),
+        child: Material(
+          type: MaterialType.transparency,
+          child: TextFormField(
+            onTap: () => const SearchScreenRoute().push(context),
+            decoration: InputDecoration(
+              filled: true,
+              isDense: false,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(6.0),
+                borderSide:
+                    const BorderSide(width: 2, color: Colors.transparent),
+              ),
+              fillColor: context.colorScheme.surface,
+              hintText: context.l10n.homeSearchBarHint,
+              hintStyle: context.myTxtTheme.bodySmall,
+              prefixIcon: const Icon(Icons.search_outlined),
+              contentPadding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class CustomSearchBar extends StatelessWidget {
-  const CustomSearchBar({
-    super.key,
-    required this.inSearchScreen,
-    required this.cubit,
-  });
-  final bool inSearchScreen;
-  final SearchCubit cubit;
+  const CustomSearchBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     final baseBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(6.0),
-      borderSide: BorderSide(
-          width: 2,
-          color: inSearchScreen ? AppTheme.lightGreyColor : Colors.transparent),
+      borderSide: const BorderSide(width: 2, color: AppTheme.lightGreyColor),
     );
+    final cubit = context.read<SearchCubit>();
     return Hero(
       tag: const Key('CustomSearchBar_Hero_Tag'),
       child: Material(
         type: MaterialType.transparency,
-        child: Padding(
-          padding: inSearchScreen
-              ? EdgeInsets.zero
-              : const EdgeInsets.symmetric(horizontal: 24.0),
-          child: BlocBuilder<SearchCubit, SearchState>(
-            bloc: cubit,
-            buildWhen: (prev, current) =>
-                (prev.isBusy != current.isBusy) ||
-                (prev.isEditingFilters != current.isEditingFilters),
-            builder: (context, state) {
-              return ExcludeFocus(
-                excluding: !inSearchScreen || state.isEditingFilters,
-                child: TextFormField(
-                  initialValue: state.searchTerm,
-                  onFieldSubmitted: (value) => cubit.searchFor(value),
-                  autofocus: inSearchScreen,
-                  enabled: !state.isBusy,
-                  onTap: inSearchScreen
-                      ? null
-                      : () => SearchScreenRoute(context.read()).push(context),
-                  decoration: InputDecoration(
-                    filled: true,
-                    isDense: false,
-                    enabledBorder: baseBorder,
-                    border: baseBorder,
-                    focusedBorder: baseBorder.copyWith(
-                        borderSide: BorderSide(
-                            color: context.colorScheme.primary, width: 2)),
-                    fillColor: context.colorScheme.surface,
-                    hintText: context.l10n.homeSearchBarHint,
-                    hintStyle: context.myTxtTheme.bodySmall,
-                    prefixIcon: const Icon(Icons.search_outlined),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                    suffixIcon: !inSearchScreen
-                        ? null
-                        : IconButton(
-                            onPressed: state.isEditingFilters
-                                ? cubit.onExitEditingFilters
-                                : cubit.onEnterEditingFilters,
-                            iconSize: 26,
-                            icon: Icon(
-                              state.isEditingFilters
-                                  ? Icons.filter_alt_off_outlined
-                                  : Icons.filter_alt_outlined,
-                              color: context.colorScheme.primary,
-                            ),
-                          ),
+        child: BlocBuilder<SearchCubit, SearchState>(
+          buildWhen: (prev, current) =>
+              (prev.isBusy != current.isBusy) ||
+              (prev.isEditingFilters != current.isEditingFilters),
+          builder: (context, state) {
+            return ExcludeFocus(
+              excluding: state.isEditingFilters,
+              child: TextFormField(
+                initialValue: state.searchTerm,
+                onFieldSubmitted: (value) => cubit.searchFor(value),
+                autofocus: true,
+                enabled: !state.isBusy,
+                decoration: InputDecoration(
+                  filled: true,
+                  isDense: false,
+                  enabledBorder: baseBorder,
+                  border: baseBorder,
+                  focusedBorder: baseBorder.copyWith(
+                      borderSide: BorderSide(
+                          color: context.colorScheme.primary, width: 2)),
+                  fillColor: context.colorScheme.surface,
+                  hintText: context.l10n.homeSearchBarHint,
+                  hintStyle: context.myTxtTheme.bodySmall,
+                  prefixIcon: const Icon(Icons.search_outlined),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                  suffixIcon: IconButton(
+                    onPressed: state.isEditingFilters
+                        ? cubit.onExitEditingFilters
+                        : cubit.onEnterEditingFilters,
+                    iconSize: 26,
+                    icon: Icon(
+                      state.isEditingFilters
+                          ? Icons.filter_alt_off_outlined
+                          : Icons.filter_alt_outlined,
+                      color: context.colorScheme.primary,
+                    ),
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
