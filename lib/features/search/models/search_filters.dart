@@ -14,12 +14,35 @@ enum SearchCategoryFilter {
       SearchCategoryFilter.all => context.l10n.allSearchFilter,
     };
   }
+
+  String asUrlParam() {
+    return switch (this) {
+      SearchCategoryFilter.doctors => 'physician',
+      SearchCategoryFilter.facilities => 'facilities',
+      SearchCategoryFilter.all => 'physician, facilities',
+    };
+  }
 }
 
 final class SearchFilters extends Equatable {
   final SearchFilter? cityFilter;
   final SearchFilter? specialtyFilter;
   final SearchCategoryFilter categoryFilter;
+
+  String asUrlParam({required bool withCategory}) {
+    var parts = <String>[];
+    if (withCategory) {
+      parts.add('type=${categoryFilter.asUrlParam()}');
+    }
+    if (categoryFilter != SearchCategoryFilter.facilities &&
+        specialtyFilter != null) {
+      parts.add(specialtyFilter!.asUrlParam());
+    }
+    if (cityFilter != null) {
+      parts.add(cityFilter!.asUrlParam());
+    }
+    return parts.join("&");
+  }
 
   const SearchFilters({
     this.cityFilter,

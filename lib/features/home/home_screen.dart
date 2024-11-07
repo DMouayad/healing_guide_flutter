@@ -6,8 +6,6 @@ import 'package:healing_guide_flutter/features/search/cubit/search_cubit.dart';
 import 'package:healing_guide_flutter/features/search/widgets/custom_search_bar.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
 
-final _searchCubit = SearchCubit();
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -15,8 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     const sliverGap24 = SliverPadding(padding: EdgeInsets.all(12));
     return BlocProvider(
-      create: (context) => _searchCubit,
-      lazy: false,
+      create: (context) => SearchCubit(),
       child: Scaffold(
         drawer: const CustomDrawer(),
         body: CustomScrollView(
@@ -48,7 +45,12 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    CustomSearchBar(inSearchScreen: false, cubit: _searchCubit),
+                    Builder(builder: (context) {
+                      return CustomSearchBar(
+                        inSearchScreen: false,
+                        cubit: context.read(),
+                      );
+                    }),
                   ],
                 ),
               ),

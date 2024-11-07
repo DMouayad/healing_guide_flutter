@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
 
@@ -7,6 +9,9 @@ enum AppException {
   /// - Call `getMessage(context)` to get the translated message of a thrown exception.
   // Connection & Internet
   noInternetConnectionFound,
+  locationServiceDisabled,
+  locationPermissionDenied,
+  locationPermissionDeniedPermanently,
   cannotConnectToServer,
   // Authorization
   unauthorized,
@@ -16,7 +21,9 @@ enum AppException {
   invalidLoginCredential,
   // API & HTTP requests
   invalidApiRequest,
+  apiServerError,
   // Misc
+  notFound,
   decodingJsonFailed,
 
   /// Indicates that an unknown error has occurred or an un expected exception
@@ -39,10 +46,24 @@ enum AppException {
       AppException.accountAlreadyExist => context.l10n.accountAlreadyExist,
       AppException.invalidLoginCredential =>
         context.l10n.invalidLoginCredential,
+      AppException.locationPermissionDenied =>
+        context.l10n.locationPermissionDenied,
+      AppException.locationPermissionDeniedPermanently =>
+        context.l10n.locationPermissionDeniedPermanently,
+      AppException.locationServiceDisabled =>
+        context.l10n.locationServiceDisabled,
       AppException.invalidApiRequest ||
-      AppException.decodingJsonFailed =>
+      AppException.apiServerError =>
         context.l10n.serverError,
-      AppException.undefined => context.l10n.undefinedException
+      _ => context.l10n.undefinedException,
+    };
+  }
+
+  factory AppException.fromHttpResponse(int statusCode) {
+    return switch (statusCode) {
+      HttpStatus.unauthorized => AppException.unauthenticated,
+      HttpStatus.notFound => AppException.notFound,
+      _ => AppException.apiServerError,
     };
   }
 }

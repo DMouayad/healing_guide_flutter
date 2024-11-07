@@ -1,10 +1,12 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:healing_guide_flutter/exceptions/app_exception.dart';
 import 'package:healing_guide_flutter/features/search/models/search_filters.dart';
 import 'package:healing_guide_flutter/features/search/models/search_result.dart';
+import 'package:healing_guide_flutter/features/search/repositories.dart';
 
 part 'search_state.dart';
 
@@ -12,22 +14,28 @@ const _initialState =
     SearchState(searchTerm: null, isBusy: false, isEditingFilters: false);
 
 class SearchCubit extends Cubit<SearchState> {
+  SearchRepository get _searchRepository => GetIt.I.get();
   SearchCubit({SearchState initialState = _initialState}) : super(initialState);
+
   void _fetchResults() {
     if (state.searchTerm?.isEmpty ?? true) {
       return;
     }
     emit(state.copyWith(isBusy: true));
-    print('searching for "${state.searchTerm}"');
-    Timer(
-      const Duration(seconds: 2),
-      () => emit(state.copyWith(isBusy: false)),
-    );
+    _searchRepository
+        .searchFor(state.searchTerm!, state.filters)
+        .then(
+            (results) => emit(state.copyWith(isBusy: false, results: results)))
+        .catchError((error) {
+      emit(SearchErrorState(appException: error, searchTerm: state.searchTerm));
+    });
   }
 
   void searchFor(String searchTerm) {
-    emit(state.copyWith(searchTerm: searchTerm));
-    _fetchResults();
+    if (searchTerm != state.searchTerm) {
+      emit(state.copyWith(searchTerm: searchTerm));
+      _fetchResults();
+    }
   }
 
   void setSearchCategory(SearchCategoryFilter categoryFilter) {

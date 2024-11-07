@@ -74,3 +74,12 @@ class SearchState extends Equatable {
     return null;
   }
 }
+
+class SearchErrorState extends SearchState {
+  const SearchErrorState(
+      {required this.appException, required super.searchTerm})
+      : super(isBusy: false, isEditingFilters: false);
+  final AppException appException;
+  @override
+  List<Object?> get props => [...super.props, appException];
+}

@@ -4,30 +4,11 @@ final class FakeSearchRepository extends SearchRepository {
   @override
   List<SearchResult> _decodeResponseBody(JsonObject json) {
     List<SearchResult> results = [];
-    if (json case {"facilities": List<JsonObject> facilitiesJson}) {
-      for (var facilityJson in facilitiesJson) {
-        if (facilityJson
-            case {
-              'id': String id,
-              'name': String name,
-              'location': String location,
-              'emergencyNumber': String emergencyNumber,
-              'phoneNumber': String phoneNumber,
-              'rating': int rating
-            }) {
-          results.add(SearchResult(
-            resourceId: id,
-            category: SearchResultCategory.facility,
-            title: name,
-            subTitle: '$phoneNumber | $emergencyNumber',
-            location: location,
-            stars: rating,
-            avatarImgUrl: kDefaultMedicalFacilityAvatarUrl,
-          ));
-        }
-      }
-    }
-    if (json case {"physicians": List<JsonObject> physiciansJson}) {
+    if (json
+        case {
+          "facilities": List<JsonObject> facilitiesJson,
+          "physicians": List<JsonObject> physiciansJson,
+        }) {
       for (var physicianJson in physiciansJson) {
         if (physicianJson
             case {
@@ -36,8 +17,8 @@ final class FakeSearchRepository extends SearchRepository {
               'location': String location,
               'dateOfBirth': String dateOfBirth,
               'isMale': bool isMale,
-              'languages': String languages,
-              'rating': int rating
+              'languages': Iterable<String> languages,
+              'rating': double rating
             }) {
           results.add(SearchResult(
             resourceId: id,
@@ -48,6 +29,27 @@ final class FakeSearchRepository extends SearchRepository {
             stars: rating,
             avatarImgUrl:
                 isMale ? kMalePhysicianAvatarUrl : kFemalePhysicianAvatarUrl,
+          ));
+        }
+      }
+      for (var facilityJson in facilitiesJson) {
+        if (facilityJson
+            case {
+              'id': String id,
+              'name': String name,
+              'location': String location,
+              'emergencyNumber': String emergencyNumber,
+              'phoneNumber': String phoneNumber,
+              'rating': double rating
+            }) {
+          results.add(SearchResult(
+            resourceId: id,
+            category: SearchResultCategory.facility,
+            title: name,
+            subTitle: '$phoneNumber | $emergencyNumber',
+            location: location,
+            stars: rating,
+            avatarImgUrl: kDefaultMedicalFacilityAvatarUrl,
           ));
         }
       }
@@ -68,7 +70,7 @@ final class FakeSearchRepository extends SearchRepository {
   @override
   Future<JsonObject> _searchDoctors(String searchTerm, SearchFilters filters) {
     return Future.delayed(const Duration(seconds: 2), () {
-      return {"physicians": _generatePhysicians(10)};
+      return {"physicians": _generatePhysicians(10), "facilities": []};
     });
   }
 
@@ -78,7 +80,7 @@ final class FakeSearchRepository extends SearchRepository {
     SearchFilters filters,
   ) {
     return Future.delayed(const Duration(seconds: 2), () {
-      return {"facilities": _generateMedicalFacilities(10)};
+      return {"facilities": _generateMedicalFacilities(10), "physicians": []};
     });
   }
 
@@ -113,7 +115,7 @@ final class FakeSearchRepository extends SearchRepository {
 
     return List.generate(count, (index) {
       return {
-        'id': index + 1,
+        'id': '${index + 1}',
         'name': names[random.nextInt(names.length)],
         'location':
             '${cities[random.nextInt(cities.length)]}, ${addresses[random.nextInt(addresses.length)]}',
@@ -156,7 +158,7 @@ final class FakeSearchRepository extends SearchRepository {
 
     return List.generate(count, (index) {
       return {
-        'id': index + 1,
+        'id': '${index + 1}',
         'name': names[random.nextInt(names.length)],
         'location': cities[random.nextInt(cities.length)],
         'dateOfBirth': DateTime(random.nextInt(100) + 1923,

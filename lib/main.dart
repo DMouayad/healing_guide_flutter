@@ -1,13 +1,15 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+
 import 'package:get_it/get_it.dart';
-import 'package:healing_guide_flutter/features/auth/repositories.dart';
-import 'package:healing_guide_flutter/features/user/repos/fake_user_repository.dart';
-import 'package:healing_guide_flutter/features/user/repos/user_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'features/auth/repositories.dart';
+import 'features/user/repos/fake_user_repository.dart';
+import 'features/user/repos/user_repository.dart';
+import 'features/search/repositories.dart';
 import 'utils/utils.dart';
 import 'app.dart';
 
@@ -18,6 +20,7 @@ Future<void> _bootstrap() async {
   GetIt.I.registerSingleton<AuthRepository>(
     FakeAuthRepository(GetIt.I.get<UserRepository>()),
   );
+  GetIt.I.registerSingleton<SearchRepository>(FakeSearchRepository());
 }
 
 Future<void> main() async {

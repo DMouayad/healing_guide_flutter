@@ -58,7 +58,7 @@ final class ApiSearchRepository extends SearchRepository {
             "name": String name,
             "phoneNumber": String phoneNumber,
             "emergencyNumber": String emergencyNumber,
-            "rating": int rating,
+            "rating": double rating,
           }) {
         results.add(SearchResult(
           resourceId: id,
@@ -83,7 +83,7 @@ final class ApiSearchRepository extends SearchRepository {
             "name": String name,
             "languages": String languages,
             "city": String city,
-            "rating": int rating,
+            "rating": double rating,
             "biography": String biography,
             "isMale": bool isMale,
             "dateOfBirth": String dateOfBirth,
