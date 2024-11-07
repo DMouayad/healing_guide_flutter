@@ -18,12 +18,11 @@ class SearchResultSheet extends StatelessWidget {
     return SafeArea(
       child: Material(
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(25),
-          ),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
         ),
         child: SingleChildScrollView(
           controller: scrollController,
+          padding: const EdgeInsets.fromLTRB(12, 15, 12, 25),
           child: Column(
             children: [
               SearchResultCardContent(selectedResult),
