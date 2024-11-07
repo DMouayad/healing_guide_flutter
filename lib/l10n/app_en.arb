@@ -244,6 +244,9 @@
     "@serverError": {
         "description": "The message of `AppException.serverError`"
     },
+    "locationServiceDisabled": "Location services are disabled. Please enable them in your device settings to view nearby medical facilities.",
+    "locationPermissionDenied": "Location permission is denied. Please grant the app permission to access your location to find nearby doctors and hospitals.",
+    "locationPermissionDeniedPermanently": "Location permission is permanently denied. Please go to your device settings and grant the app permission to access your location.",
     "signupBtnLabel": "Create my account",
     "@signupBtnLabel": {
         "description": "The label of the signup action button in a form"
