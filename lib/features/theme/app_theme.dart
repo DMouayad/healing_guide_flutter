@@ -63,4 +63,5 @@ class AppTheme {
   static const secondaryTextColor = Color(0xFF8C8C8C);
   static const textFieldBorderColor = Color(0xFFD0D0D0);
   static const subTextColor = Color(0xFF9AA0BD);
+  static const yellowColor = Color(0xFFF2C94C);
 }

@@ -78,114 +78,117 @@ class _SearchFilterStatesSection extends State<SearchFiltersSection> {
           (prev.isEditingFilters != current.isEditingFilters) ||
           (prev.filters != current.filters),
       builder: (context, state) {
-        return OverflowBar(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (state.isEditingFilters) ...[
-                  TextButton(
-                    onPressed: widget.searchCubit.onExitEditingFilters,
-                    child: Text(context.l10n.cancel),
-                  ),
-                  FilledButton(
-                    onPressed: state.filters != filters
-                        ? () => widget.searchCubit.applyFilters(filters)
-                        : null,
-                    child: Text(context.l10n.applyFilters),
-                  ),
-                ] else ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: Text(context.l10n.searchFiltersSectionTitle),
-                  )
-                ],
-              ],
-            ),
-            AnimatedCrossFade(
-              firstChild: Wrap(
-                spacing: 2,
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: OverflowBar(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _FilterInfoChip(
-                    label: context.l10n.categorySearchFilterPopupLabel,
-                    value: state.filters.categoryFilter.getMessage(context),
-                    filterEnabled: true,
-                  ),
-                  _FilterInfoChip(
-                    filterEnabled: state.filters.cityFilter != null,
-                    value: state.filters.cityFilter?.filterValue,
-                    label: context.l10n.citySearchFilterPopupLabel,
-                  ),
-                  if (state.filters.categoryFilter !=
-                      SearchCategoryFilter.facilities)
-                    _FilterInfoChip(
-                      filterEnabled: state.filters.specialtyFilter != null,
-                      value: state.filters.specialtyFilter?.filterValue,
-                      label: context.l10n.specialtySearchFilterPopupLabel,
+                  if (state.isEditingFilters) ...[
+                    TextButton(
+                      onPressed: widget.searchCubit.onExitEditingFilters,
+                      child: Text(context.l10n.cancel),
                     ),
+                    FilledButton(
+                      onPressed: state.filters != filters
+                          ? () => widget.searchCubit.applyFilters(filters)
+                          : null,
+                      child: Text(context.l10n.applyFilters),
+                    ),
+                  ] else ...[
+                    Text(
+                      context.l10n.searchFiltersSectionTitle,
+                      style: context.myTxtTheme.bodySmall,
+                    )
+                  ],
                 ],
               ),
-              secondChild: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.start,
-                  spacing: 10,
-                  runSpacing: 5,
+              AnimatedCrossFade(
+                firstChild: Wrap(
+                  spacing: 3,
                   children: [
-                    PopupMenuButton(
-                      elevation: 1,
-                      shape: border,
-                      initialValue: filters.categoryFilter,
-                      onSelected: setCategoryFilter,
-                      itemBuilder: (context) => getItems(
-                        SearchCategoryFilter.values,
-                        (e) => e.getMessage(context),
-                      ),
-                      child: SearchFilterChip(
-                        avatarIcon: Icons.filter_alt_outlined,
-                        label: context.l10n.categorySearchFilterPopupLabel,
-                        value: filters.categoryFilter.getMessage(context),
-                      ),
+                    _FilterInfoChip(
+                      label: context.l10n.categorySearchFilterPopupLabel,
+                      value: state.filters.categoryFilter.getMessage(context),
+                      filterEnabled: true,
                     ),
-                    PopupMenuButton<String>(
-                      elevation: 1,
-                      shape: border,
-                      initialValue: filters.cityFilter?.filterValue,
-                      onSelected: setCityFilter,
-                      itemBuilder: (context) => getItems(kCities, (e) => e),
-                      child: SearchFilterChip(
-                        avatarIcon: Icons.location_city,
-                        onDeleted: clearCityFilter,
-                        value: filters.cityFilter?.filterValue,
-                        label: context.l10n.citySearchFilterPopupLabel,
-                      ),
+                    _FilterInfoChip(
+                      filterEnabled: state.filters.cityFilter != null,
+                      value: state.filters.cityFilter?.filterValue,
+                      label: context.l10n.citySearchFilterPopupLabel,
                     ),
-                    if (filters.categoryFilter !=
+                    if (state.filters.categoryFilter !=
                         SearchCategoryFilter.facilities)
+                      _FilterInfoChip(
+                        filterEnabled: state.filters.specialtyFilter != null,
+                        value: state.filters.specialtyFilter?.filterValue,
+                        label: context.l10n.specialtySearchFilterPopupLabel,
+                      ),
+                  ],
+                ),
+                secondChild: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    spacing: 10,
+                    runSpacing: 5,
+                    children: [
+                      PopupMenuButton(
+                        elevation: 1,
+                        shape: border,
+                        initialValue: filters.categoryFilter,
+                        onSelected: setCategoryFilter,
+                        itemBuilder: (context) => getItems(
+                          SearchCategoryFilter.values,
+                          (e) => e.getMessage(context),
+                        ),
+                        child: SearchFilterChip(
+                          avatarIcon: Icons.filter_alt_outlined,
+                          label: context.l10n.categorySearchFilterPopupLabel,
+                          value: filters.categoryFilter.getMessage(context),
+                        ),
+                      ),
                       PopupMenuButton<String>(
                         elevation: 1,
                         shape: border,
-                        initialValue: filters.specialtyFilter?.filterValue,
-                        onSelected: setSpecialtyFilter,
-                        itemBuilder: (context) =>
-                            getItems(kMedicalSpecialties.toList(), (e) => e),
+                        initialValue: filters.cityFilter?.filterValue,
+                        onSelected: setCityFilter,
+                        itemBuilder: (context) => getItems(kCities, (e) => e),
                         child: SearchFilterChip(
-                          avatarIcon: Icons.medical_services,
-                          onDeleted: clearSpecialtyFilter,
-                          value: filters.specialtyFilter?.filterValue,
-                          label: context.l10n.specialtySearchFilterPopupLabel,
+                          avatarIcon: Icons.location_city,
+                          onDeleted: clearCityFilter,
+                          value: filters.cityFilter?.filterValue,
+                          label: context.l10n.citySearchFilterPopupLabel,
                         ),
                       ),
-                    const Divider(),
-                  ],
+                      if (filters.categoryFilter !=
+                          SearchCategoryFilter.facilities)
+                        PopupMenuButton<String>(
+                          elevation: 1,
+                          shape: border,
+                          initialValue: filters.specialtyFilter?.filterValue,
+                          onSelected: setSpecialtyFilter,
+                          itemBuilder: (context) =>
+                              getItems(kMedicalSpecialties.toList(), (e) => e),
+                          child: SearchFilterChip(
+                            avatarIcon: Icons.medical_services,
+                            onDeleted: clearSpecialtyFilter,
+                            value: filters.specialtyFilter?.filterValue,
+                            label: context.l10n.specialtySearchFilterPopupLabel,
+                          ),
+                        ),
+                      const Divider(),
+                    ],
+                  ),
                 ),
+                crossFadeState: state.isEditingFilters
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                duration: const Duration(milliseconds: 500),
               ),
-              crossFadeState: state.isEditingFilters
-                  ? CrossFadeState.showSecond
-                  : CrossFadeState.showFirst,
-              duration: const Duration(milliseconds: 500),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
@@ -209,9 +212,10 @@ class _FilterInfoChip extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
         side: BorderSide(
-            color: filterEnabled
-                ? context.colorScheme.onSurface
-                : AppTheme.lightGreyColor),
+          color: filterEnabled
+              ? context.colorScheme.onSurface
+              : AppTheme.lightGreyColor,
+        ),
       ),
     );
   }

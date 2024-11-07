@@ -16,3 +16,6 @@ const kCities = [
   "As-Suwayda",
   "Tartus",
 ];
+const kMalePhysicianAvatarUrl = 'male_doctor_img.png';
+const kFemalePhysicianAvatarUrl = 'female_doctor_img.png';
+const kDefaultMedicalFacilityAvatarUrl = 'med_facility.png';

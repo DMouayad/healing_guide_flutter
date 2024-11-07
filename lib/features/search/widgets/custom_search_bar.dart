@@ -31,7 +31,7 @@ class CustomSearchBar extends StatelessWidget {
         child: Padding(
           padding: inSearchScreen
               ? EdgeInsets.zero
-              : const EdgeInsets.symmetric(horizontal: 15.0),
+              : const EdgeInsets.symmetric(horizontal: 24.0),
           child: BlocBuilder<SearchCubit, SearchState>(
             bloc: cubit,
             buildWhen: (prev, current) =>
