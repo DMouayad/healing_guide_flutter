@@ -12,27 +12,32 @@ class FakeSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: const Key('CustomSearchBar_Hero_Tag'),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 21.0),
-        child: Material(
-          type: MaterialType.transparency,
-          child: TextFormField(
-            onTap: () => const SearchScreenRoute().push(context),
-            decoration: InputDecoration(
-              filled: true,
-              isDense: false,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(6.0),
-                borderSide:
-                    const BorderSide(width: 2, color: Colors.transparent),
+    return GestureDetector(
+      onTap: () => const SearchScreenRoute().push(context),
+      child: Hero(
+        tag: const Key('CustomSearchBar_Hero_Tag'),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 21.0),
+          child: Material(
+            type: MaterialType.transparency,
+            child: TextFormField(
+              enabled: false,
+              canRequestFocus: false,
+              // onTap: () => const SearchScreenRoute().push(context),
+              decoration: InputDecoration(
+                filled: true,
+                isDense: false,
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6.0),
+                  borderSide:
+                      const BorderSide(width: 2, color: Colors.transparent),
+                ),
+                fillColor: context.colorScheme.surface,
+                hintText: context.l10n.homeSearchBarHint,
+                hintStyle: context.myTxtTheme.bodySmall,
+                prefixIcon: const Icon(Icons.search_outlined),
+                contentPadding: const EdgeInsets.symmetric(vertical: 12),
               ),
-              fillColor: context.colorScheme.surface,
-              hintText: context.l10n.homeSearchBarHint,
-              hintStyle: context.myTxtTheme.bodySmall,
-              prefixIcon: const Icon(Icons.search_outlined),
-              contentPadding: const EdgeInsets.symmetric(vertical: 12),
             ),
           ),
         ),
