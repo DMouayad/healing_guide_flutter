@@ -1,13 +1,16 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:healing_guide_flutter/features/medical_facility/models.dart';
+import 'package:healing_guide_flutter/features/physician/models.dart';
+import 'package:healing_guide_flutter/utils/src/constants.dart';
 
 typedef SearchResults = Future<List<SearchResult>>;
 
 enum SearchResultCategory { physician, facility }
 
-class SearchResult extends Equatable {
-  final String resourceId;
+sealed class SearchResult<T> extends Equatable {
+  final T item;
   final String title;
   final String subTitle;
   final String location;
@@ -16,7 +19,7 @@ class SearchResult extends Equatable {
   final SearchResultCategory category;
 
   const SearchResult({
-    required this.resourceId,
+    required this.item,
     required this.category,
     required this.title,
     required this.subTitle,
@@ -24,43 +27,46 @@ class SearchResult extends Equatable {
     required this.stars,
     required this.avatarImgUrl,
   });
+
+  static SearchResult<Physician> physician(Physician physician) {
+    return _PhysicianSearchResult._(physician);
+  }
+
+  static SearchResult<MedicalFacility> facility(MedicalFacility facility) {
+    return _MedicalFacilitySearchResult._(facility);
+  }
+
   @override
   List<Object?> get props =>
-      [resourceId, title, category, subTitle, location, stars, avatarImgUrl];
+      [item, title, category, subTitle, location, stars, avatarImgUrl];
+}
 
-  Map<String, dynamic> toJson() {
-    return {
-      "resourceId": resourceId,
-      "title": title,
-      "subTitle": subTitle,
-      "location": location,
-      "category": category.name,
-      "stars": stars,
-      "avatarImgUrl": avatarImgUrl,
-    };
-  }
+class _MedicalFacilitySearchResult extends SearchResult<MedicalFacility> {
+  final MedicalFacility facility;
+  _MedicalFacilitySearchResult._(this.facility)
+      : super(
+          item: facility,
+          category: SearchResultCategory.facility,
+          title: facility.name,
+          subTitle: facility.description,
+          location: facility.location,
+          stars: facility.rating,
+          avatarImgUrl: kDefaultMedicalFacilityAvatarUrl,
+        );
+}
 
-  static SearchResult? fromJson(Map<String, dynamic> json) {
-    if (json
-        case ({
-          "resourceId": String resourceId,
-          "title": String title,
-          "subtitle": String subTitle,
-          "location": String location,
-          "category": String category,
-          "stars": double stars,
-          "avatarImgUrl": String avatarImgUrl,
-        })) {
-      return SearchResult(
-        resourceId: resourceId,
-        category: SearchResultCategory.values.byName(category),
-        title: title,
-        subTitle: subTitle,
-        location: location,
-        stars: stars,
-        avatarImgUrl: avatarImgUrl,
-      );
-    }
-    return null;
-  }
+class _PhysicianSearchResult extends SearchResult<Physician> {
+  final Physician physician;
+  _PhysicianSearchResult._(this.physician)
+      : super(
+          item: physician,
+          category: SearchResultCategory.physician,
+          title: physician.name,
+          subTitle: physician.specialties.join(", "),
+          location: physician.location,
+          stars: physician.rating,
+          avatarImgUrl: physician.isMale
+              ? kMalePhysicianAvatarUrl
+              : kFemalePhysicianAvatarUrl,
+        );
 }

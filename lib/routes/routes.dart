@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:healing_guide_flutter/features/home/home_screen.dart';
 import 'package:healing_guide_flutter/features/login/login_screen.dart';
 import 'package:healing_guide_flutter/features/phone_verification/phone_verification_screen.dart';
-import 'package:healing_guide_flutter/features/search/cubit/search_cubit.dart';
 import 'package:healing_guide_flutter/features/search/search_screen.dart';
 import 'package:healing_guide_flutter/features/signup/cubit/signup_cubit.dart';
 import 'package:healing_guide_flutter/features/signup/signup_screen.dart';
@@ -75,6 +74,6 @@ class SearchScreenRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SearchScreen();
+    return const SearchScreen();
   }
 }

@@ -79,6 +79,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
+      lazy: false,
       create: (_) => SearchCubit(),
       child: Builder(
         builder: (context) {

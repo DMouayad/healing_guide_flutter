@@ -15,21 +15,26 @@ final class FakeSearchRepository extends SearchRepository {
               'id': String id,
               'name': String name,
               'location': String location,
+              'biography': String biography,
               'dateOfBirth': String dateOfBirth,
               'isMale': bool isMale,
               'languages': Iterable<String> languages,
+              'specialties': List<String> specialties,
               'rating': double rating
             }) {
-          results.add(SearchResult(
-            resourceId: id,
-            category: SearchResultCategory.physician,
-            title: name,
-            subTitle: '',
-            location: location,
-            stars: rating,
-            avatarImgUrl:
-                isMale ? kMalePhysicianAvatarUrl : kFemalePhysicianAvatarUrl,
-          ));
+          results.add(
+            SearchResult.physician(Physician(
+              id: id,
+              name: name,
+              biography: biography,
+              specialties: specialties,
+              location: location,
+              isMale: isMale,
+              dateOfBirth: DateTime.tryParse(dateOfBirth),
+              languages: languages.toList(),
+              rating: rating,
+            )),
+          );
         }
       }
       for (var facilityJson in facilitiesJson) {
@@ -42,15 +47,15 @@ final class FakeSearchRepository extends SearchRepository {
               'phoneNumber': String phoneNumber,
               'rating': double rating
             }) {
-          results.add(SearchResult(
-            resourceId: id,
-            category: SearchResultCategory.facility,
-            title: name,
-            subTitle: '$phoneNumber | $emergencyNumber',
+          results.add(SearchResult.facility(MedicalFacility(
+            id: id,
+            name: name,
+            description: '',
+            emergencyNumber: emergencyNumber,
+            phoneNumber: phoneNumber,
             location: location,
-            stars: rating,
-            avatarImgUrl: kDefaultMedicalFacilityAvatarUrl,
-          ));
+            rating: rating,
+          )));
         }
       }
     }
@@ -155,6 +160,21 @@ final class FakeSearchRepository extends SearchRepository {
       ['العربية', 'الإسبانية'],
       ['العربية', 'التركية']
     ];
+    final specialties = [
+      'جراحة عامة',
+      'أمراض قلب',
+      'طب أطفال',
+      'طب الأسرة',
+      'أمراض جلدية'
+    ];
+
+    final qualifications = [
+      'بكالوريوس الطب والجراحة',
+      'ماجستير في الجراحة العامة',
+      'دكتوراه في أمراض القلب',
+      'زمالة في طب الأطفال',
+      'دبلوم في الطب الأسري'
+    ];
 
     return List.generate(count, (index) {
       return {
@@ -166,7 +186,10 @@ final class FakeSearchRepository extends SearchRepository {
             .toString(),
         'isMale': random.nextBool(),
         'rating': random.nextDouble() * 5,
+        'biography':
+            'طبيب متخصص في ${specialties[random.nextInt(specialties.length)]}، حاصل على ${qualifications[random.nextInt(qualifications.length)]}',
         'languages': languages[random.nextInt(languages.length)],
+        'specialties': [specialties[random.nextInt(specialties.length)]],
       };
     });
   }

@@ -41,7 +41,14 @@ class SearchResultCardContent extends StatelessWidget {
                   result.title,
                   style: context.myTxtTheme.titleMedium,
                 ),
-                const SizedBox(height: 9),
+                if (result.subTitle.isNotEmpty) ...[
+                  const SizedBox(height: 5),
+                  Text(
+                    result.subTitle,
+                    style: context.myTxtTheme.bodySmall,
+                  ),
+                ],
+                const SizedBox(height: 5),
                 SizedBox(
                   width: context.screenWidth - (65 + 65),
                   child: Row(
@@ -49,7 +56,7 @@ class SearchResultCardContent extends StatelessWidget {
                       Icon(
                         Icons.location_pin,
                         color: context.colorScheme.primary,
-                        size: 20,
+                        size: 18,
                       ),
                       Text(
                         result.location,
@@ -61,7 +68,7 @@ class SearchResultCardContent extends StatelessWidget {
                           const Icon(
                             Icons.star,
                             color: AppTheme.yellowColor,
-                            size: 20,
+                            size: 18,
                           ),
                           const SizedBox(width: 3),
                           Text(

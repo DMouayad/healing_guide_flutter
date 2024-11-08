@@ -50,56 +50,76 @@ final class ApiSearchRepository extends SearchRepository {
   }
 
   List<SearchResult> _getFacilityResults(List<JsonObject> resultsJson) {
-    final results = <SearchResult>[];
-    for (var item in resultsJson) {
-      if (item
-          case {
-            "id": String id,
-            "name": String name,
-            "phoneNumber": String phoneNumber,
-            "emergencyNumber": String emergencyNumber,
-            "rating": double rating,
-          }) {
-        results.add(SearchResult(
-          resourceId: id,
-          category: SearchResultCategory.facility,
-          title: name,
-          subTitle: emergencyNumber,
-          location: phoneNumber,
-          stars: rating,
-          avatarImgUrl: kDefaultMedicalFacilityAvatarUrl,
-        ));
-      }
+    return resultsJson
+        .map(_medialFacilityFromJson)
+        .whereType<MedicalFacility>()
+        .map(SearchResult.facility)
+        .toList();
+  }
+
+  MedicalFacility? _medialFacilityFromJson(JsonObject json) {
+    if (json
+        case {
+          "\$id": String id,
+          "name": String name,
+          "phoneNumber": String phoneNumber,
+          "emergencyNumber": String emergencyNumber,
+          "rating": double rating,
+        }) {
+      return MedicalFacility(
+        id: id,
+        name: name,
+        description: '',
+        phoneNumber: phoneNumber,
+        emergencyNumber: emergencyNumber,
+        location: '',
+        rating: rating,
+      );
     }
-    return results;
+    return null;
+  }
+
+  Physician? _physicianFromJson(JsonObject json) {
+    if (json
+        case {
+          "\$id": String id,
+          "name": String name,
+          "languages": String languages,
+          "city": String location,
+          "rating": double rating,
+          "biography": String biography,
+          "isMale": bool isMale,
+          "dateOfBirth": String dateOfBirth,
+          "specialties": JsonObject specialties,
+          "shifts": JsonObject shifts,
+        }) {
+      return Physician(
+        id: id,
+        name: name,
+        biography: biography,
+        location: location,
+        isMale: isMale,
+        dateOfBirth: DateTime.tryParse(dateOfBirth),
+        languages: languages.split(', '),
+        specialties: _getSpecialtiesFromJson(specialties),
+        rating: rating,
+      );
+    }
+    return null;
+  }
+
+  List<String> _getSpecialtiesFromJson(JsonObject json) {
+    if (json['\$value'] case Iterable<String> items) {
+      return items.toList();
+    }
+    return [];
   }
 
   List<SearchResult> _getPhysiciansResults(List<JsonObject> resultsJson) {
-    final results = <SearchResult>[];
-    for (var item in resultsJson) {
-      if (item
-          case {
-            "\$id": String id,
-            "name": String name,
-            "languages": String languages,
-            "city": String city,
-            "rating": double rating,
-            "biography": String biography,
-            "isMale": bool isMale,
-            "dateOfBirth": String dateOfBirth,
-          }) {
-        results.add(SearchResult(
-          resourceId: id,
-          category: SearchResultCategory.physician,
-          title: name,
-          subTitle: '',
-          location: city,
-          stars: rating,
-          avatarImgUrl:
-              isMale ? kMalePhysicianAvatarUrl : kFemalePhysicianAvatarUrl,
-        ));
-      }
-    }
-    return results;
+    return resultsJson
+        .map(_physicianFromJson)
+        .whereType<Physician>()
+        .map(SearchResult.physician)
+        .toList();
   }
 }
