@@ -164,8 +164,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       builder: (context, value, child) {
                         return Container(
                           color: Colors.black.withOpacity(value * .4),
-                          padding: const EdgeInsets.only(bottom: 50),
-                          alignment: Alignment.bottomCenter,
                           child: value > 0.5 ? child : const SizedBox(),
                         );
                       },
@@ -212,9 +210,7 @@ class _SearchScreenState extends State<SearchScreen> {
 }
 
 class _ScrollDownHint extends StatefulWidget {
-  const _ScrollDownHint({
-    super.key,
-  });
+  const _ScrollDownHint();
 
   @override
   State<_ScrollDownHint> createState() => _ScrollDownHintState();
@@ -223,18 +219,18 @@ class _ScrollDownHint extends StatefulWidget {
 class _ScrollDownHintState extends State<_ScrollDownHint>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
-  final _tween = Tween(begin: const Offset(0, 1), end: const Offset(0, -1));
+  final _tween = Tween(begin: const Offset(0, 1), end: const Offset(0, -2));
   late Timer timer;
   @override
   void initState() {
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1300),
       vsync: this,
     );
     _animationController.repeat(reverse: true);
-    timer = Timer(const Duration(seconds: 20), () {
+    timer = Timer(const Duration(seconds: 10), () {
       if (_animationController.isAnimating) {
-        _animationController.stop();
+        _animationController.animateTo(1);
       }
     });
     super.initState();
@@ -252,27 +248,32 @@ class _ScrollDownHintState extends State<_ScrollDownHint>
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          SlideTransition(
-            position: _tween.animate(_animationController),
-            child: const Icon(
-              Icons.arrow_circle_up_outlined,
-              color: Colors.white,
-              size: 40,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 30.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Card(
+              color: Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Swap up to view full information',
+                  style: context.myTxtTheme.bodyMedium
+                      .copyWith(color: Colors.white),
+                ),
+              ),
             ),
-          ),
-          Chip(
-            elevation: 0,
-            side: BorderSide.none,
-            label: Text(
-              'Swap up to view full information',
-              style: context.myTxtTheme.bodyMedium
-                  .copyWith(color: context.colorScheme.primary),
+            SlideTransition(
+              position: _tween.animate(_animationController),
+              child: const Icon(
+                Icons.swipe_up_outlined,
+                color: Colors.white,
+                size: 40,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
