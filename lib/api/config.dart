@@ -4,4 +4,5 @@ class ApiConfig {
   static const searchPhysiciansEndpoint = 'SearchForDoctors';
   static const searchFacilitiesEndpoint = 'SearchForMedicalFacility';
   static const getNearbyFacilitiesEndpoint = 'NearbyFacilities/nearby';
+  static const getMedicalSpecialtiesEndpoint = 'MedicalSpecialty';
 }

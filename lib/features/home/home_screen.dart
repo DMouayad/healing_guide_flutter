@@ -6,6 +6,8 @@ import 'package:healing_guide_flutter/features/search/cubit/search_cubit.dart';
 import 'package:healing_guide_flutter/features/search/widgets/custom_search_bar.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
 
+import 'components/med_specialties_section.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -56,10 +58,14 @@ class HomeScreen extends StatelessWidget {
               sliver: SliverList.list(
                 children: [
                   HomeScreenSection(
-                      title: context.l10n.homeSpecialtiesSectionTitle),
+                    title: context.l10n.homeSpecialtiesSectionTitle,
+                    content: const MedSpecialtiesSection(),
+                  ),
                   const SizedBox(height: 16),
                   HomeScreenSection(
-                      title: context.l10n.homeFacilitiesSectionTitle),
+                    title: context.l10n.homeFacilitiesSectionTitle,
+                    content: const SizedBox(),
+                  ),
                 ],
               ),
             ),

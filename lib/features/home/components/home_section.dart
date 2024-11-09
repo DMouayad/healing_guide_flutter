@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
 
 class HomeScreenSection extends StatelessWidget {
-  const HomeScreenSection({super.key, required this.title, this.onViewAll});
+  const HomeScreenSection({
+    super.key,
+    required this.title,
+    this.onViewAll,
+    required this.content,
+  });
+
   final String title;
   final VoidCallback? onViewAll;
+  final Widget content;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +32,8 @@ class HomeScreenSection extends StatelessWidget {
               ),
           ],
         ),
+        const SizedBox(height: 15),
+        content,
       ],
     );
   }
