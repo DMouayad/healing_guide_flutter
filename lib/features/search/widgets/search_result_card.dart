@@ -6,9 +6,13 @@ import 'package:healing_guide_flutter/utils/utils.dart';
 const _baseImagePath = 'assets/images/';
 
 class SearchResultCardContent extends StatelessWidget {
-  const SearchResultCardContent(this.result, {super.key});
+  const SearchResultCardContent(
+    this.result, {
+    this.showLocationAndRating = true,
+    super.key,
+  });
   final SearchResult result;
-
+  final bool showLocationAndRating;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -49,39 +53,60 @@ class SearchResultCardContent extends StatelessWidget {
                   ),
                 ],
                 const SizedBox(height: 5),
-                SizedBox(
-                  width: context.screenWidth - (65 + 65),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.location_pin,
-                        color: context.colorScheme.primary,
-                        size: 18,
-                      ),
-                      Text(
-                        result.location,
-                        style: context.myTxtTheme.bodySmall,
-                      ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: AppTheme.yellowColor,
-                            size: 18,
-                          ),
-                          const SizedBox(width: 3),
-                          Text(
-                            result.stars.toStringAsPrecision(1),
-                            style: context.myTxtTheme.bodySmall,
-                          ),
-                        ],
-                      ),
-                    ],
+                if (showLocationAndRating)
+                  _LocationAndRatingTile(
+                    result,
+                    width: context.screenWidth - (65 + 65),
                   ),
-                ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LocationAndRatingTile extends StatelessWidget {
+  const _LocationAndRatingTile(this.result, {required this.width});
+
+  final double width;
+  final SearchResult result;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      child: Row(
+        children: [
+          Icon(
+            Icons.location_pin,
+            color: context.colorScheme.primary,
+            size: 18,
+          ),
+          SizedBox(
+            width: width * .6,
+            child: Text(
+              result.location,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: context.myTxtTheme.bodySmall,
+            ),
+          ),
+          const Spacer(),
+          Row(
+            children: [
+              const Icon(
+                Icons.star,
+                color: AppTheme.yellowColor,
+                size: 18,
+              ),
+              const SizedBox(width: 3),
+              Text(
+                result.stars.toStringAsPrecision(1),
+                style: context.myTxtTheme.bodySmall,
+              ),
+            ],
           ),
         ],
       ),
