@@ -29,13 +29,13 @@ class ApiMedicalSpecialtyRepository extends MedicalSpecialtyRepository {
   }
 
   MedicalSpecialties _decodeResponseBody(JsonObject json) {
-    if (json case {"\$values": List<JsonObject> items}) {
+    if (json['\$values'] case List items) {
       return items.map(_fromJson).whereType<MedicalSpecialty>().toList();
     }
     return MedicalSpecialties.empty();
   }
 
-  MedicalSpecialty? _fromJson(JsonObject json) {
+  MedicalSpecialty? _fromJson(dynamic json) {
     if (json
         case {
           "\$id": String _,

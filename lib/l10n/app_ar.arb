@@ -97,5 +97,12 @@
     "signupInProgress": "جار إنشاء حساب جديد، يرجى الانتظار...",
     "completeSignupFormSubtitle": "يرجى إكمال معلوماتك الشخصية",
     "completeSignupFormTitle": "تم تأكيد رقمك بنجاح",
-    "signupFailureDialogTitle": "فشل إنشاء حساب جديد"
+    "signupFailureDialogTitle": "فشل إنشاء حساب جديد",
+    "sheetDragUpHint": "اسحب للأعلى لاستعراض كافة المعلومات",
+    "ophthalmology": "العينية",
+    "neurology": "العصبية",
+    "dentistry": "السنية",
+    "cardiology": "القلبية",
+    "familyMedicine": "طب الأسرة",
+    "prosthetics": "تعويضات"
 }

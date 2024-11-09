@@ -46,6 +46,9 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/icons/
+    - assets/icons/med_specialties/
+
   fonts:
     - family: almarai
       fonts:

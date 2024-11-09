@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'package:healing_guide_flutter/features/common/future_cubit/future_cubit.dart';
@@ -18,7 +19,7 @@ class MedSpecialtiesSection extends StatelessWidget {
     return BlocProvider(
       create: (context) => MedicalSpecialtyCubit()..getSpecialties(),
       child: SizedBox(
-        height: 90,
+        height: 100,
         child:
             BlocBuilder<MedicalSpecialtyCubit, FutureState<MedicalSpecialties>>(
           builder: (context, state) {
@@ -27,6 +28,7 @@ class MedSpecialtiesSection extends StatelessWidget {
               enabled: state.isLoading,
               child: switch (state) {
                 ErrorFutureState<MedicalSpecialties>() => ListTile(
+                    contentPadding: const EdgeInsets.symmetric(vertical: 10),
                     title: Text(context.l10n.undefinedException),
                     leading: const Icon(Icons.error),
                     iconColor: AppTheme.redColor,
@@ -43,7 +45,7 @@ class MedSpecialtiesSection extends StatelessWidget {
                         ? const _CardSkeleton()
                         : _Card(state.data!.elementAt(index)),
                     separatorBuilder: (context, index) =>
-                        const SizedBox(width: 16),
+                        const SizedBox(width: 18),
                     itemCount: state.isLoading ? 5 : state.data!.length,
                   ),
               },
@@ -81,25 +83,55 @@ class _Card extends StatelessWidget {
   final MedicalSpecialty specialty;
   @override
   Widget build(BuildContext context) {
-    return Skeleton.unite(
-      child: SizedBox(
-        height: 80,
-        child: Column(
-          children: [
-            Container(
-              width: 55,
-              height: 55,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: const Color(0xff4f94e5).withOpacity(.1),
-                borderRadius: BorderRadius.circular(6),
-              ),
+    return SizedBox(
+      height: 90,
+      child: Column(
+        children: [
+          Container(
+            width: 55,
+            height: 55,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: const Color(0xff4f94e5).withOpacity(.1),
+              borderRadius: BorderRadius.circular(6),
             ),
-            const SizedBox(height: 10),
-            Text(specialty.name),
-          ],
-        ),
+            child: () {
+              if (getSpecialtyImage(specialty.name) case String imgPath) {
+                return SvgPicture.asset(imgPath);
+              }
+            }(),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            getSpecialtyLocalizedName(specialty.name, context),
+            textAlign: TextAlign.center,
+            style: context.myTxtTheme.bodySmall,
+          ),
+        ],
       ),
     );
+  }
+
+  String getSpecialtyLocalizedName(String specialty, BuildContext context) {
+    return switch (specialty.toLowerCase()) {
+      'cardiology' => context.l10n.cardiology,
+      'neurology' => context.l10n.neurology,
+      'dentistry' => context.l10n.dentistry,
+      'prosthetics' => context.l10n.prosthetics,
+      'ophthalmology' => context.l10n.ophthalmology,
+      'family medicine' => context.l10n.familyMedicine,
+      _ => specialty
+    };
+  }
+
+  String? getSpecialtyImage(String specialty) {
+    return switch (specialty.toLowerCase()) {
+      'cardiology' ||
+      'dentistry' ||
+      'neurology' ||
+      'prosthetics' =>
+        'assets/icons/med_specialties/${specialty.toLowerCase()}.svg',
+      _ => null
+    };
   }
 }

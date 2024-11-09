@@ -261,7 +261,7 @@ class _ScrollDownHintState extends State<_ScrollDownHint>
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Swap up to view full information',
+                  context.l10n.sheetDragUpHint,
                   style: context.myTxtTheme.bodyMedium
                       .copyWith(color: Colors.white),
                 ),

@@ -268,5 +268,12 @@
     "signupFailureDialogTitle": "Signup failure",
     "@signupFailureDialogTitle": {
         "description": "The title of an `ErrorDialog` displayed after a failed signup attempt"
-    }
+    },
+    "sheetDragUpHint": "Swap up to view full information",
+    "ophthalmology": "Ophthalmology",
+    "neurology": "Neurology",
+    "dentistry": "Dentistry",
+    "cardiology": "Cardiology",
+    "familyMedicine": "Family Medicine",
+    "prosthetics": "Prosthetics"
 }
