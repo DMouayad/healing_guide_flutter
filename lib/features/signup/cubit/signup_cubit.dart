@@ -11,7 +11,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'signup_state.dart';
 
-class SignupCubit extends HydratedCubit<SignupState> {
+class SignupCubit extends Cubit<SignupState> {
   late final SignupFormHelper formHelper;
   final Role signupAs;
 
@@ -61,22 +61,5 @@ class SignupCubit extends HydratedCubit<SignupState> {
         emit(const SignupIdleState());
       }
     }
-  }
-
-  @override
-  SignupState? fromJson(Map<String, dynamic> json) {
-    final dto = UserRegistrationDTO.fromJson(json["dto"]);
-    if (dto != null) {
-      return SignupPendingPhoneVerificationState(dto: dto);
-    }
-    return null;
-  }
-
-  @override
-  Map<String, dynamic>? toJson(SignupState state) {
-    if (state is SignupPendingPhoneVerificationState) {
-      return {"dto": state.dto.toJson()};
-    }
-    return null;
   }
 }
