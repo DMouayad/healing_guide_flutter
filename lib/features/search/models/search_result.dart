@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:healing_guide_flutter/features/medical_facility/models.dart';
-import 'package:healing_guide_flutter/features/physician/models.dart';
+import 'package:healing_guide_flutter/features/physician/models/physician.dart';
 import 'package:healing_guide_flutter/utils/src/constants.dart';
 
 typedef SearchResults = Future<List<SearchResult>>;
