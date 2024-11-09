@@ -5,6 +5,8 @@ class Physician extends Equatable {
   final String name;
   final String biography;
   final String location;
+  final String mobilePhoneNumber;
+  final String? phoneNumber;
   final bool isMale;
   final DateTime? dateOfBirth;
   final List<String> languages;
@@ -20,6 +22,8 @@ class Physician extends Equatable {
     required this.dateOfBirth,
     required this.rating,
     required this.specialties,
+    required this.mobilePhoneNumber,
+    this.phoneNumber,
     this.languages = const [],
   });
 
@@ -33,7 +37,9 @@ class Physician extends Equatable {
         dateOfBirth,
         languages,
         rating,
-        specialties
+        specialties,
+        mobilePhoneNumber,
+        phoneNumber
       ];
 
   Map<String, dynamic> toJson() {
@@ -46,6 +52,8 @@ class Physician extends Equatable {
       "dateOfBirth": dateOfBirth?.toIso8601String(),
       "rating": rating,
       "languages": languages,
+      "phoneNumber": phoneNumber,
+      "mobilePhoneNumber": mobilePhoneNumber,
       "specialties": specialties,
     };
   }
@@ -57,6 +65,8 @@ class Physician extends Equatable {
           "name": String name,
           "biography": String biography,
           "location": String location,
+          "mobilePhoneNumber": String mobilePhoneNumber,
+          "phoneNumber": String? phoneNumber,
           "dateOfBirth": String? dateOfBirthStr,
           "isMale": bool isMale,
           "rating": double rating,
@@ -67,6 +77,8 @@ class Physician extends Equatable {
         id: id,
         name: name,
         biography: biography,
+        mobilePhoneNumber: mobilePhoneNumber,
+        phoneNumber: phoneNumber,
         location: location,
         rating: rating,
         languages: languages,

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:faker/faker.dart';
 import 'package:healing_guide_flutter/api/config.dart';
 import 'package:healing_guide_flutter/api/rest_client.dart';
 import 'package:healing_guide_flutter/exceptions/app_exception.dart';

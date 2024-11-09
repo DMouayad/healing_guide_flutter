@@ -54,6 +54,9 @@
     "applyFiltersBtnLabel": "Apply",
     "applyFilters": "Apply",
     "removeFilters": "Remove all",
+    "aboutDoctorSectionTitle": "About the doctor",
+    "aboutFacilitySectionTitle": "About the facility",
+    "locationOnMap": "Location on map",
     "loginFailureDialogTitle": "Login Failed!",
     "@loginFailureDialogTitle": {
         "description": "The title of the `ErrorDialog` shown after a failed login attempt"

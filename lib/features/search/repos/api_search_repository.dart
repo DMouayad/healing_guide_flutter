@@ -71,7 +71,8 @@ final class ApiSearchRepository extends SearchRepository {
         name: name,
         description: '',
         phoneNumber: phoneNumber,
-        emergencyNumber: emergencyNumber,
+        emergencyPhoneNumber: emergencyNumber,
+        mobilePhoneNumber: '',
         location: '',
         rating: rating,
       );
@@ -99,6 +100,7 @@ final class ApiSearchRepository extends SearchRepository {
         biography: biography,
         location: location,
         isMale: isMale,
+        mobilePhoneNumber: '',
         dateOfBirth: DateTime.tryParse(dateOfBirth),
         languages: languages.split(', '),
         specialties: _getSpecialtiesFromJson(specialties),

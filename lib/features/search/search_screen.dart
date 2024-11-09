@@ -193,7 +193,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       snap: true,
                       builder: (context, scrollController) {
                         return SearchResultSheet(
-                          selectedResult: selectedResult!,
+                          result: selectedResult!,
                           scrollController: scrollController,
                         );
                       },

@@ -27,13 +27,13 @@ sealed class SearchResult<T> extends Equatable {
     required this.stars,
     required this.avatarImgUrl,
   });
-
+  bool get isPhysician => category == SearchResultCategory.physician;
   static SearchResult<Physician> physician(Physician physician) {
-    return _PhysicianSearchResult._(physician);
+    return PhysicianSearchResult._(physician);
   }
 
   static SearchResult<MedicalFacility> facility(MedicalFacility facility) {
-    return _MedicalFacilitySearchResult._(facility);
+    return MedicalFacilitySearchResult._(facility);
   }
 
   @override
@@ -41,9 +41,9 @@ sealed class SearchResult<T> extends Equatable {
       [item, title, category, subTitle, location, stars, avatarImgUrl];
 }
 
-class _MedicalFacilitySearchResult extends SearchResult<MedicalFacility> {
+class MedicalFacilitySearchResult extends SearchResult<MedicalFacility> {
   final MedicalFacility facility;
-  _MedicalFacilitySearchResult._(this.facility)
+  MedicalFacilitySearchResult._(this.facility)
       : super(
           item: facility,
           category: SearchResultCategory.facility,
@@ -55,9 +55,9 @@ class _MedicalFacilitySearchResult extends SearchResult<MedicalFacility> {
         );
 }
 
-class _PhysicianSearchResult extends SearchResult<Physician> {
+class PhysicianSearchResult extends SearchResult<Physician> {
   final Physician physician;
-  _PhysicianSearchResult._(this.physician)
+  PhysicianSearchResult._(this.physician)
       : super(
           item: physician,
           category: SearchResultCategory.physician,

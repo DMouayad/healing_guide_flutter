@@ -20,12 +20,16 @@ final class FakeSearchRepository extends SearchRepository {
               'isMale': bool isMale,
               'languages': Iterable<String> languages,
               'specialties': List<String> specialties,
+              'phoneNumber': String phoneNumber,
+              'mobilePhoneNumber': String mobilePhoneNumber,
               'rating': double rating
             }) {
           results.add(
             SearchResult.physician(Physician(
               id: id,
               name: name,
+              mobilePhoneNumber: mobilePhoneNumber,
+              phoneNumber: phoneNumber,
               biography: biography,
               specialties: specialties,
               location: location,
@@ -43,15 +47,18 @@ final class FakeSearchRepository extends SearchRepository {
               'id': String id,
               'name': String name,
               'location': String location,
-              'emergencyNumber': String emergencyNumber,
+              'emergencyPhoneNumber': String emergencyPhoneNumber,
+              'mobilePhoneNumber': String mobilePhoneNumber,
               'phoneNumber': String phoneNumber,
+              'description': String description,
               'rating': double rating
             }) {
           results.add(SearchResult.facility(MedicalFacility(
             id: id,
             name: name,
-            description: '',
-            emergencyNumber: emergencyNumber,
+            description: description,
+            emergencyPhoneNumber: emergencyPhoneNumber,
+            mobilePhoneNumber: mobilePhoneNumber,
             phoneNumber: phoneNumber,
             location: location,
             rating: rating,
@@ -124,9 +131,11 @@ final class FakeSearchRepository extends SearchRepository {
         'name': names[random.nextInt(names.length)],
         'location':
             '${cities[random.nextInt(cities.length)]}, ${addresses[random.nextInt(addresses.length)]}',
-        'emergencyNumber': '0${random.nextInt(999999999)}',
+        'emergencyPhoneNumber': '0${random.nextInt(999999999)}',
         'phoneNumber': '0${random.nextInt(999999999)}',
+        'mobilePhoneNumber': '0${random.nextInt(999999999)}',
         'rating': random.nextDouble() * 5,
+        'description': faker.lorem.sentences(3).join(", "),
       };
     });
   }
@@ -186,6 +195,8 @@ final class FakeSearchRepository extends SearchRepository {
             .toString(),
         'isMale': random.nextBool(),
         'rating': random.nextDouble() * 5,
+        'phoneNumber': '0${random.nextInt(999999999)}',
+        'mobilePhoneNumber': '0${random.nextInt(999999999)}',
         'biography':
             'طبيب متخصص في ${specialties[random.nextInt(specialties.length)]}، حاصل على ${qualifications[random.nextInt(qualifications.length)]}',
         'languages': languages[random.nextInt(languages.length)],
