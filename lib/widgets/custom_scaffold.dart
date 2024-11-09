@@ -9,6 +9,7 @@ class CustomScaffold extends StatelessWidget {
     this.bodyPadding,
     this.appBarActions,
     this.title,
+    this.showBackButton = true,
     required this.showLoadingBarrier,
     required this.body,
   });
@@ -18,6 +19,7 @@ class CustomScaffold extends StatelessWidget {
   final EdgeInsets? bodyPadding;
   final List<Widget>? appBarActions;
   final String? title;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class CustomScaffold extends StatelessWidget {
       children: [
         Scaffold(
           backgroundColor: context.colorScheme.surface,
-          appBar: context.canPop()
+          appBar: context.canPop() && showBackButton
               ? AppBar(
                   backgroundColor: context.colorScheme.surface,
                   surfaceTintColor: context.colorScheme.surface,
