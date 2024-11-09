@@ -26,6 +26,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final ValueNotifier<double> _opacityNotifier = ValueNotifier(1.0);
   var initialChildSize = .7;
   bool sheetIsOpening = false;
+
   @override
   void initState() {
     sheetController.addListener(() {
@@ -51,7 +52,7 @@ class _SearchScreenState extends State<SearchScreen> {
     selectedResult = null;
     await sheetController.animateTo(
       0,
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.fastEaseInToSlowEaseOut,
     );
     _opacityNotifier.value = 1;
@@ -64,8 +65,8 @@ class _SearchScreenState extends State<SearchScreen> {
     await Future.delayed(const Duration(milliseconds: 50));
     await sheetController.animateTo(
       initialChildSize,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.fastEaseInToSlowEaseOut,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.fastLinearToSlowEaseIn,
     );
     sheetIsOpening = false;
   }
@@ -147,7 +148,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               if (selectedResult != null) ...[
                 Positioned.fill(
-                  bottom: (context.screenHeight * initialChildSize) - 60,
+                  bottom: (context.screenHeight * .3),
                   child: GestureDetector(
                     onTap: hideSheet,
                     child: ValueListenableBuilder(
@@ -155,10 +156,12 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: FutureBuilder(
                         future: Future.delayed(const Duration(seconds: 5)),
                         builder: (context, snapshot) {
-                          return switch (snapshot.connectionState) {
-                            ConnectionState.done => const _ScrollDownHint(),
-                            _ => const SizedBox()
-                          };
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            return const _ScrollDownHint();
+                          } else {
+                            return const SizedBox();
+                          }
                         },
                       ),
                       builder: (context, value, child) {
