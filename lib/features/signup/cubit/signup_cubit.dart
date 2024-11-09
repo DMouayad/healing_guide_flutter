@@ -16,28 +16,24 @@ class SignupCubit extends Cubit<SignupState> {
   final Role signupAs;
 
   SignupCubit({required this.signupAs}) : super(const SignupIdleState()) {
-    formHelper = SignupFormHelper(
-      emailInitialValue: state.dto?.email,
-      fullNameInitialValue: state.dto?.fullName,
-      phoneInitialValue: state.dto?.phoneNumber,
-    );
+    formHelper = SignupFormHelper();
   }
   void onSignupFormSubmit() {
     if (!formHelper.validateInput()) {
       return;
     }
-    final dto = UserRegistrationDTO(
-      role: signupAs,
-      password: formHelper.passwordValue,
-      phoneNumber: formHelper.phoneNoValue,
-      email: formHelper.emailValue,
-      fullName: formHelper.fullNameValue,
-    );
+
     emit(const SignupBusyState());
     //
     // await userRepository.sendEmailVerificationCode(dto.phoneNumber);
-    Timer(const Duration(seconds: 2),
-        () => emit(SignupPendingPhoneVerificationState(dto: dto)));
+    Timer(
+      const Duration(seconds: 2),
+      () => emit(SignupPendingPhoneVerificationState(
+        email: formHelper.emailValue,
+        password: formHelper.passwordValue,
+        phoneNumber: formHelper.phoneNoValue,
+      )),
+    );
   }
 
   Future<void> onSignupRequestedAfterVerification() async {
@@ -50,7 +46,14 @@ class SignupCubit extends Cubit<SignupState> {
     }
     emit(const SignupBusyState());
     try {
-      await GetIt.I.get<AuthRepository>().register(currentState.dto);
+      final dto = UserRegistrationDTO(
+        role: signupAs,
+        password: formHelper.passwordValue,
+        phoneNumber: formHelper.phoneNoValue,
+        email: formHelper.emailValue,
+        fullName: formHelper.fullNameValue,
+      );
+      await GetIt.I.get<AuthRepository>().register(dto);
       emit(const SignupSuccessState());
     } catch (e) {
       AppException appException =

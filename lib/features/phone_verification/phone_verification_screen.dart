@@ -53,8 +53,13 @@ class _PhoneVerificationView extends StatelessWidget {
   Widget build(BuildContext context) {
     const gap24 = SizedBox(height: 24);
     const gap48 = SizedBox(height: 48);
+    String getPhoneNumber(BuildContext context) {
+      return switch (context.read<SignupCubit>().state) {
+        SignupPendingPhoneVerificationState s => s.phoneNumber,
+        _ => ''
+      };
+    }
 
-    final phoneNo = context.read<SignupCubit>().state.dto?.phoneNumber ?? '-';
     return _PhoneVerificationStateListener(
       child: _NoPopWrapper(
         child: Center(
@@ -85,7 +90,7 @@ class _PhoneVerificationView extends StatelessWidget {
                           context.l10n.phoneVerificationCodeWasSent,
                         ),
                         Text(
-                          phoneNo,
+                          getPhoneNumber(context),
                           textDirection: TextDirection.ltr,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
