@@ -30,6 +30,29 @@ final class SignupPendingPhoneVerificationState extends SignupState {
   List<Object?> get props => [...super.props, email, phoneNumber, password];
 }
 
+final class CompleteSignupState extends SignupState {
+  const CompleteSignupState({
+    required this.email,
+    required this.phoneNumber,
+    required this.password,
+  }) : super(isBusy: false);
+
+  factory CompleteSignupState.fromPendingState(
+      SignupPendingPhoneVerificationState pendingState) {
+    return CompleteSignupState(
+      email: pendingState.email,
+      phoneNumber: pendingState.phoneNumber,
+      password: pendingState.password,
+    );
+  }
+  final String email;
+  final String phoneNumber;
+  final String password;
+
+  @override
+  List<Object?> get props => [...super.props, email, phoneNumber, password];
+}
+
 final class SignupSuccessState extends SignupState {
   const SignupSuccessState() : super(isBusy: false);
 }

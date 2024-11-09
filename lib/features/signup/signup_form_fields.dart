@@ -12,7 +12,7 @@ class _FullNameTextField extends StatelessWidget {
       validator: (value) => formHelper.fullNameValidator(value, context),
       hintText: context.l10n.usernameFieldHint,
       labelText: context.l10n.usernameFieldLabel,
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
     );
   }
 }

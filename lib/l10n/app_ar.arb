@@ -91,8 +91,11 @@
     "locationPermissionDenied": "تم رفض إذن الموقع. يرجى منح التطبيق إذنًا للوصول إلى موقعك.",
     "locationPermissionDeniedPermanently": "تم رفض إذن الموقع بشكل دائم. يرجى الانتقال إلى إعدادات جهازك ومنح التطبيق إذنًا للوصول إلى موقعك",
     "signupBtnLabel": "إنشاء حسابي",
+    "completeSignupBtnLabel": "إتمام إنشاء الحساب",
     "signupAsDoctorScreenTitle": "إنشاء حساب طبيب",
     "signupAsPatientScreenTitle": "إنشاء حساب مريض",
     "signupInProgress": "جار إنشاء حساب جديد، يرجى الانتظار...",
+    "completeSignupFormSubtitle": "يرجى إكمال معلوماتك الشخصية",
+    "completeSignupFormTitle": "تم تأكيد رقمك بنجاح",
     "signupFailureDialogTitle": "فشل إنشاء حساب جديد"
 }

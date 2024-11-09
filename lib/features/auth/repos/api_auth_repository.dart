@@ -15,8 +15,9 @@ final class ApiAuthRepository extends AuthRepository {
   }
 
   @override
-  Future<void> register(UserRegistrationDTO dto) {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<void> completeRegistration(CompleteRegistrationDTO dto) async {
   }
+
+  @override
+  Future<void> startRegistration(StartRegistrationDTO dto) async {}
 }

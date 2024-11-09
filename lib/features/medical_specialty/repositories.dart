@@ -17,7 +17,6 @@ class ApiMedicalSpecialtyRepository extends MedicalSpecialtyRepository {
     return RestClient.instance
         .get(ApiConfig.getMedicalSpecialtiesEndpoint)
         .then(_decodeResponseBody)
-        .onError(_handleError)
         .catchError(_handleError);
   }
 

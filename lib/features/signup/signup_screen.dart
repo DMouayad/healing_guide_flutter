@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:healing_guide_flutter/features/signup/signup_form_helper.dart';
 
 import 'package:healing_guide_flutter/features/user/models/role.dart';
 import 'package:healing_guide_flutter/routes/routes.dart';
@@ -47,10 +48,15 @@ class SignupScreen extends StatelessWidget {
               break;
           }
         },
-        buildWhen: (previous, current) => previous.isBusy != current.isBusy,
+        buildWhen: (previous, current) =>
+            (previous.isBusy != current.isBusy) ||
+            current is CompleteSignupState,
         builder: (context, state) {
           return CustomScaffold(
-            body: const SignupForm(),
+            showBackButton: state is! CompleteSignupState,
+            body: state is CompleteSignupState
+                ? const _CompleteSignupForm()
+                : const SignupForm(),
             showLoadingBarrier: state.isBusy || state is SignupSuccessState,
             loadingBarrierText: context.l10n.signupInProgress,
           );
@@ -60,8 +66,114 @@ class SignupScreen extends StatelessWidget {
   }
 }
 
+class _CompleteSignupForm extends StatelessWidget {
+  const _CompleteSignupForm();
+
+  @override
+  Widget build(BuildContext context) {
+    return _BaseForm(
+      subtitle: context.l10n.completeSignupFormSubtitle,
+      builder: (formHelper, gap) {
+        return [
+          const SizedBox(height: 48),
+          const _FullNameTextField(),
+          gap,
+          const _GenderInput(),
+          const SizedBox(height: 48),
+          const _SignupButton(),
+        ];
+      },
+    );
+  }
+}
+
 class SignupForm extends StatelessWidget {
   const SignupForm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _BaseForm(
+      subtitle: _getSubtitle(context),
+      builder: (formHelper, gap) {
+        return [
+          PhoneTextField(
+            controller: formHelper.phoneNoController,
+            validator: formHelper.phoneNoValidator,
+          ),
+          gap,
+          EmailTextField(formHelper: formHelper),
+          gap,
+          PasswordTextField(formHelper: formHelper),
+          gap,
+          const _PasswordConfirmationTextField(),
+          const SizedBox(height: 48),
+          const _SignupButton(),
+          const SizedBox(height: 48),
+          const _HaveAnExistingAccountSection(),
+        ];
+      },
+    );
+  }
+
+  String _getSubtitle(BuildContext context) {
+    final role = context.read<SignupCubit>().signupAs;
+    return switch (role) {
+      Role.patient => context.l10n.signupAsPatientScreenTitle,
+      Role.physician => context.l10n.signupAsDoctorScreenTitle,
+      Role.guest => throw UnimplementedError(),
+    };
+  }
+}
+
+class _SignupButton extends StatelessWidget {
+  const _SignupButton();
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<SignupCubit>();
+    return FilledButton(
+      key: const Key('signup_raisedButton'),
+      onPressed: () {
+        FocusScope.of(context).unfocus();
+        if (cubit.state is CompleteSignupState) {
+          context.read<SignupCubit>().onCompleteSignupRequested();
+        } else {
+          context.read<SignupCubit>().onSignupFormSubmit();
+        }
+      },
+      style: const ButtonStyle(
+        minimumSize: WidgetStatePropertyAll(Size.fromHeight(48)),
+      ),
+      child: Text(
+        cubit.state is CompleteSignupState
+            ? context.l10n.completeSignupBtnLabel
+            : context.l10n.signupBtnLabel,
+      ),
+    );
+  }
+}
+
+class _HaveAnExistingAccountSection extends StatelessWidget {
+  const _HaveAnExistingAccountSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(context.l10n.alreadyHaveAnAccountQuestion),
+        TextButton(
+          onPressed: context.pop,
+          child: Text(context.l10n.loginBtnLabel),
+        ),
+      ],
+    );
+  }
+}
+
+class _BaseForm extends StatelessWidget {
+  const _BaseForm({required this.builder, required this.subtitle});
+  final List<Widget> Function(SignupFormHelper formHelper, Padding gap) builder;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -83,36 +195,17 @@ class SignupForm extends StatelessWidget {
                 SvgPicture.asset('assets/images/logo.svg'),
                 formGap,
                 Text(
-                  context.l10n.appGreeting,
+                  getTitle(context),
                   style: context.myTxtTheme.titleMedium,
                 ),
                 formGap,
                 Text(
-                  _getSubtitle(context),
+                  subtitle,
                   style: context.myTxtTheme.bodyMedium
                       .copyWith(color: context.colorScheme.primary),
                 ),
-                ...[
-                  const SizedBox(height: 48),
-                  const _FullNameTextField(),
-                  formGap,
-                  PhoneTextField(
-                    controller: formHelper.phoneNoController,
-                    validator: formHelper.phoneNoValidator,
-                  ),
-                  formGap,
-                  EmailTextField(formHelper: formHelper),
-                  formGap,
-                  PasswordTextField(formHelper: formHelper),
-                  formGap,
-                  const _PasswordConfirmationTextField(),
-                  formGap,
-                  const _GenderInput(),
-                  const SizedBox(height: 48),
-                  const _SignupButton(),
-                  const SizedBox(height: 48),
-                  const _HaveAnExistingAccountSection(),
-                ],
+                const SizedBox(height: 48),
+                ...builder(formHelper, formGap),
               ],
             ),
           ),
@@ -121,48 +214,9 @@ class SignupForm extends StatelessWidget {
     );
   }
 
-  String _getSubtitle(BuildContext context) {
-    final role = context.read<SignupCubit>().signupAs;
-    return switch (role) {
-      Role.patient => context.l10n.signupAsPatientScreenTitle,
-      Role.physician => context.l10n.signupAsDoctorScreenTitle,
-      Role.guest => throw UnimplementedError(),
-    };
-  }
-}
-
-class _SignupButton extends StatelessWidget {
-  const _SignupButton();
-  @override
-  Widget build(BuildContext context) {
-    return FilledButton(
-      key: const Key('signup_raisedButton'),
-      onPressed: () {
-        FocusScope.of(context).unfocus();
-        context.read<SignupCubit>().onSignupFormSubmit();
-      },
-      style: const ButtonStyle(
-        minimumSize: WidgetStatePropertyAll(Size.fromHeight(48)),
-      ),
-      child: Text(context.l10n.signupBtnLabel),
-    );
-  }
-}
-
-class _HaveAnExistingAccountSection extends StatelessWidget {
-  const _HaveAnExistingAccountSection();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(context.l10n.alreadyHaveAnAccountQuestion),
-        TextButton(
-          onPressed: context.pop,
-          child: Text(context.l10n.loginBtnLabel),
-        ),
-      ],
-    );
+  String getTitle(BuildContext context) {
+    return context.read<SignupCubit>().state is CompleteSignupState
+        ? context.l10n.completeSignupFormTitle
+        : context.l10n.appGreeting;
   }
 }

@@ -162,7 +162,8 @@ class _PhoneVerificationStateListener extends StatelessWidget {
       listener: (context, state) {
         switch (state) {
           case PhoneVerificationSuccessState():
-            context.read<SignupCubit>().onSignupRequestedAfterVerification();
+            context.read<SignupCubit>().proceedToSecondStep();
+            context.pop(true);
             break;
           case PhoneVerificationFailureState errState:
             showErrorDialog(

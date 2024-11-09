@@ -28,21 +28,27 @@ final class FakeAuthRepository extends AuthRepository {
   }
 
   @override
-  Future<void> register(UserRegistrationDTO dto) async {
+  Future<void> completeRegistration(CompleteRegistrationDTO dto) async {
     final user = userFromDTO(dto);
     await _userRepository.saveUser(user);
     await Future.delayed(
-      const Duration(milliseconds: 500),
+      const Duration(milliseconds: 2000),
       () => _controller.add(AuthState.authenticated(user)),
     );
   }
 
-  User userFromDTO(UserRegistrationDTO dto) {
+  User userFromDTO(CompleteRegistrationDTO dto) {
     return const UserBuilder().build(
       email: dto.email,
       phoneNumber: dto.phoneNumber,
       fullName: dto.fullName,
       role: dto.role,
     );
+  }
+
+  @override
+  Future<void> startRegistration(StartRegistrationDTO dto) {
+    // TODO: implement startRegistration
+    throw UnimplementedError();
   }
 }

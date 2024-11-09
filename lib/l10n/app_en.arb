@@ -250,6 +250,7 @@
     "locationServiceDisabled": "Location services are disabled. Please enable them in your device settings to view nearby medical facilities.",
     "locationPermissionDenied": "Location permission is denied. Please grant the app permission to access your location to find nearby doctors and hospitals.",
     "locationPermissionDeniedPermanently": "Location permission is permanently denied. Please go to your device settings and grant the app permission to access your location.",
+    "completeSignupBtnLabel": "Complete registration",
     "signupBtnLabel": "Create my account",
     "@signupBtnLabel": {
         "description": "The label of the signup action button in a form"
@@ -258,6 +259,8 @@
     "@signupAsDoctorScreenTitle": {},
     "signupAsPatientScreenTitle": "Registering as a doctor",
     "@signupAsPatientScreenTitle": {},
+    "completeSignupFormSubtitle": "Please fill your information",
+    "completeSignupFormTitle": "Verification Success",
     "signupInProgress": "Creating your account, please wait...",
     "@signupInProgress": {
         "description": "The text to be displayed when a signup attempt is in progress"

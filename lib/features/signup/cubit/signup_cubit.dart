@@ -19,7 +19,7 @@ class SignupCubit extends Cubit<SignupState> {
     formHelper = SignupFormHelper();
   }
   void onSignupFormSubmit() {
-    if (!formHelper.validateInput()) {
+    if (!formHelper.validateInput() || state.isBusy) {
       return;
     }
 
@@ -36,7 +36,7 @@ class SignupCubit extends Cubit<SignupState> {
     );
   }
 
-  Future<void> onSignupRequestedAfterVerification() async {
+  Future<void> proceedToSecondStep() async {
     final currentState = state;
     if (currentState is! SignupPendingPhoneVerificationState) {
       pLogger.w(
@@ -44,16 +44,23 @@ class SignupCubit extends Cubit<SignupState> {
       );
       return;
     }
+    emit(CompleteSignupState.fromPendingState(currentState));
+  }
+
+  Future<void> onCompleteSignupRequested() async {
+    if (!formHelper.validateInput() || state.isBusy) {
+      return;
+    }
     emit(const SignupBusyState());
     try {
-      final dto = UserRegistrationDTO(
+      final dto = CompleteRegistrationDTO(
         role: signupAs,
         password: formHelper.passwordValue,
         phoneNumber: formHelper.phoneNoValue,
         email: formHelper.emailValue,
         fullName: formHelper.fullNameValue,
       );
-      await GetIt.I.get<AuthRepository>().register(dto);
+      await GetIt.I.get<AuthRepository>().completeRegistration(dto);
       emit(const SignupSuccessState());
     } catch (e) {
       AppException appException =
