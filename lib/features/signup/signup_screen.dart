@@ -34,8 +34,7 @@ class SignupScreen extends StatelessWidget {
               PhoneVerificationScreenRoute(context.read()).push(context);
               break;
             case SignupSuccessState():
-              //TODO: replace `HomeScreenRoute` with profile screen route when it's created
-              HomeScreenRoute().pushReplacement(context);
+              const UserProfileScreenRoute().pushReplacement(context);
               break;
             case SignupFailureState state:
               showErrorDialog(
