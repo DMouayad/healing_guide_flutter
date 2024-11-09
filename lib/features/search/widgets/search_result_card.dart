@@ -43,13 +43,18 @@ class SearchResultCardContent extends StatelessWidget {
               children: [
                 Text(
                   result.title,
-                  style: context.myTxtTheme.titleMedium,
+                  style: context.myTxtTheme.titleMedium
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
                 if (result.subTitle.isNotEmpty) ...[
                   const SizedBox(height: 5),
-                  Text(
-                    result.subTitle,
-                    style: context.myTxtTheme.bodySmall,
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      result.subTitle,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.myTxtTheme.bodySmall,
+                    ),
                   ),
                 ],
                 const SizedBox(height: 5),
