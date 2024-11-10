@@ -116,7 +116,15 @@ class _SubmitButton extends StatelessWidget {
       buildWhen: (prev, current) =>
           prev.inputIsValid() != current.inputIsValid(),
       builder: (context, state) => FilledButton(
-        onPressed: state.inputIsValid() ? cubit.onSubmitCode : null,
+        onPressed: () {
+          if (state.inputIsValid()) {
+            if (context.read<SignupCubit>().state
+                case SignupPendingPhoneVerificationState signupState) {
+              return () => cubit.onSubmitCode(signupState);
+            }
+          }
+          return null;
+        }(),
         style: const ButtonStyle(
           minimumSize: WidgetStatePropertyAll(Size.fromHeight(48)),
         ),

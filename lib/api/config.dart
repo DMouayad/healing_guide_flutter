@@ -8,6 +8,9 @@ class ApiConfig {
   static const completeRegistrationAsPatient = 'Account/complete-registration';
   static const loginEndpoint = 'Account/login';
   static const logoutEndpoint = 'Account/logout';
+  static const verifyPatientPhoneNumberEndpoint = 'Account/verify-phone-number';
+  static const verifyPhysicianPhoneNumberEndpoint =
+      'Account/verify-physician-phone-number';
   static const searchEndpoint = 'Search';
   static const searchPhysiciansEndpoint = 'SearchForDoctors';
   static const searchFacilitiesEndpoint = 'SearchForMedicalFacility';
