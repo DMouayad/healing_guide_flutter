@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:healing_guide_flutter/api/rest_client.dart';
 import 'package:healing_guide_flutter/exceptions/app_exception.dart';
 import 'package:http/http.dart';
 
@@ -22,20 +24,29 @@ extension StatusClasses on BaseResponse {
   bool get isSuccess => statusCode < 300 && statusCode >= 200;
 }
 
-extension JsonDecodeBody on Response {
+extension JsonDecodeBodyStreamed on Response {
   /// Calls [jsonDecode] on the request body if the status code is `2xx`, otherwise
-  /// throws [InvalidResponseStatus]
-  dynamic json() {
-    if (isSuccess) return jsonDecode(body);
+  /// throws an [AppException] based on the status code.
+  ///
+  /// see `[AppException.fromHttpResponse]`
+  JsonObject json() {
+    if (isSuccess) {
+      return statusCode == HttpStatus.noContent
+          ? JsonObject.from({})
+          : _tryDecodingResponse();
+    }
     throw AppException.fromHttpResponse(statusCode);
   }
-}
 
-extension JsonDecodeBodyStreamed on StreamedResponse {
-  /// Calls [jsonDecode] on the request body if the status code is `2xx`, otherwise
-  /// throws [InvalidResponseStatus]
-  Future<dynamic> json() async {
-    if (isSuccess) return jsonDecode(await stream.bytesToString());
-    throw AppException.fromHttpResponse(statusCode);
+  JsonObject _tryDecodingResponse() {
+    try {
+      return switch (jsonDecode(body)) {
+        String str => JsonObject.from({"message": str}),
+        JsonObject jsonObj => jsonObj,
+        _ => {}
+      };
+    } catch (e) {
+      throw AppException.decodingJsonFailed;
+    }
   }
 }

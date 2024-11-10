@@ -57,9 +57,11 @@ class RestClient {
     request.body = jsonEncode(body);
 
     log("$method $uri", name: 'Request Logger');
-    final response = await httpClient.send(request);
 
-    return await response.json();
+    return httpClient
+        .send(request)
+        .then(http.Response.fromStream)
+        .then((response) => response.json());
   }
 
   Map<String, String> get _headers {
