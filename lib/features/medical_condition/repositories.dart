@@ -2,7 +2,6 @@ import 'package:healing_guide_flutter/api/config.dart';
 import 'package:healing_guide_flutter/api/rest_client.dart';
 import 'package:healing_guide_flutter/exceptions/app_exception.dart';
 import 'package:healing_guide_flutter/features/medical_condition/medical_condition.dart';
-import 'package:healing_guide_flutter/utils/utils.dart';
 
 typedef MedicalConditions = List<MedicalCondition>;
 
@@ -20,7 +19,6 @@ class ApiMedicalConditionRepository extends MedicalConditionRepository {
   }
 
   _handleError(Object error, StackTrace trace) {
-    pLogger.e('$runtimeType', error: error, stackTrace: trace);
     return switch (error) {
       AppException.notFound => Future.value(MedicalConditions.empty()),
       _ => Future<MedicalConditions>.error(error)

@@ -12,7 +12,6 @@ abstract base class SearchRepository {
   }
 
   _handleError(Object error, StackTrace trace) {
-    pLogger.e('$runtimeType', error: error, stackTrace: trace);
     return switch (error) {
       AppException.notFound => SearchResults.value([]),
       _ => SearchResults.error(error)
