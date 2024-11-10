@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:healing_guide_flutter/features/user/models/role.dart';
 
-class CompleteRegistrationDTO {
+class CompleteRegistrationDTO extends Equatable {
   final Role role;
   final String email;
   final String phoneNumber;
@@ -14,9 +15,11 @@ class CompleteRegistrationDTO {
     required this.fullName,
     required this.password,
   });
+  @override
+  List<Object?> get props => [fullName, role, email, phoneNumber, password];
 }
 
-class StartRegistrationDTO {
+class StartRegistrationDTO extends Equatable {
   final Role role;
   final String email;
   final String phoneNumber;
@@ -28,6 +31,35 @@ class StartRegistrationDTO {
     required this.phoneNumber,
     required this.password,
   });
+  @override
+  List<Object?> get props => [role, email, phoneNumber, password];
+
+  Map<String, dynamic> toJson() {
+    return {
+      "role": role.name,
+      "email": email,
+      "phoneNumber": phoneNumber,
+      "password": '',
+    };
+  }
+
+  static StartRegistrationDTO? fromJson(Map<String, dynamic> json) {
+    if (json
+        case {
+          "role": String role,
+          "email": String email,
+          "phoneNumber": String phoneNumber,
+          "password": String _,
+        }) {
+      return StartRegistrationDTO(
+        role: Role.values.byName(role),
+        email: email,
+        phoneNumber: phoneNumber,
+        password: '',
+      );
+    }
+    return null;
+  }
 }
 
 class UserLoginDTO {

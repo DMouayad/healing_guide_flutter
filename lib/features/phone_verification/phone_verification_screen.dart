@@ -55,7 +55,7 @@ class _PhoneVerificationView extends StatelessWidget {
     const gap48 = SizedBox(height: 48);
     String getPhoneNumber(BuildContext context) {
       return switch (context.read<SignupCubit>().state) {
-        SignupPendingPhoneVerificationState s => s.phoneNumber,
+        SignupPendingPhoneVerificationState s => s.dto.phoneNumber,
         _ => ''
       };
     }

@@ -6,6 +6,12 @@ sealed class SignupState extends Equatable {
 
   @override
   List<Object?> get props => [isBusy];
+
+  Map<String, dynamic> toJson() {
+    return {
+      "isBusy": isBusy,
+    };
+  }
 }
 
 final class SignupIdleState extends SignupState {
@@ -17,40 +23,31 @@ final class SignupBusyState extends SignupState {
 }
 
 final class SignupPendingPhoneVerificationState extends SignupState {
-  final String email;
-  final String phoneNumber;
-  final String password;
+  static const stepName = 'PendingPhoneVerification';
 
-  const SignupPendingPhoneVerificationState({
-    required this.email,
-    required this.phoneNumber,
-    required this.password,
-  }) : super(isBusy: false);
+  final StartRegistrationDTO dto;
+
+  const SignupPendingPhoneVerificationState(this.dto) : super(isBusy: false);
   @override
-  List<Object?> get props => [...super.props, email, phoneNumber, password];
+  List<Object?> get props => [...super.props, dto];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {...super.toJson(), 'dto': dto.toJson(), 'step': stepName};
+  }
 }
 
-final class CompleteSignupState extends SignupState {
-  const CompleteSignupState({
-    required this.email,
-    required this.phoneNumber,
-    required this.password,
-  }) : super(isBusy: false);
-
-  factory CompleteSignupState.fromPendingState(
-      SignupPendingPhoneVerificationState pendingState) {
-    return CompleteSignupState(
-      email: pendingState.email,
-      phoneNumber: pendingState.phoneNumber,
-      password: pendingState.password,
-    );
-  }
-  final String email;
-  final String phoneNumber;
-  final String password;
+final class SignupPendingCompletionState extends SignupState {
+  static const stepName = 'PendingInfoCompletion';
+  final StartRegistrationDTO dto;
+  const SignupPendingCompletionState(this.dto) : super(isBusy: false);
+  @override
+  List<Object?> get props => [...super.props, dto];
 
   @override
-  List<Object?> get props => [...super.props, email, phoneNumber, password];
+  Map<String, dynamic> toJson() {
+    return {...super.toJson(), 'dto': dto.toJson(), 'step': stepName};
+  }
 }
 
 final class SignupSuccessState extends SignupState {
@@ -62,4 +59,12 @@ final class SignupFailureState extends SignupState {
   const SignupFailureState(this.appException) : super(isBusy: false);
   @override
   List<Object?> get props => [appException, ...super.props];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      ...super.toJson(),
+      'appException': appException.index,
+    };
+  }
 }

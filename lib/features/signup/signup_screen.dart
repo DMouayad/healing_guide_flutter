@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:healing_guide_flutter/features/signup/signup_form_helper.dart';
 
+import 'package:healing_guide_flutter/features/signup/signup_form_helper.dart';
 import 'package:healing_guide_flutter/features/user/models/role.dart';
 import 'package:healing_guide_flutter/routes/routes.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
@@ -28,6 +28,7 @@ class SignupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignupCubit(signupAs: signupAs),
+      lazy: false,
       child: BlocConsumer<SignupCubit, SignupState>(
         listener: (context, state) {
           switch (state) {
@@ -50,11 +51,11 @@ class SignupScreen extends StatelessWidget {
         },
         buildWhen: (previous, current) =>
             (previous.isBusy != current.isBusy) ||
-            current is CompleteSignupState,
+            current is SignupPendingCompletionState,
         builder: (context, state) {
           return CustomScaffold(
-            showBackButton: state is! CompleteSignupState,
-            body: state is CompleteSignupState
+            showBackButton: state is! SignupPendingCompletionState,
+            body: state is SignupPendingCompletionState
                 ? const _CompleteSignupForm()
                 : const SignupForm(),
             showLoadingBarrier: state.isBusy || state is SignupSuccessState,
@@ -134,7 +135,7 @@ class _SignupButton extends StatelessWidget {
       key: const Key('signup_raisedButton'),
       onPressed: () {
         FocusScope.of(context).unfocus();
-        if (cubit.state is CompleteSignupState) {
+        if (cubit.state is SignupPendingCompletionState) {
           context.read<SignupCubit>().onCompleteSignupRequested();
         } else {
           context.read<SignupCubit>().onSignupFormSubmit();
@@ -144,7 +145,7 @@ class _SignupButton extends StatelessWidget {
         minimumSize: WidgetStatePropertyAll(Size.fromHeight(48)),
       ),
       child: Text(
-        cubit.state is CompleteSignupState
+        cubit.state is SignupPendingCompletionState
             ? context.l10n.completeSignupBtnLabel
             : context.l10n.signupBtnLabel,
       ),
@@ -215,7 +216,7 @@ class _BaseForm extends StatelessWidget {
   }
 
   String getTitle(BuildContext context) {
-    return context.read<SignupCubit>().state is CompleteSignupState
+    return context.read<SignupCubit>().state is SignupPendingCompletionState
         ? context.l10n.completeSignupFormTitle
         : context.l10n.appGreeting;
   }

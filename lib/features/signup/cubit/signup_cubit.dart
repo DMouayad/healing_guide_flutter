@@ -2,24 +2,27 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+
 import 'package:healing_guide_flutter/exceptions/app_exception.dart';
 import 'package:healing_guide_flutter/features/auth/repositories.dart';
 import 'package:healing_guide_flutter/features/signup/signup_form_helper.dart';
 import 'package:healing_guide_flutter/features/user/models.dart';
 import 'package:healing_guide_flutter/utils/src/bloc_helpers.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'signup_state.dart';
 
-class SignupCubit extends Cubit<SignupState> {
+class SignupCubit extends HydratedCubit<SignupState> {
   late final SignupFormHelper formHelper;
   late final BlocHelpers _helpers;
   final Role signupAs;
 
   AuthRepository get _authRepo => GetIt.I.get();
 
-  SignupCubit({required this.signupAs}) : super(const SignupIdleState()) {
+  SignupCubit({
+    required this.signupAs,
+  }) : super(const SignupIdleState()) {
     formHelper = SignupFormHelper();
     _helpers = BlocHelpers(
       onError: (exception) => emit(SignupFailureState(exception)),
@@ -44,14 +47,8 @@ class SignupCubit extends Cubit<SignupState> {
       _authRepo.startRegistration(dto),
       onSuccess: (value) {
         //  userRepository.sendEmailVerificationCode(dto.phoneNumber);
-        Timer(
-          const Duration(seconds: 2),
-          () => emit(SignupPendingPhoneVerificationState(
-            email: formHelper.emailValue,
-            password: formHelper.passwordValue,
-            phoneNumber: formHelper.phoneNoValue,
-          )),
-        );
+        final state = SignupPendingPhoneVerificationState(dto);
+        Timer(const Duration(seconds: 2), () => emit(state));
       },
     );
   }
@@ -64,7 +61,7 @@ class SignupCubit extends Cubit<SignupState> {
       );
       return;
     }
-    emit(CompleteSignupState.fromPendingState(currentState));
+    emit(SignupPendingCompletionState(currentState.dto));
   }
 
   Future<void> onCompleteSignupRequested() async {
@@ -82,5 +79,37 @@ class SignupCubit extends Cubit<SignupState> {
       GetIt.I.get<AuthRepository>().completeRegistration(dto),
       onSuccess: (_) => emit(const SignupSuccessState()),
     );
+  }
+
+  @override
+  SignupState? fromJson(Map<String, dynamic> json) {
+    if (json
+        case {
+          "isBusy": bool _,
+          "step": String step,
+          "dto": Map<String, dynamic> dtoJson,
+        }) {
+      if (StartRegistrationDTO.fromJson(dtoJson)
+          case StartRegistrationDTO dto) {
+        if (step == SignupPendingCompletionState.stepName) {
+          return SignupPendingCompletionState(dto);
+        }
+        if (step == SignupPendingPhoneVerificationState.stepName) {
+          return SignupPendingPhoneVerificationState(dto);
+        }
+      }
+    } else if (json
+        case {"isBusy": bool _, "appException": int appExceptionIndex}) {
+      return SignupFailureState(
+        AppException.values.elementAt(appExceptionIndex),
+      );
+    }
+    return const SignupIdleState();
+  }
+
+  @override
+  Map<String, dynamic>? toJson(SignupState state) {
+    var json = state.toJson();
+    return json;
   }
 }
