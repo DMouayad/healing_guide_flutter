@@ -29,24 +29,25 @@ extension JsonDecodeBodyStreamed on Response {
   /// throws an [AppException] based on the status code.
   ///
   /// see `[AppException.fromHttpResponse]`
-  JsonObject json() {
+  Future<JsonObject> json() {
     if (isSuccess) {
       return statusCode == HttpStatus.noContent
-          ? JsonObject.from({})
+          ? Future.value({})
           : _tryDecodingResponse();
     }
-    throw AppException.fromHttpResponse(statusCode);
+    return Future.error(
+        AppException.fromHttpResponse(statusCode), StackTrace.current);
   }
 
-  JsonObject _tryDecodingResponse() {
+  Future<JsonObject> _tryDecodingResponse() {
     try {
-      return switch (jsonDecode(body)) {
+      return Future.value(switch (jsonDecode(body)) {
         String str => JsonObject.from({"message": str}),
         JsonObject jsonObj => jsonObj,
         _ => {}
-      };
+      });
     } catch (e) {
-      throw AppException.decodingJsonFailed;
+      return Future.error(AppException.decodingJsonFailed, StackTrace.current);
     }
   }
 }
