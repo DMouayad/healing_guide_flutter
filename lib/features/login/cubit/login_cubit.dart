@@ -35,6 +35,13 @@ class LoginCubit extends Cubit<LoginState> {
             password: formHelper.passwordValue,
             email: formHelper.emailValue,
           )),
+      onError: (exception) {
+        if (exception == AppException.unauthenticated) {
+          emit(const LoginFailureState(AppException.invalidLoginCredential));
+        } else {
+          _helpers.onError(exception);
+        }
+      },
       onSuccess: (_) => emit(const LoginSuccessState()),
     );
   }

@@ -235,7 +235,7 @@
     "@accountAlreadyExist": {
         "description": "The message of `AppException.accountAlreadyExist`"
     },
-    "invalidLoginCredential": "The email\\phoneNo and password doesn't match.",
+    "invalidLoginCredential": "Incorrect email and\\or password.",
     "@invalidLoginCredential": {
         "description": "The message of `AppException.invalidLoginCredential`"
     },
