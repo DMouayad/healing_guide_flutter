@@ -6,6 +6,7 @@ import 'package:healing_guide_flutter/exceptions/app_exception.dart';
 import 'package:healing_guide_flutter/features/auth/repositories.dart';
 import 'package:healing_guide_flutter/features/signup/signup_form_helper.dart';
 import 'package:healing_guide_flutter/features/user/models.dart';
+import 'package:healing_guide_flutter/utils/src/bloc_helpers.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
@@ -13,26 +14,45 @@ part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
   late final SignupFormHelper formHelper;
+  late final BlocHelpers _helpers;
   final Role signupAs;
+
+  AuthRepository get _authRepo => GetIt.I.get();
 
   SignupCubit({required this.signupAs}) : super(const SignupIdleState()) {
     formHelper = SignupFormHelper();
+    _helpers = BlocHelpers(
+      onError: (exception) => emit(SignupFailureState(exception)),
+      setBusyTrue: () => emit(const SignupBusyState()),
+      setBusyFalse: () => emit(const SignupIdleState()),
+      isBusy: () => state.isBusy,
+    );
   }
-  void onSignupFormSubmit() {
+
+  Future<void> onSignupFormSubmit() async {
     if (!formHelper.validateInput() || state.isBusy) {
       return;
     }
 
-    emit(const SignupBusyState());
-    //
-    // await userRepository.sendEmailVerificationCode(dto.phoneNumber);
-    Timer(
-      const Duration(seconds: 2),
-      () => emit(SignupPendingPhoneVerificationState(
-        email: formHelper.emailValue,
-        password: formHelper.passwordValue,
-        phoneNumber: formHelper.phoneNoValue,
-      )),
+    final dto = StartRegistrationDTO(
+      role: signupAs,
+      email: formHelper.emailValue,
+      phoneNumber: formHelper.phoneNoValue,
+      password: formHelper.passwordValue,
+    );
+    _helpers.handleFuture(
+      _authRepo.startRegistration(dto),
+      onSuccess: (value) {
+        //  userRepository.sendEmailVerificationCode(dto.phoneNumber);
+        Timer(
+          const Duration(seconds: 2),
+          () => emit(SignupPendingPhoneVerificationState(
+            email: formHelper.emailValue,
+            password: formHelper.passwordValue,
+            phoneNumber: formHelper.phoneNoValue,
+          )),
+        );
+      },
     );
   }
 
@@ -51,25 +71,16 @@ class SignupCubit extends Cubit<SignupState> {
     if (!formHelper.validateInput() || state.isBusy) {
       return;
     }
-    emit(const SignupBusyState());
-    try {
-      final dto = CompleteRegistrationDTO(
-        role: signupAs,
-        password: formHelper.passwordValue,
-        phoneNumber: formHelper.phoneNoValue,
-        email: formHelper.emailValue,
-        fullName: formHelper.fullNameValue,
-      );
-      await GetIt.I.get<AuthRepository>().completeRegistration(dto);
-      emit(const SignupSuccessState());
-    } catch (e) {
-      AppException appException =
-          e is AppException ? e : AppException.undefined;
-      emit(SignupFailureState(appException));
-    } finally {
-      if (state.isBusy) {
-        emit(const SignupIdleState());
-      }
-    }
+    final dto = CompleteRegistrationDTO(
+      role: signupAs,
+      password: formHelper.passwordValue,
+      phoneNumber: formHelper.phoneNoValue,
+      email: formHelper.emailValue,
+      fullName: formHelper.fullNameValue,
+    );
+    _helpers.handleFuture(
+      GetIt.I.get<AuthRepository>().completeRegistration(dto),
+      onSuccess: (_) => emit(const SignupSuccessState()),
+    );
   }
 }

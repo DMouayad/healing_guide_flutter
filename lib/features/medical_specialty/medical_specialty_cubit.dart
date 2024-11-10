@@ -6,6 +6,6 @@ class MedicalSpecialtyCubit extends FutureCubit<MedicalSpecialties> {
   MedicalSpecialtyCubit() : super();
 
   void getSpecialties() {
-    runFuture(() => GetIt.I.get<MedicalSpecialtyRepository>().getAll());
+    runFuture(GetIt.I.get<MedicalSpecialtyRepository>().getAll());
   }
 }

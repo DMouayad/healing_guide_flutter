@@ -6,20 +6,20 @@ sealed class FutureState<T> extends Equatable {
 
   const FutureState({required this.isLoading, this.data});
 
-  const factory FutureState.initial() = InitialFutureState;
-  const factory FutureState.busy([T? data]) = BusyFutureState;
+  const factory FutureState.idle([T? data]) = IdleFutureState<T>;
+  const factory FutureState.busy([T? data]) = BusyFutureState<T>;
   const factory FutureState.error(
     AppException appException, {
     T? data,
-  }) = ErrorFutureState;
-  const factory FutureState.data(T data) = DataFutureState;
+  }) = ErrorFutureState<T>;
+  const factory FutureState.data(T data) = DataFutureState<T>;
 
   @override
   List<Object?> get props => [isLoading, data];
 }
 
-final class InitialFutureState<T> extends FutureState<T> {
-  const InitialFutureState() : super(isLoading: false);
+final class IdleFutureState<T> extends FutureState<T> {
+  const IdleFutureState([T? data]) : super(isLoading: false, data: data);
 }
 
 final class BusyFutureState<T> extends FutureState<T> {

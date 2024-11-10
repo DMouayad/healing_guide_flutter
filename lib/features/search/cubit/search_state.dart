@@ -35,9 +35,8 @@ class SearchState extends Equatable {
   }
 }
 
-class SearchErrorState extends SearchState {
-  const SearchErrorState(
-      {required this.appException, required super.searchTerm})
+class SearchFailureState extends SearchState {
+  const SearchFailureState(this.appException, {required super.searchTerm})
       : super(isBusy: false, isEditingFilters: false);
   final AppException appException;
   @override

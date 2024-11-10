@@ -8,16 +8,12 @@ class UserProfileState extends Equatable {
   List<Object?> get props => [isBusy];
 }
 
-final class UserProfileInitial extends UserProfileState {
-  const UserProfileInitial() : super(isBusy: false);
+final class UserProfileIdleState extends UserProfileState {
+  const UserProfileIdleState() : super(isBusy: false);
 }
 
-class UserProfileInProgressState extends UserProfileState {
-  const UserProfileInProgressState() : super(isBusy: true);
-}
-
-class LogoutInProgressState extends UserProfileInProgressState {
-  const LogoutInProgressState() : super();
+class UserProfileBusyState extends UserProfileState {
+  const UserProfileBusyState() : super(isBusy: true);
 }
 
 class UserProfileFailureState extends UserProfileState {
