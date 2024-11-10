@@ -6,31 +6,33 @@ class _VerificationCodeInputFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<PhoneVerificationCubit>();
+    final fields = List.generate(
+      growable: false,
+      4,
+      (i) {
+        var isLast = i == 3;
+        return Expanded(
+          flex: 0,
+          child: _DigitTextField(
+            textInputAction:
+                isLast ? TextInputAction.done : TextInputAction.next,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                if (isLast) {
+                  FocusScope.of(context).unfocus();
+                } else {
+                  FocusScope.of(context).nextFocus();
+                }
+              }
+              cubit.onVerificationCodeDigitChanged(i, value);
+            },
+          ),
+        );
+      },
+    );
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: List.generate(
-        4,
-        (i) {
-          var isLast = i == 3;
-          return Expanded(
-            flex: 0,
-            child: _DigitTextField(
-              textInputAction:
-                  isLast ? TextInputAction.done : TextInputAction.next,
-              onChanged: (value) {
-                if (value.isNotEmpty) {
-                  if (isLast) {
-                    FocusScope.of(context).unfocus();
-                  } else {
-                    FocusScope.of(context).nextFocus();
-                  }
-                }
-                cubit.onVerificationCodeDigitChanged(i, value);
-              },
-            ),
-          );
-        },
-      ),
+      children: fields,
     );
   }
 }
@@ -46,7 +48,6 @@ class _DigitTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      textDirection: TextDirection.ltr,
       onChanged: onChanged,
       textAlign: TextAlign.center,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -152,8 +153,8 @@ class _ChangeNumberSection extends StatelessWidget {
   }
 }
 
-class _PhoneVerificationStateListener extends StatelessWidget {
-  const _PhoneVerificationStateListener({required this.child});
+class _PhoneVerificationScaffold extends StatelessWidget {
+  const _PhoneVerificationScaffold({required this.child});
   final Widget child;
 
   @override
@@ -177,6 +178,7 @@ class _PhoneVerificationStateListener extends StatelessWidget {
         }
       },
       builder: (context, state) => CustomScaffold(
+        showBackButton: false,
         showLoadingBarrier: state is PhoneVerificationInProgressState ||
             state is PhoneVerificationSuccessState,
         bodyPadding: EdgeInsets.zero,

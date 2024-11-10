@@ -60,7 +60,7 @@ class _PhoneVerificationView extends StatelessWidget {
       };
     }
 
-    return _PhoneVerificationStateListener(
+    return _PhoneVerificationScaffold(
       child: _NoPopWrapper(
         child: Center(
           child: SingleChildScrollView(
