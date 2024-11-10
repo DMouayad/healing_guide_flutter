@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:healing_guide_flutter/api/config.dart';
+import 'package:healing_guide_flutter/api/rest_client.dart';
 import 'package:healing_guide_flutter/features/user/models.dart';
 import 'package:healing_guide_flutter/features/user/models/user_builder.dart';
 import 'package:healing_guide_flutter/features/user/repositories.dart';

@@ -21,7 +21,7 @@ Future<void> _bootstrap() async {
   GetIt.I.registerLazySingleton<UserRepository>(() => FakeUserRepository());
 
   GetIt.I.registerSingleton<AuthRepository>(
-    FakeAuthRepository(GetIt.I.get<UserRepository>()),
+    ApiAuthRepository(GetIt.I.get<UserRepository>()),
   );
   GetIt.I.registerSingleton<MedicalSpecialtyRepository>(
       ApiMedicalSpecialtyRepository());
