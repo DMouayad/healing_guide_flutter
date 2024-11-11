@@ -63,6 +63,7 @@ enum AppException {
     return switch (statusCode) {
       HttpStatus.unauthorized => AppException.unauthenticated,
       HttpStatus.notFound => AppException.notFound,
+      HttpStatus.badRequest => AppException.invalidApiRequest,
       _ => AppException.apiServerError,
     };
   }

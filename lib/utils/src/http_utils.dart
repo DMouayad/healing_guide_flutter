@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:healing_guide_flutter/api/rest_client.dart';
 import 'package:healing_guide_flutter/exceptions/app_exception.dart';
+import 'package:healing_guide_flutter/utils/utils.dart';
 import 'package:http/http.dart';
 
 /// Converts the given elements to strings and joins them with slashes, ensuring
@@ -34,6 +35,9 @@ extension JsonDecodeBodyStreamed on Response {
       return statusCode == HttpStatus.noContent
           ? Future.value({})
           : _tryDecodingResponse();
+    }
+    if (statusCode == HttpStatus.badRequest) {
+      pLogger.w('Bad Request: ${jsonDecode(body)}');
     }
     return Future.error(
         AppException.fromHttpResponse(statusCode), StackTrace.current);
