@@ -14,15 +14,16 @@ final class ApiSearchRepository extends SearchRepository {
 
   @override
   Future<JsonObject> _searchFacilities(
-      String searchTerm, SearchFilters filters) {
-    return _requestUrl(searchTerm, ApiConfig.searchFacilitiesEndpoint, filters);
+      String searchTerm, SearchFilters filters) async {
+    return await _requestUrl(
+        searchTerm, ApiConfig.searchFacilitiesEndpoint, filters);
   }
 
   Future<JsonObject> _requestUrl(
     String searchTerm,
     String endpoint,
     SearchFilters filters,
-  ) {
+  ) async {
     final url = [
       endpoint,
       '?q=$searchTerm',
@@ -30,13 +31,13 @@ final class ApiSearchRepository extends SearchRepository {
           when filterParams.isNotEmpty)
         '&$filterParams',
     ];
-    return RestClient.instance.get(url.join());
+    return await RestClient.instance.get(url.join());
   }
 
   @override
   List<SearchResult> _decodeResponseBody(JsonObject json) {
     List<SearchResult> searchResults = [];
-    if (json case {"\$values": final List<JsonObject> resultsJson}) {
+    if (json case {"\$values": final List resultsJson}) {
       if (_getPhysiciansResults(resultsJson) case final physicianResults
           when physicianResults.isNotEmpty) {
         searchResults.addAll(physicianResults);
@@ -49,7 +50,7 @@ final class ApiSearchRepository extends SearchRepository {
     return searchResults;
   }
 
-  List<SearchResult> _getFacilityResults(List<JsonObject> resultsJson) {
+  List<SearchResult> _getFacilityResults(List resultsJson) {
     return resultsJson
         .map(_medialFacilityFromJson)
         .whereType<MedicalFacility>()
@@ -57,14 +58,14 @@ final class ApiSearchRepository extends SearchRepository {
         .toList();
   }
 
-  MedicalFacility? _medialFacilityFromJson(JsonObject json) {
+  MedicalFacility? _medialFacilityFromJson(dynamic json) {
     if (json
         case {
           "\$id": String id,
           "name": String name,
           "phoneNumber": String phoneNumber,
           "emergencyNumber": String emergencyNumber,
-          "rating": double rating,
+          "rating": int rating,
         }) {
       return MedicalFacility(
         id: id,
@@ -74,25 +75,24 @@ final class ApiSearchRepository extends SearchRepository {
         emergencyPhoneNumber: emergencyNumber,
         mobilePhoneNumber: '',
         location: '',
-        rating: rating,
+        rating: rating.toDouble(),
       );
     }
     return null;
   }
 
-  Physician? _physicianFromJson(JsonObject json) {
+  Physician? _physicianFromJson(dynamic json) {
     if (json
         case {
           "\$id": String id,
           "name": String name,
           "languages": String languages,
           "city": String location,
-          "rating": double rating,
+          "rating": int rating,
           "biography": String biography,
           "isMale": bool isMale,
           "dateOfBirth": String dateOfBirth,
           "specialties": JsonObject specialties,
-          "shifts": JsonObject shifts,
         }) {
       return Physician(
         id: id,
@@ -104,7 +104,7 @@ final class ApiSearchRepository extends SearchRepository {
         dateOfBirth: DateTime.tryParse(dateOfBirth),
         languages: languages.split(', '),
         specialties: _getSpecialtiesFromJson(specialties),
-        rating: rating,
+        rating: rating.toDouble(),
       );
     }
     return null;
@@ -117,7 +117,7 @@ final class ApiSearchRepository extends SearchRepository {
     return [];
   }
 
-  List<SearchResult> _getPhysiciansResults(List<JsonObject> resultsJson) {
+  List<SearchResult> _getPhysiciansResults(List resultsJson) {
     return resultsJson
         .map(_physicianFromJson)
         .whereType<Physician>()

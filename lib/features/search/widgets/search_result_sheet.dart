@@ -65,10 +65,6 @@ class SearchResultSheet extends StatelessWidget {
                       ),
                     ),
                   ),
-                  ListTile(
-                    dense: true,
-                    title: _title(context.l10n.locationOnMap),
-                  ),
                 ],
               ),
             ],

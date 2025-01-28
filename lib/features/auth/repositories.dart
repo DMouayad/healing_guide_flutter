@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:healing_guide_flutter/api/config.dart';
 import 'package:healing_guide_flutter/api/rest_client.dart';

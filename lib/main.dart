@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:healing_guide_flutter/api/http_helper.dart';
 import 'package:healing_guide_flutter/api/rest_client.dart';
 import 'package:healing_guide_flutter/features/medical_specialty/repositories.dart';
+import 'package:healing_guide_flutter/features/phone_verification/repositories.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -25,7 +26,8 @@ Future<void> _bootstrap() async {
   );
   GetIt.I.registerSingleton<MedicalSpecialtyRepository>(
       ApiMedicalSpecialtyRepository());
-  GetIt.I.registerSingleton<SearchRepository>(FakeSearchRepository());
+  GetIt.I.registerSingleton<SearchRepository>(ApiSearchRepository());
+  GetIt.I.registerLazySingleton(() => ApiPhoneVerificationRepository());
 
   RestClient.init(HttpHelper.getClient());
 }

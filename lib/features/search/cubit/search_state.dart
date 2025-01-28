@@ -36,8 +36,12 @@ class SearchState extends Equatable {
 }
 
 class SearchFailureState extends SearchState {
-  const SearchFailureState(this.appException, {required super.searchTerm})
-      : super(isBusy: false, isEditingFilters: false);
+  const SearchFailureState(
+    this.appException, {
+    required super.searchTerm,
+    super.filters,
+    super.results,
+  }) : super(isBusy: false, isEditingFilters: false);
   final AppException appException;
   @override
   List<Object?> get props => [...super.props, appException];

@@ -1,5 +1,3 @@
-import 'package:healing_guide_flutter/features/user/models/user_builder.dart';
-
 import '../models/user.dart';
 import 'user_repository.dart';
 
@@ -8,13 +6,7 @@ class FakeUserRepository implements UserRepository {
 
   @override
   Future<User?> getUser() async {
-    if (_user != null) {
-      return _user;
-    }
-    return Future.delayed(
-      const Duration(milliseconds: 300),
-      () => _user = const UserBuilder().build(),
-    );
+    return _user;
   }
 
   @override

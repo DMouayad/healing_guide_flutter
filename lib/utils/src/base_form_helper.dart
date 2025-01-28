@@ -28,10 +28,16 @@ abstract class BaseFormHelper {
   String? passwordValidator(String? password, BuildContext context) {
     if (password?.trim().isEmpty ?? true) {
       return context.l10n.passwordIsRequired;
-    } else if (password!.trim().length < 8) {
-      return context.l10n.passwordIsShort;
+    } else if (!_isValidPassword(password!)) {
+      return context.l10n.passwordValidationError;
     }
     return null;
+  }
+
+  bool _isValidPassword(String value) {
+    return RegExp(r'\W+').hasMatch(value) &&
+        RegExp(r'[A-Z]+').hasMatch(value) &&
+        value.trim().length > 8;
   }
 
   void saveFormState() => formKey.currentState?.save();

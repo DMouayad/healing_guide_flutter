@@ -77,10 +77,8 @@
     "@passwordIsRequired": {
         "description": "An error message displayed if a password field was left empty"
     },
-    "passwordIsShort": "Password must contain 8 characters at least!",
-    "@passwordIsShort": {
-        "description": "An error message displayed if the entered password doesn't meet the required length-requirement"
-    },
+    "passwordValidationError": "Password must be, at lease, 8 characters and have one or more non-alphanumeric character and one or more uppercase letter",
+    "@passwordValidationError": {},
     "passwordConfirmationIsRequired": "Please confirm your password",
     "@passwordConfirmationIsRequired": {
         "description": "An error message displayed if a password field was left empty"

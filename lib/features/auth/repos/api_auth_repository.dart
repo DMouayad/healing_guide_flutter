@@ -10,6 +10,7 @@ final class ApiAuthRepository extends AuthRepository {
       "password": dto.password,
       "rememberMe": true
     }).then((res) {
+      _controller.add(AuthState.authenticated());
       return Future.value();
     });
   }
@@ -18,24 +19,45 @@ final class ApiAuthRepository extends AuthRepository {
   Future<void> logOut() async {
     return RestClient.instance
         .post(ApiConfig.logoutEndpoint)
-        .then((res) => _userRepository.deleteUser());
+        .then((res) => _controller.add(AuthState.unauthenticated()));
   }
 
   @override
-  Future<void> completeRegistration(CompleteRegistrationDTO dto) async {
-    return RestClient.instance.post(
-        dto.role == Role.physician
-            ? ApiConfig.completeRegistrationAsPhysician
-            : ApiConfig.completeRegistrationAsPatient,
-        {
-          "confirmEmail": dto.email,
-          "confirmPhoneNumber": dto.phoneNumber,
-          "confirmPassword": dto.password,
-          "firstName": dto.fullName.split(' ').firstOrNull ?? '',
-          "lastName": dto.fullName.split(' ').lastOrNull ?? '',
-          "address": "",
-          "profilePicture": "",
-        }).then((_) {});
+  Future<void> completePatientRegistration(
+    CompletePatientRegistrationDTO dto,
+  ) async {
+    return RestClient.instance.post(ApiConfig.completeRegistrationAsPatient, {
+      "confirmEmail": dto.email,
+      "confirmPhoneNumber": dto.phoneNumber,
+      "confirmPassword": dto.password,
+      "firstName": dto.fullName.split(' ').firstOrNull ?? '',
+      "lastName": dto.fullName.split(' ').lastOrNull ?? '',
+      "Address": faker.address.city(),
+      "city": "",
+      "profilePicture": "",
+    }).then((res) {
+      print(res);
+    });
+  }
+
+  @override
+  Future<void> completePhysicianRegistration(
+    CompletePhysicianRegistrationDTO dto,
+  ) async {
+    return RestClient.instance.post(ApiConfig.completeRegistrationAsPhysician, {
+      "confirmEmail": dto.email,
+      "confirmPhoneNumber": dto.phoneNumber,
+      "confirmPassword": dto.password,
+      "firstName": dto.fullName.split(' ').firstOrNull ?? '',
+      "lastName": dto.fullName.split(' ').lastOrNull ?? '',
+      "Address": dto.location,
+      "City": dto.location,
+      "Biography": dto.biography,
+      "Languages": dto.languages.join(", "),
+      "profilePicture": "",
+    }).then((res) {
+      print(res);
+    });
   }
 
   @override

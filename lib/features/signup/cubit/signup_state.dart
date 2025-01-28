@@ -1,15 +1,43 @@
 part of 'signup_cubit.dart';
 
 sealed class SignupState extends Equatable {
-  const SignupState({required this.isBusy});
+  const SignupState({required this.isBusy, this.appException});
   final bool isBusy;
+  final AppException? appException;
+
+  bool get hasException => appException != null;
 
   @override
-  List<Object?> get props => [isBusy];
+  List<Object?> get props => [isBusy, appException];
 
   Map<String, dynamic> toJson() {
     return {
       "isBusy": isBusy,
+      "appException": appException?.index,
+    };
+  }
+
+  SignupState copyWithBusy({required bool isBusy}) {
+    return switch (this) {
+      SignupIdleState() => isBusy ? const SignupBusyState() : this,
+      SignupBusyState() => isBusy ? this : const SignupIdleState(),
+      SignupPendingPhoneVerificationState s =>
+        SignupPendingPhoneVerificationState(s.dto, isBusy: isBusy),
+      SignupPendingCompletionState s =>
+        SignupPendingCompletionState(s.dto, isBusy: isBusy),
+      SignupSuccessState() => this,
+      SignupFailureState() => isBusy ? const SignupBusyState() : this,
+    };
+  }
+
+  SignupState copyWithException(AppException exception) {
+    return switch (this) {
+      SignupPendingPhoneVerificationState s =>
+        SignupPendingPhoneVerificationState(s.dto,
+            appException: exception, isBusy: false),
+      SignupPendingCompletionState s => SignupPendingCompletionState(s.dto,
+          isBusy: false, appException: exception),
+      _ => SignupFailureState(exception),
     };
   }
 }
@@ -27,7 +55,11 @@ final class SignupPendingPhoneVerificationState extends SignupState {
 
   final StartRegistrationDTO dto;
 
-  const SignupPendingPhoneVerificationState(this.dto) : super(isBusy: false);
+  const SignupPendingPhoneVerificationState(
+    this.dto, {
+    super.isBusy = false,
+    super.appException,
+  });
   @override
   List<Object?> get props => [...super.props, dto];
 
@@ -40,7 +72,12 @@ final class SignupPendingPhoneVerificationState extends SignupState {
 final class SignupPendingCompletionState extends SignupState {
   static const stepName = 'PendingInfoCompletion';
   final StartRegistrationDTO dto;
-  const SignupPendingCompletionState(this.dto) : super(isBusy: false);
+  const SignupPendingCompletionState(
+    this.dto, {
+    super.isBusy = false,
+    super.appException,
+  });
+
   @override
   List<Object?> get props => [...super.props, dto];
 
@@ -55,16 +92,6 @@ final class SignupSuccessState extends SignupState {
 }
 
 final class SignupFailureState extends SignupState {
-  final AppException appException;
-  const SignupFailureState(this.appException) : super(isBusy: false);
-  @override
-  List<Object?> get props => [appException, ...super.props];
-
-  @override
-  Map<String, dynamic> toJson() {
-    return {
-      ...super.toJson(),
-      'appException': appException.index,
-    };
-  }
+  const SignupFailureState(AppException appException)
+      : super(isBusy: false, appException: appException);
 }

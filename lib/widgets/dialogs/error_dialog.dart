@@ -35,7 +35,7 @@ class ErrorDialog extends StatelessWidget {
       content: content != null ? Text(content!) : null,
       actions: [
         TextButton(
-          onPressed: () => context.pop(true),
+          onPressed: () => context.pop(),
           child: Text(context.l10n.ok),
         ),
       ],

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:faker/faker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
@@ -25,9 +26,9 @@ class SignupCubit extends HydratedCubit<SignupState> {
   }) : super(const SignupIdleState()) {
     formHelper = SignupFormHelper();
     _helpers = BlocHelpers(
-      onError: (exception) => emit(SignupFailureState(exception)),
-      setBusyTrue: () => emit(const SignupBusyState()),
-      setBusyFalse: () => emit(const SignupIdleState()),
+      onError: (exception) => emit(state.copyWithException(exception)),
+      setBusyTrue: () => emit(state.copyWithBusy(isBusy: true)),
+      setBusyFalse: () => emit(state.copyWithBusy(isBusy: false)),
       isBusy: () => state.isBusy,
     );
   }
@@ -68,24 +69,38 @@ class SignupCubit extends HydratedCubit<SignupState> {
     if (!formHelper.validateInput() || state.isBusy) {
       return;
     }
-    final dto = CompleteRegistrationDTO(
-      role: signupAs,
-      password: formHelper.passwordValue,
-      phoneNumber: formHelper.phoneNoValue,
-      email: formHelper.emailValue,
-      fullName: formHelper.fullNameValue,
-    );
-    _helpers.handleFuture(
-      GetIt.I.get<AuthRepository>().completeRegistration(dto),
-      onSuccess: (_) => emit(const SignupSuccessState()),
-    );
+    if (signupAs == Role.patient) {
+      final dto = CompletePatientRegistrationDTO(
+        email: formHelper.emailValue,
+        phoneNumber: formHelper.phoneNoValue,
+        fullName: formHelper.fullNameValue,
+        password: formHelper.passwordValue,
+      );
+      _helpers.handleFuture(
+        GetIt.I.get<AuthRepository>().completePatientRegistration(dto),
+        onSuccess: (_) => emit(const SignupSuccessState()),
+      );
+    } else if (signupAs == Role.physician) {
+      final dto = CompletePhysicianRegistrationDTO(
+        password: formHelper.passwordValue,
+        phoneNumber: formHelper.phoneNoValue,
+        email: formHelper.emailValue,
+        fullName: formHelper.fullNameValue,
+        biography: faker.lorem.sentences(2).join("\n"),
+        location: faker.address.city(),
+        languages: const ['English'],
+      );
+      _helpers.handleFuture(
+        GetIt.I.get<AuthRepository>().completePhysicianRegistration(dto),
+        onSuccess: (_) => emit(const SignupSuccessState()),
+      );
+    }
   }
 
   @override
   SignupState? fromJson(Map<String, dynamic> json) {
     if (json
         case {
-          "isBusy": bool _,
           "step": String step,
           "dto": Map<String, dynamic> dtoJson,
         }) {
@@ -98,11 +113,6 @@ class SignupCubit extends HydratedCubit<SignupState> {
           return SignupPendingPhoneVerificationState(dto);
         }
       }
-    } else if (json
-        case {"isBusy": bool _, "appException": int appExceptionIndex}) {
-      return SignupFailureState(
-        AppException.values.elementAt(appExceptionIndex),
-      );
     }
     return const SignupIdleState();
   }

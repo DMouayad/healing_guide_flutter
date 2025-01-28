@@ -37,7 +37,9 @@ extension JsonDecodeBodyStreamed on Response {
           : _tryDecodingResponse();
     }
     if (statusCode == HttpStatus.badRequest) {
-      pLogger.w('Bad Request: ${jsonDecode(body)}');
+      pLogger.i('Bad Request: ${jsonDecode(body)}');
+    } else {
+      pLogger.i('Response with Failure StatusCode $statusCode: $body');
     }
     return Future.error(
         AppException.fromHttpResponse(statusCode), StackTrace.current);

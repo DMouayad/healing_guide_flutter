@@ -18,8 +18,12 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit({SearchState initialState = _initialState})
       : super(initialState) {
     _helpers = BlocHelpers(
-      onError: (exception) =>
-          emit(SearchFailureState(exception, searchTerm: state.searchTerm)),
+      onError: (exception) => emit(SearchFailureState(
+        exception,
+        searchTerm: state.searchTerm,
+        filters: state.filters,
+        results: state.results,
+      )),
       setBusyTrue: () => emit(state.copyWith(isBusy: true)),
       setBusyFalse: () => emit(state.copyWith(isBusy: false)),
       isBusy: () => state.isBusy,
@@ -38,10 +42,8 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void searchFor(String searchTerm) {
-    if (searchTerm != state.searchTerm) {
-      emit(state.copyWith(searchTerm: searchTerm));
-      _fetchResults();
-    }
+    emit(state.copyWith(searchTerm: searchTerm));
+    _fetchResults();
   }
 
   void setSearchCategory(SearchCategoryFilter categoryFilter) {

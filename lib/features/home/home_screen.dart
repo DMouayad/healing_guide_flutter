@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healing_guide_flutter/features/home/components/custom_drawer.dart';
 import 'package:healing_guide_flutter/features/home/components/home_section.dart';
+import 'package:healing_guide_flutter/features/home/components/nearby_facilities_section.dart';
 import 'package:healing_guide_flutter/features/search/cubit/search_cubit.dart';
 import 'package:healing_guide_flutter/features/search/widgets/custom_search_bar.dart';
 import 'package:healing_guide_flutter/utils/utils.dart';
@@ -64,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   HomeScreenSection(
                     title: context.l10n.homeFacilitiesSectionTitle,
-                    content: const SizedBox(),
+                    content: NearbyFacilitiesSection(),
                   ),
                 ],
               ),

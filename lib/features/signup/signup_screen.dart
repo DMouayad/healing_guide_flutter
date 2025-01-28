@@ -31,22 +31,23 @@ class SignupScreen extends StatelessWidget {
       lazy: false,
       child: BlocConsumer<SignupCubit, SignupState>(
         listener: (context, state) {
-          switch (state) {
-            case SignupPendingPhoneVerificationState():
-              PhoneVerificationScreenRoute(context.read()).push(context);
-              break;
-            case SignupSuccessState():
-              const UserProfileScreenRoute().pushReplacement(context);
-              break;
-            case SignupFailureState state:
-              showErrorDialog(
-                context,
-                title: context.l10n.signupFailureDialogTitle,
-                errMessage: state.appException.getMessage(context),
-              );
-              break;
-            default:
-              break;
+          if (state.hasException) {
+            showErrorDialog(
+              context,
+              title: context.l10n.signupFailureDialogTitle,
+              errMessage: state.appException?.getMessage(context),
+            );
+          } else {
+            switch (state) {
+              case SignupPendingPhoneVerificationState():
+                PhoneVerificationScreenRoute(context.read()).push(context);
+                break;
+              case SignupSuccessState():
+                const UserProfileScreenRoute().pushReplacement(context);
+                break;
+              default:
+                break;
+            }
           }
         },
         buildWhen: (previous, current) =>

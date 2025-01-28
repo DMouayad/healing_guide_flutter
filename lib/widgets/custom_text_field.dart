@@ -120,6 +120,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         isDense: widget.isDense,
         filled: widget.filled,
         labelText: widget.labelText,
+        errorMaxLines: 6,
         hintStyle: TextStyle(
             color: context.isDarkMode ? Colors.white54 : Colors.black38),
         fillColor: widget.fillColor ??

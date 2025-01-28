@@ -27,9 +27,8 @@ final class FakeAuthRepository extends AuthRepository {
     });
   }
 
-  @override
-  Future<void> completeRegistration(CompleteRegistrationDTO dto) async {
-    final user = userFromDTO(dto);
+  Future<void> _completeRegistration(BaseCompleteRegistrationDTO dto) async {
+    final user = _userFromDTO(dto);
     await _userRepository.saveUser(user);
     await Future.delayed(
       const Duration(milliseconds: 2000),
@@ -37,7 +36,7 @@ final class FakeAuthRepository extends AuthRepository {
     );
   }
 
-  User userFromDTO(CompleteRegistrationDTO dto) {
+  User _userFromDTO(BaseCompleteRegistrationDTO dto) {
     return const UserBuilder().build(
       email: dto.email,
       phoneNumber: dto.phoneNumber,
@@ -49,6 +48,19 @@ final class FakeAuthRepository extends AuthRepository {
   @override
   Future<void> startRegistration(StartRegistrationDTO dto) {
     // TODO: implement startRegistration
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> completePatientRegistration(CompletePatientRegistrationDTO dto) {
+    // TODO: implement completePatientRegistration
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> completePhysicianRegistration(
+      CompletePhysicianRegistrationDTO dto) {
+    // TODO: implement completePhysicianRegistration
     throw UnimplementedError();
   }
 }

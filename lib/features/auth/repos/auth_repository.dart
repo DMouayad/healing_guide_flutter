@@ -19,7 +19,10 @@ abstract base class AuthRepository {
   Future<void> logIn(UserLoginDTO dto);
 
   Future<void> startRegistration(StartRegistrationDTO dto);
-  Future<void> completeRegistration(CompleteRegistrationDTO dto);
+  Future<void> completePatientRegistration(CompletePatientRegistrationDTO dto);
+  Future<void> completePhysicianRegistration(
+    CompletePhysicianRegistrationDTO dto,
+  );
 
   Future<void> logOut();
 

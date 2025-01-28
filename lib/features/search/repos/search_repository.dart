@@ -7,16 +7,15 @@ abstract base class SearchRepository {
       SearchCategoryFilter.doctors => _searchDoctors(searchTerm, filters),
       SearchCategoryFilter.facilities => _searchFacilities(searchTerm, filters),
     })
-        .then(_decodeResponseBody)
-        .catchError(_handleError);
+        .then(_decodeResponseBody);
   }
 
-  _handleError(Object error, StackTrace trace) {
-    return switch (error) {
-      AppException.notFound => SearchResults.value([]),
-      _ => SearchResults.error(error)
-    };
-  }
+  // _handleError(Object error, StackTrace trace) {
+  //   return switch (error) {
+  //     AppException.notFound => SearchResults.value([]),
+  //     _ => SearchResults.error(error)
+  //   };
+  // }
 
   Future<JsonObject> _searchAll(String searchTerm, SearchFilters filters);
   Future<JsonObject> _searchDoctors(String searchTerm, SearchFilters filters);
